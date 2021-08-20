@@ -22,8 +22,11 @@ make -j8 install 2>&1 | tee install.out
 # Esto es muy util en caso de que se produzcan errores para poder buscar sobre el archivo
 ```
 Agregar la ubicación de los archivos al archivo .bashrc
+
 PATH:            /opt/openmpi/bin
+
 LD_LIBRARY_PATH: /opt/openmpi/lib
+
 ```
 vi $HOME/.bashrc
 ```
