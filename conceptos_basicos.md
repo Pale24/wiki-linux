@@ -31,4 +31,8 @@ En el siguiente nivel hacia abajo podemos encontrar directorios como:
 - /usr/: Contiene comandos accesibles para los usuarios, aunque es de solo lectura. Es decir, son archivos que los usuarios sin privilegios no pueden modificar
 - /var/: Contiene subdirectorios y archivos variables, sujetos a cambios permanentes (registros de logs del sistema o del funcionamiento de procesos)
 - /tmp/: Es una ubicación especial en la que los distintos programas pueden escribir y leer archivos temporales. Es posible que el contenido de este directorio se borre al reiniciar el sistema.
+- /etc/: Este directorio contiene los archivos de configuración del sistema y de las aplicaciones instaladas.
+
+Hay otros directorios y subdirectorios, pero estos serian los más importantes para entender el funcionamiento del sistema.
+
 
