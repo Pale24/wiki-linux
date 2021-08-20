@@ -12,4 +12,4 @@ El Linux todos los directorios se ubican en forma de árbol invertido con un ori
 
 Esta distribución de los directorios está estandarizada en un documento denominado **Filesystem Hierarchy Standard**. Donde se detalla el proposito de los directorios en un sistema Linux.
 
-[!filesystem](https://thesagediary.files.wordpress.com/2018/09/linuxfile.png)
+![filesystem](https://thesagediary.files.wordpress.com/2018/09/linuxfile.png)
