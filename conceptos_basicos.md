@@ -12,29 +12,4 @@ El Linux todos los directorios se ubican en forma de árbol invertido con un ori
 
 Esta distribución de los directorios está estandarizada en un documento denominado **Filesystem Hierarchy Standard**. Donde se detalla el proposito de los directorios en un sistema Linux.
 
-```mermaid
-graph TD;
-    /-->/bin/;
-    /-->/opt;
-    /-->/boot;
-    /-->/root;
-    /-->/dev;
-    /-->/sbin/;
-	  /-->/etc;
-	  /-->/srv;
-	  /-->/home;
-	  /-->/tmp/;
-	  /-->/lib/;
-	  /-->/usr;
-	  /-->/media;
-	  /-->/var;
-	  /-->/mnt;
-	  /usr-->/bin;
-	  /usr-->/include;
-	  /usr-->/lib;
-	  /usr-->/sbin;
-	  /var-->/cache;
-	  /var-->/log;
-	  /var-->/spool;
-	  /usr-->/tmp;
-```
+[!filesystem](https://thesagediary.files.wordpress.com/2018/09/linuxfile.png)
