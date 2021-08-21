@@ -7,14 +7,18 @@ Al encender el equipo, el BIOS (Basic Input-Output System) o UEFI (Unified Exten
 A partir de ese momento, el control del proceso se pasa a manos del GRUB, que se encargará de cargar el kernel. Este reconocerá y configurará lso dispositivos de hardware presentes en el equipo y los preparará para su uso. En el próximo paso, el núcleo ejecutará su primer proceso, conocido como **init**. Finalmente, este último utilizará el gestor del sistema ( **systemd o Upstart** ) o los scripts de  **SysVinit** para comtinuar el inicio de los demás servicios. El proceso de arranque termina al presentar una interfaz de inicio de sesión de modo texto o gráfico, según el caso.
 
 
+## SysVinit
+Muchas distribuciones, hasta no hace mucho tiempo, utilizaban este sistema de arranque y administración. Contempla 5 niveles útiles de funcionamiento numerados del 1 al 5 (de ahí el nombre systemV). Ademas se suma el nivel 0 (apagado) y 6 (reinicio del sistema).Estos niveles se conocen como niveles de corrida o runlevels. 
 
+Cada **runlevel** se ecuentra asociado a un cierto número de servicios que por defecto deben iniciarse automáticamente cuando encendemos el equipo, y que deben detenerse al reiniciarlo o apagarlo. 
 
+### Inicio de SysV Runlevels
 
-# Inicio de SysV Runlevels
 - Varios modelos
 - Cambios de modos
 - Configuración por defecto
-## Modos
+
+#### Modos
 | Nro | Debian/Ubuntu                    | CentOS/Suse        |
 |-----|----------------------------------|--------------------|
 | 0   | Halt                             | Halt               |
@@ -25,7 +29,7 @@ A partir de ese momento, el control del proceso se pasa a manos del GRUB, que se
 | 5   | Nada                             | Multi user GUI     |
 | 6   | Reboot                           | Reboot             |
 
-## Cambios de modos y configuración por defecto
+#### Cambios de modos y configuración por defecto
 ```
 runlevel  # Indica el runlevel actual
 > N 5 	  # Respuesta: N: anterior (nada), 5: estado (Multi user)
@@ -39,7 +43,7 @@ id:5:initdefault: # Estado por default
 ...
 ```
 
-# Inicio con SystemD
+### Inicio con SystemD
 - Varios modos
 - Cambios de modos
 - Configuración por defecto
@@ -69,7 +73,7 @@ luego de reiniciar, cambia el modo
 systemctl isolate multi-user
 ```
 
-# Manejo de servicio con SysV
+#### Manejo de servicio con SysV
 - `/etc/init.d/`
 - service
 - chkconfig
@@ -91,7 +95,7 @@ chkconfig --level 3 sshd on
 ```
 
 
-# Manejo de servicios con systemD
+#### Manejo de servicios con systemD
 - systemctl
 	- enable / disable
 	- start / stop / restart / status
