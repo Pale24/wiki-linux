@@ -6,7 +6,7 @@ Este es un repositorio con contenido sobre el uso basico de GNU-linux como resul
 
 ## [Instalación SO](install.md)
 
-## [Inicio de sesió y login](login.md)
+## [Inicio de sesió y login](inicio.md)
 
 ## [MPI](mpi.md)
 
