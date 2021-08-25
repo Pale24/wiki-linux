@@ -21,3 +21,4 @@ Debemos seguir los siguientes pasos:
 16. Instalar el gestor de arranque en el registro principal de arranque. Un gestor de arranque es un componente de software que ayuda al hardware y al firmware del equipo en la carga del sistema operativo. El gestor de arranque más utilizado en linux es GRUB (GRand Unified Bootloader).
 17. Reiniciar el equipo.
 
+## Proximamente instalación de Ubuntu server y Ubuntu desktop  
