@@ -22,5 +22,5 @@ Como usuario
 ```
 # copiar en /home/user/.bashrc $AMBERHOME y source $AMBERHOME/amber.sh
 echo 'export AMBERHOME=/usr/local/amber20' >> $HOME/.bashrc
-echo 'source $AMBERHOME/.bashrc'
+echo 'source $AMBERHOME/amber.sh' >> $HOME/.bashrc
 ```
