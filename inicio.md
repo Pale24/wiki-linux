@@ -93,7 +93,9 @@ BYT;
 
 **GRUB – GRand Unified Bootloader**
 
-El primer sector del disco, el sector 0 mencionado anteriormente, contiene lo que se denomina Stage 1, la primera etapa del cargador de arranque. El cargador de arranque GRUB tiene en total tres etapas o «stages», a saber:
+El primer sector del disco, el sector 0 mencionado anteriormente, contiene lo que se denomina Stage 1, la primera etapa del cargador de arranque. 
+
+El cargador de arranque GRUB tiene en total tres etapas o stages:
 
 - GRUB Stage 1
 - GRUB Stage 1.5
@@ -101,9 +103,9 @@ El primer sector del disco, el sector 0 mencionado anteriormente, contiene lo qu
 
 Normalmente las particiones no comienzan antes del sector 63 del disco, por lo que los sectores 1-63 están vacíos (recordemos que el sector 0 contiene el MBR). Este espacio es utilizado para almacenar lo que se denomina Stage 1.5. A este espacio también se lo denomina MBR GAP.
 
-Y la pregunta es: ¿por qué es necesaria una supuesta Stage 1.5 en GRUB?
+¿Por qué es necesaria una supuesta Stage 1.5 en GRUB?
 
-Quienes trabajamos en GNU/Linux sabemos que la configuración del GRUB se encuentra en un archivo llamado (generalmente) /boot/grub/grub.cfg… pero este archivo está en el disco, en una partición (que puede ser una partición aislada para /boot, o la misma partición donde tenemos el sistema operativo instalado.
+Por lo general, la configuración del GRUB se encuentra en el archivo /boot/grub/grub.cfg... pero este archivo está en el disco, en una partición (que puede ser una partición aislada para /boot, o la misma partición donde tenemos el sistema operativo instalado).
 
 ¿Cómo puede el GRUB acceder a dicho archivo si no se ha montado la partición, ni dispone de los drivers o controladores? Puede porque estos controladores de sistema de archivos se encuentran en estos sectores, del 1 al 63.
 
@@ -128,6 +130,29 @@ grub                     initrd.img.old               System.map-5.4.0-80-generi
 
 ```
 
+**initrd e initramfs**
+
+Para poder cargar el sistema operativo primero debemos cargar muchos controladores de diversos dispositivos de hardware. Por ejemplo, podríamos tener el disco configurado en RAID o LVM donde tenemos la partición raíz («/»), o podríamos disponer de varios módulos del núcleo que realicen diferentes tareas. Si toda la funcionalidad estuviera presente en el mismo kernel Linux, la imagen comprimida sería enorme!
+
+No obstante, la imagen del núcleo necesita ser más pequeña, y por eso, entre otras cosas, se encuentra comprimida. Las funcionalidades adicionales no están presentes en dicha imagen, sino que son cargadas mediante un sistema de archivos similar al sistema raíz provisto por initrd, por lo que muchas veces a initrd se lo denomina un sistema de archivos raíz inicial.
+
+Initrd es utilizado por el kernel antes de que se monte el sistema raíz «/» real. En general esta imagen de un sistema de archivos de inicio suele llamarse «initramfs» dentro del directorio /boot.
+
+Una vez que se carga este «mini linux» en memoria RAM (de ahí initramfs), se procede a la verificación de hardware y controladores. Se comienza con la verificación de la arquitectura del procesador.
+
+El kernel dirige una gran cantidad de instrucciones de hardware, y luego carga el primer proceso del sistema operativo, el proceso init, cuyo PID (Process ID) es el 1:
+
+Este PID 1 no es intencional, el núcleo le da a cada proceso nuevo que se lanza un identificador incremental. En el caso de init es «1» porque es el primer proceso que se ejecuta en espacio de usuario. El proceso init se mantiene corriendo durante toda la ejecución del sistema operativo hasta que se apaga la computadora.
+
+Luego de cargar los módulos necesarios para «levantar» los dispositivos de hardware del ordenador, comienza la carga «real» del sistema operativo: el sistema de inicio y gestor de servicios y eventos.
+
+Aquí disponemos de varias alternativas, entre las más conocidas: SysV init, systemd, o upstart. Estos gestores se encargan de terminar el proceso de inicio y de gestionar todos los procesos de usuario.
+
+Cada uno tiene características distintivas, y aunque hoy en día systemd es el más común (no sin controversias), existen distribuciones GNU/Linux que utilizan SysV init tales como Devuan.
+
+Por su parte, Upstart fue introducido por primera vez en Ubuntu 6.10, pero cuando Debian migró a systemd, Ubuntu también lo hizo. Algo similar pasó con Fedora, que utilizaba upstart en su v9 para reemplazar a SysV. No obstante, Fedora 15 reemplazó a upstart por systemd también.
+
+Dependiendo del gestor de servicios que use la distro será la forma en la que cargará los siguientes procesos. SysV trabaja con una serie de runlevels predefinidos, mientras que systemd utiliza targets con algunas equivalencias con los runlevels de Systemd.
 
 ## SysVinit
 Muchas distribuciones, hasta no hace mucho tiempo, utilizaban este sistema de arranque y administración. Contempla 5 niveles útiles de funcionamiento numerados del 1 al 5 (de ahí el nombre systemV). Ademas se suma el nivel 0 (apagado) y 6 (reinicio del sistema).Estos niveles se conocen como niveles de corrida o runlevels. 
@@ -222,7 +247,7 @@ chkconfig --level 3 sshd on
 	- enable / disable
 	- start / stop / restart / status
 
-A diferencia de SysV, los achivos de configuración de systemD no se encuentran en un solo lugar. esto hace muy engorrosa la administración de servicios.
+A diferencia de SysV, los achivos de configuración de systemD no se encuentran en un solo lugar. Esto hace muy engorrosa la administración de servicios.
 
 *Manejo de servicios*
 ```
