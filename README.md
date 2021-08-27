@@ -8,6 +8,8 @@ Este es un repositorio con contenido sobre el uso basico de GNU-linux como resul
 
 ## [Inicio de sesión y login](inicio.md)
 
+## [Redes](redes.md)
+
 ## [MPI](mpi.md)
 
 ## [SSH](ssh.md)
