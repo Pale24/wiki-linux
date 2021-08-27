@@ -68,6 +68,42 @@ ip a del 192.168.10.20/24 dev eth1
 ```
 ip a flush dev eth1
 ```
+
+## IP estatica Ubuntu 20.04
+
+modificando el archivo /etc/netplan/00...
+
+```
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+    enp2s0:
+	  dhcp4: no
+	  addresses: [10.10.10.10/24]
+	  gateway4: 10.10.10.1
+	  nameservers:
+	    addesses: [8.8.8.8,8.8.4.4]
+```
+## DNS:
+
+Consultas de nombres:
+- `dig @server host`
+- `nslookup host server`
+- `host host server`
+
+## Localización de archivos de configuración de red
+
+- /etc/hosts
+- /etc/resolv.conf
+- /etc/nsswitch.conf
+- /etc/network/interafaces 
+- /etc/netplan/* # Ubuntu: Archivos yaml con info de como manejar las redes
+- network manager
+
+
+
 ## Ver tabla de ARP
 Tabla de ARP: Asocia las direcciones IP con las que nosotros hemos interactuado localmente con su dirección MAC de forma de no tener que resolver esta relación cada vez que nos queremos volver a conectar con ese dispositivo
 
