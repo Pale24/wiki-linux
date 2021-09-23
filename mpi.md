@@ -32,7 +32,7 @@ vi $HOME/.bashrc
 ```
 ```
 export MPIROOT=/opt/openmpi
-export PATH=$MPIROOT/bin
-export LD_LIBRARY_PATH=$MPIROOT/lib
+export PATH=$MPIROOT/bin:$PATH
+export LD_LIBRARY_PATH=$MPIROOT/lib:$LD_LIBRARY_PATH
 ```
 Finalmente se ejecuta el comando: `source $HOME/.bashrc` para actualizar los cambios

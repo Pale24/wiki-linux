@@ -24,3 +24,10 @@ Como usuario
 echo 'export AMBERHOME=/usr/local/amber20' >> $HOME/.bashrc
 echo 'source $AMBERHOME/amber.sh' >> $HOME/.bashrc
 ```
+
+Describir instalación en nodo nuevo. 
+- 1ro export MPI... en el .bashrc de root para que sepa donde está la libreria. 
+- 2do export CUDA_HOME... en .bashrc 
+- 3ro `cd /usr/local/amber20_src/build`
+- 4to ejecutar `cmake /usr/local/amber20_src -DCMAKE_INSTALL_PREFIX=/usr/local/amber20 -DCOMPILER=GNU -DOPENMP=TRUE -DCUDA=TRUE -DINSTALL_TESTS=TRUE -DDOWNLOAD_MINICONDA=TRUE -DMINICONDA_USE_PY3=TRUE -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda 2>&1 | tee cmake_cuda.log`
+- 5to ejecutar: `make install -j 8 2>&1 | tee amber_install_cuda1.log`
