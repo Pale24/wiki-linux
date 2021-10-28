@@ -621,7 +621,9 @@ ls -lR			# Muestra el contenido de forma recursiva (contenido de los directorios
 ```
 
 Al listar con el modificador -l obtenemos mayor información de los archivos y directorios. La salida del comando en este caso está dispuesta en columnas para que nos resulte más sencillo reconocerla. Veamos cómo queda cada columna:
-` `
+
+`-rw-rw-r-- 1 pale pale 1710 sep 22 13:21 amber20.md`
+
 - 1. El primer caracter que aparece en la primera columna indica si lo que estamos viendo es un archivo (-), un directorio (d ), un enlace simbólico (l ), o un dispositivo de bloques (b), por nombrar algunos ejemplos. A continuación, vemos los permisos que poseen sobre el mismo a) el dueño del archivo, b) el grupo dueño, y c) el resto de los usuarios del sistema.
 - 2. Esta columna nos dice si este objeto posee enlaces que lo estén apuntando.
 - 3. Usuario dueño del objeto.
@@ -630,7 +632,9 @@ Al listar con el modificador -l obtenemos mayor información de los archivos y d
 - 6. Fecha de última modificación del objeto.
 
 ## mkdir
+
 Crea directorios
+
 ```
 mkdir dir1
 # crear directorio y sus directorios padres (si no existen)
@@ -638,14 +642,36 @@ mkdir -p dir1/dir2/dir3
 ```
 
 ## cat
-
-## less
+Puede concatenar archivos de texto. Se suele usar para mostrar su contenido por pantalla
+```
+cat archivo.txt 
+cat -n archivo.txt # muestra el numero de linea antes de cada una de estas
+```
 
 ## more
+Muestra el texto poco a poco, con el espacio avanzamos una pantalla, con el intro una linea, con la q salimos y la h nos muestra ayuda
+
+## less
+Parecido a more, pero más potente. Acepta los controles mencionados y también puede realizar búsquedas o modificaciones en los ficheros. Recomendable para ficheros muy grandes
+
+## head
+Muestra las N primeras líneas de uno o varios ficheros de texto. Por defecto las 10 primeras
+
+- -n: cambia la cantidad de lineas a mostrar
+- -q: no muestra el nombre de los ficheros si se le pasan varios al mismo tiempo
+
+## tail 
+Igual que head pero muestra las últimas lineas
+- -f: muestra las ultimas lineas de forma interativa
+
+## sudo
+El comando sudo permite a los usuarios no root ejecutar comandos que normalmente requerirían privilegios de superusuario. Se antepone al comando que se quiere ejecutar como administrador. También permite cambiar de usuario.
 
 ## cp
 
+
 ## mv
+
 
 ## rm
 
@@ -717,6 +743,52 @@ Sin parámetros muestra las variables de entorno. Lo podemos usar para ejecutar 
 
 Ejemplo: `env PATH=/new/path /bin/bash`
 
+## Apagado
+
+Desde el terminal podemos enviar comandos para apagar o reiniciar el sistema:
+
+- shutdown: apaga el sistema de forma planificada
+- halt: apaga el sistema sin enviar señal ACPI de apagado de alimentación electrica (apaga solo el software - SO -)
+- poweroff: apaga el sistema con señal ACPI 
+- reboot: reinicia el sistema
+
+
+| Acción            |            |               |                 |
+|-------------------|------------|---------------|-----------------|
+| Reiniciar         | `reboot`   | `shutdown -r` | `halt --reboot` |
+| Cerrar el sistema | `halt`     | `shutdown -h` | `reboot --halt` |
+| Apagar            | `poweroff` | `shutdown -P` | `halt -p`       |
+
+## Ejemplos:
+
+```
+man halt # info de halt, poweroff y reboot
+man shutdown # solo info de shutdown
+whereis halt
+# Resultado
+# halt: /sbin/halt /usr/share/man/man8/halt.8.gz
+ls -l /sbin/halt
+# lrwxrwxrwx 1 root root 14 jul 21 16:00 /sbin/halt -> /bin/systemctl
+ls -l /sbin/ | grep systemctl
+# lrwxrwxrwx 1 root root        14 jul 21 16:00 halt -> /bin/systemctl
+# lrwxrwxrwx 1 root root        14 jul 21 16:00 poweroff -> /bin/systemctl
+# lrwxrwxrwx 1 root root        14 jul 21 16:00 reboot -> /bin/systemctl
+# lrwxrwxrwx 1 root root        14 jul 21 16:00 runlevel -> /bin/systemctl
+# lrwxrwxrwx 1 root root        14 jul 21 16:00 shutdown -> /bin/systemctl
+# lrwxrwxrwx 1 root root        14 jul 21 16:00 telinit -> /bin/systemctl
+
+halt # Cierra el sistema pero no lo apaga
+# System halted
+shutdown +5 "El sistema se apagará en 5 min"
+shutdown -c # cancela la orden anterior con shutdown
+```
+shutdown [opción] TIEMPO [mensaje]
+
+Opciones:
+- -c: cancela una orden programada de shutdown
+- -k: envía mensajes pero no apaga
+
+El tiempo puede expresarse en horas y minutos (HH:MM), el tiempo en minutos que faltan para el apagado: +M o con la palabra **now**
 
 
 
