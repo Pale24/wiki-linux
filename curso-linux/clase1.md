@@ -206,7 +206,7 @@ Vamos a la opción `ubuntu-lv	new, to be formatted as ext4, mounted at /` y pres
 
 **Configuración de perfil**
 
-![perfil](imagenes/04b66508e42b4eab8eb542b61df59717.png)
+![perfil](./imagenes/perfil.png)
 
 En esta ventana debemos ingresar las credenciales que nos permitirán autenticarnos en el sistema y el nombre del host. La clave ingresada tambien nos permitirá ejecutar funciones como administrador.
 
