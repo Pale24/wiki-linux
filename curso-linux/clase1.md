@@ -1,0 +1,564 @@
+Clase 1
+
+- 1. Linux y distribuciones
+- 2. Instalación Ubuntu server
+- 3. Inicio del sistema
+- 4. Comandos
+
+# 1 - Linux y sus distribuciones
+## Introducción 
+
+Cuando decimos "Linux", en general nos referimos al sistema operativo completo pero estrictamente hablando Linux solamente es una parte del SO, para referirnos correctamente al SO deberiamos decir GNU/Linux. Se trata del kernel o núcleo del sistema operativo, una pieza de software fundamental que se encarga de:
+
+- Administrar el uso de los recursos del equipo.
+- Facilitar la interacción entre aplicaciones y el hardware.
+
+Es uno de los sistemas operativos más populares (aunque no lo crean); su desarrollo se inició en 1991 por Linus Torvalds y se inspiró en Unix, otro sistema operativo desarrollado en la década de 1970 por AT&T Laboratories. Unix estaba orientado a pequeñas computadoras; en ese momento, las computadoras “pequeñas” se consideraban máquinas que no necesitaban una sala completa con aire acondicionado y costaban menos de un millón de dólares. Más tarde, fueron consideradas como máquinas que podían ser transportadas por dos personas. En ese momento, Unix no estaba disponible en computadoras pequeñas como las computadoras de oficina basadas en la plataforma x86. Por lo tanto, Linus, que era un estudiante en ese momento, comenzó a implementar un sistema operativo tipo Unix que se suponía que debía ejecutarse en esta plataforma.
+
+Principalmente, Linux usa los mismos principios e ideas básicas de Unix, pero Linux en sí no contiene código Unix, ya que es un proyecto independiente. Linux no está respaldado por una compañía individual sino por una comunidad internacional de programadores. Como está disponible gratuitamente, puede ser utilizado por cualquier persona sin restricciones.
+
+### GNU
+A mediados de la década de 1980, Richard Stallman (ex-científico del Massachusetts
+Institute of Technology (MIT) fundó la Free Software Foundation y comenzó el Proyecto GNU con la intención de crear un sistema operativo que respetara la libertad de los usuarios de usarlo, estudiarlo, modificarlo, y distribuirlo sin restricciones GNU (GNU's Not Unix). Este proyecto aportó en su momento (y continúa aportando) software para las distribuciones Linux que usamos hoy en día.
+
+De esta iniciativa también surgieron lo que hoy conocemos como las 4 libertades
+fundamentales del software libre:
+- La libertad de ejecutar el programa como se desee, con cualquier propósito (libertad 0).
+- La libertad de estudiar cómo funciona el programa, y cambiarlo para que haga lo que uno quiera (libertad 1).
+- La libertad de redistribuir copias para ayudar otros (libertad 2).
+- La libertad de distribuir copias de las versiones modificadas a terceros (libertad 3). 
+
+Los esfuerzos de Linus Torvalds se vieron complementados por la iniciativa del proyecto GNU. Es decir, lo que uno tenía le faltaba al otro, y al unir el kernel desarrollado por Linus con todas las herramientas desarrolladas por el proyecto GNU se obtuvo GNU/Linux.
+
+### Distribuciones
+
+Una distribución de Linux es un paquete que consiste en un kernel de Linux y una selección de aplicaciones mantenidas por una empresa o comunidad de usuarios. El objetivo de una distribución es optimizar el núcleo y las aplicaciones que se ejecutan en el sistema operativo para un determinado caso de uso o grupo de usuarios. Las distribuciones a menudo incluyen herramientas específicas de distribución para la instalación de software y la administración del sistema. Es por esto que algunas distribuciones se usan principalmente para entornos de escritorio los cuales deben ser fáciles de usar, mientras que otras se usan principalmente para ejecutarse en servidores utilizando los recursos disponibles de la manera más eficiente posible.
+
+Otra forma de clasificar las distribuciones es haciendo referencia a la distribución familiar a la que pertenecen. Las distribuciones de la familia de **Debian** utilizan el gestor de paquetes *dpkg* para gestionar el software que se ejecuta en el sistema operativo. Los paquetes que pueden instalarse con su gestor son mantenidos por miembros voluntarios de la comunidad y utilizan el formato de paquete *deb* para especificar cómo se instala el software en el sistema operativo y cómo está configurado de forma predeterminada. Al igual que una distribución, un paquete es un conjunto de software con su correspondiente configuración y documentación que facilita el proceso de instalación, actualización y uso del software.
+
+La distribución ***Debian GNU/Linux*** es la distribución más grande de la familia Debian. El proyecto Debian GNU/Linux fue lanzado por Ian Murdock en 1993 y hoy en día miles de voluntarios están trabajando en el proyecto con el objetivo de proporcionar un sistema operativo muy fiable y promover la visión de Richard Stallman de un sistema operativo que respete las libertades del usuario para ejecutar, estudiar, distribuir y mejorar el software. Esta es la razón por la cual no proporciona ningún software propietario por defecto.
+
+***Ubuntu*** es otra distribución basada en Debian que vale la pena mencionar. Ubuntu fue creado por Mark Shuttleworth y su equipo en 2004, con la misión de brindar un entorno de escritorio fácil de usar. La misión de Ubuntu es proporcionar software gratuito a todos en todo el mundo, así como reducir el costo de los servicios profesionales. La distribución tiene lanzamientos programados cada seis meses con un soporte a largo plazo cada 2 años.
+
+***Red Hat*** es una distribución de Linux desarrollada y mantenida por la compañía de software con el mismo nombre, que fue adquirida por IBM en 2019. La distribución de Red Hat Linux se inició en 1994 y se renombró en 2003 a Red Hat Enterprise Linux, a menudo abreviado como RHEL. Se proporciona a las empresas como una solución empresarial confiable que es compatible con Red Hat e incluye software que tiene como objetivo facilitar el uso de Linux en entornos de servidores profesionales. Algunos de sus componentes requieren suscripciones o licencias de pago. El proyecto ***CentOS*** utiliza el código fuente disponible de Red Hat Enterprise Linux y lo compila en una distribución que está disponible de forma totalmente gratuita, sin embargo, esta distribución no tiene soporte comercial.
+
+Tanto RHEL como CentOS están optimizados para su uso en entornos de servidor. El proyecto Fedora se fundó en 2003 y crea una distribución de Linux dirigida a computadoras de escritorio. Red Hat inició y mantiene la distribución de Fedora desde entonces. Fedora es muy progresista y adopta nuevas tecnologías muy rápidamente y a veces se considera un banco de pruebas para nuevas tecnologías que luego podrían incluirse en RHEL. Todas las distribuciones basadas en Red Hat usan el formato de paquete rpm.
+
+La empresa SUSE fue fundada en 1992 en Alemania como un proveedor de servicios Unix. La primera versión de SUSE Linux se lanzó en 1994. A lo largo de los años, SUSE Linux se hizo conocido principalmente por su herramienta de configuración YaST. Esta herramienta permite a los administradores instalar y configurar software y hardware, así como servicios y redes. Al igual que RHEL, SUSE lanza ***SUSE Linux Enterprise Server***, que es su edición comercial. Esta distribución se publica con menos frecuencia y es adecuada para la implementación empresarial y de producción. Se distribuye como un servidor, así como un entorno de escritorio con paquetes adecuados para el propósito. En 2004, SUSE lanzó el proyecto ***openSUSE***, que abrió oportunidades para que los desarrolladores y usuarios probaran y desarrollaran aún más el sistema. La distribución de openSUSE está disponible gratuitamente para su descarga.
+
+A lo largo de los años se han lanzado distribuciones independientes, algunas basadas en Red Hat o Ubuntu, otras diseñadas para mejorar una propiedad específica de un sistema o hardware. Otras construidas con funcionalidades específicas como ***QubesOS***, un entorno de escritorio muy seguro, o ***Kali Linux***, que proporciona un entorno para explotar las vulnerabilidades de software, utilizado principalmente por los expertos en pruebas de penetración, y otras superpequeñas distribuciones de Linux diseñadas para ejecutarse de forma específica en contenedores Linux, como Docker. También hay distribuciones creadas específicamente para componentes de sistemas embebidos e incluso dispositivos inteligentes.
+
+[Listado de distribuciones linux](https://distrotest.net/index.php)
+
+### Sistemas embebidos
+
+Los sistemas embebidos son una combinación de hardware y software diseñados para tener una función específica dentro de un gran sistema. Por lo general, forman parte de otros dispositivos que ayudan a controlarlos. Los sistemas embebidos se encuentran en aplicaciones de automoción, médicas e incluso militares. Debido a su gran variedad de aplicaciones varios sistemas operativos basados en el kernel de Linux han sido desarrollados para ser utilizados en sistemas embebidos. Una parte importante de los dispositivos inteligentes tiene un sistema operativo basado en el kernel de Linux.
+
+Por lo tanto, con los sistemas embebidos surge el software embebido. El propósito de este software es acceder al hardware y hacerlo utilizable. Entre las principales ventajas de Linux sobre cualquier software embebido propietario se encuentran, la compatibilidad de plataformas entre vendedores, el desarrollo, el soporte y la ausencia de cuotas por concepto de licencia. Dos de los proyectos de software embebido más populares son Android, que se utiliza principalmente en teléfonos móviles a través de una variedad de proveedores, y Raspbian que se utiliza principalmente en Raspberry Pi.
+
+#### Android
+
+Android es un sistema operativo para dispositivos móviles desarrollado principalmente por Google. Android Inc. fue fundado en 2003 en Palo Alto, California. La compañía inicialmente creó un sistema operativo destinado a funcionar en cámaras digitales. En 2005, Google adquirió Android Inc. y lo desarrolló para convertirse en uno de los mayores sistemas operativos para dispositivos móviles.
+
+La base de Android es una versión modificada del kernel de Linux con software adicional de código abierto. El sistema operativo está desarrollado principalmente para dispositivos con pantalla táctil, pero Google ha desarrollado versiones para televisores y relojes de pulsera. Se han desarrollado diferentes versiones de Android para consolas de juegos, cámaras digitales y PCs.
+
+El código abierto de Android está disponible gratuitamente como Android Open Source Project (AOSP). Google ofrece una serie de componentes propietarios además del núcleo de Android. Entre los componentes se incluyen aplicaciones como Google Calendar, Google Maps, Google Mail, el navegador Chrome y Google Play Store, que facilita la instalación de aplicaciones. La mayoría de los usuarios consideran estas herramientas una parte integral de su experiencia con Android. Por lo tanto, casi todos los dispositivos móviles enviados con Android a Europa y América incluyen el software patentado de Google.
+
+Android en dispositivos integrados tiene muchas ventajas. El sistema operativo es intuitivo y fácil de usar con una interfaz gráfica de usuario, tiene una comunidad de desarrolladores muy amplia, así que es fácil encontrar ayuda para el desarrollo. También es compatible con la mayoría de los proveedores de hardware con un controlador de Android, por lo tanto, es fácil y rentable crear un prototipo para un sistema entero.
+
+#### Raspbian y Raspberry Pi
+
+Raspberry Pi es una computadora de bajo costo del tamaño de una tarjeta de crédito que puede funcionar como un ordenador de sobremesa con todas sus funciones, pero que a su vez puede utilizarse dentro de un sistema Linux integrado. Este ordenador fue desarrollado por la Fundación Raspberry Pi, que es una organización benéfica educativa con sede en el Reino Unido. Su principal propósito es enseñar a los jóvenes a aprender a programar y comprender la funcionalidad de las computadoras. El Raspberry Pi se puede diseñar y programar para realizar tareas u operaciones que forman parte de un sistema mucho más complejo.
+
+Las especialidades de Raspberry Pi incluyen un conjunto de pines de Entrada/Salida de Propósito General (GPIO) que pueden ser utilizados para acoplar dispositivos electrónicos y placas de extensión, lo que permite utilizar Raspberry Pi como plataforma para el desarrollo de hardware, ya que a pesar de que estaba pensado para fines educativos se utiliza hoy en día en varios proyectos de DIY (hágalo usted mismo), así como para la creación de prototipos industriales en el desarrollo de sistemas embebidos.
+
+La Raspberry Pi utiliza procesadores ARM. Varios sistemas operativos, incluido Linux, corren sobre Raspberry Pi. Como Raspberry Pi no contiene un disco duro, el sistema operativo se inicia desde una tarjeta de memoria SD. Una de las distribuciones de Linux más destacadas para Raspberry Pi es Raspbian. Como su nombre indica, pertenece a la familia de distribución de Debian. Está personalizado para instalarse en el hardware de Raspberry Pi y proporciona más de 35000 paquetes optimizados para este entorno. Además de Raspbian, existen muchas otras distribuciones de Linux para Raspberry Pi, como, por ejemplo, Kodi, que convierte a Raspberry Pi en un centro de medios.
+
+### Linux y el Cloud Computing
+
+El término cloud computing se refiere a una forma estandarizada de consumir recursos informáticos, ya sea comprándolos a un proveedor público de cloud computing o ejecutando una nube privada. Según informes del 2017, Linux ejecuta el 90% de la carga de trabajo de la nube pública. Todos los proveedores de cloud computing, desde Amazon Web Services (AWS) hasta Google Cloud Platform (GCP) ofrecen diferentes formas de trabajar con Linux. Incluso Microsoft, una empresa cuyo antiguo CEO comparó Linux con un cáncer, ofrece hoy en día máquinas virtuales basadas en Linux en su nube Azure.
+
+Linux generalmente es ofrecido como parte de Infrastructure as a Service (IaaS). Las instancias IaaS son máquinas virtuales que se aprovisionan en cuestión de minutos en la nube. Cuando se inicia una instancia IaaS, se elige una imagen que contiene los datos que se desplegarán en la nueva instancia. Los proveedores de nube ofrecen varias imágenes que contienen instalaciones listas para ejecutar tanto de las distribuciones populares, así como sus propias versiones de Linux. El usuario podrá elegir una imagen que contiene su distribución preferida y acceder a una instancia de la nube que ejecute esta distribución poco después de haberse creado. La mayoría de los proveedores agregan herramientas a sus imágenes para ajustar la instalación a una instancia específica de la nube. Estas herramientas pueden, por ejemplo, extender los sistemas de archivos de la imagen para que se ajusten al disco duro real de la máquina virtual.
+
+## Ejercicios guiados
+
+- 1. ¿En qué se diferencia Debian GNU/Linux de Ubuntu? Nombre dos aspectos.
+- 2. ¿Cuáles son los entornos/plataformas más comunes para los que se utiliza Linux? Nombre tres entornos/plataformas diferentes y nombre una distribución que pueda utilizarse para cada uno.
+- 3. Se planea instalar una distribución de Linux en un nuevo entorno. Nombre cuatro aspectos que deban ser considerados al elegir una distribución.
+- 4. Nombre tres dispositivos en los que se pueda ejecutar el sistema operativo Android, que no sean teléfonos inteligentes. 
+- 5. Explique tres ventajas importantes de la computación en la nube.
+
+## Ejercicios exploratorios
+
+- 1. Teniendo en cuenta el costo y el rendimiento, ¿Qué distribuciones son más adecuadas para una empresa que tiene como objetivo reducir los costos de licencias, manteniendo el rendimiento al máximo? Explique por qué. 
+- 2. ¿Cuáles son las principales ventajas de Raspberry Pi y qué funciones pueden tener en los negocios? 
+- 3. ¿Qué gama de distribuciones ofrecen Amazon Cloud Services y Google Cloud? Nombre al menos tres comunes y dos diferentes.
+
+## Resumen
+
+En esta lección usted aprendió:
+
+- Diferentes distribuciones de Linux.
+- ¿Qué son los sistemas embebidos Linux?
+- ¿Cómo se usan los sistemas embebidos de Linux?
+- Diferentes usos de Android. 
+- Diferentes usos de Raspberry Pi. 
+- ¿Qué es la computación en la nube?
+- ¿Qué papel juega Linux en la computación en la nube?
+
+## Respuestas a los ejercicios guiados
+
+- **1. ¿En qué se diferencia Debian GNU/Linux de Ubuntu? Nombre dos aspectos.**
+Ubuntu está basado en un snapshot de Debian, es por esto que existen muchas características similares entre ellos. Sin embargo, existen otras diferencias significativas entre las dos distribuciones. La primera sería la aplicabilidad para los principiantes. Ubuntu se recomienda para principiantes por su facilidad de uso. Por otro lado, Debian se recomienda para usuarios más avanzados. La mayor diferencia está en la complejidad del proceso de instalación el cual Ubuntu hace más simple al usuario.
+
+Otra diferencia pudiera estar relacionada con la estabilidad de cada distribución. Debian se considera más estable comparada con Ubuntu. Debian recibe pocas actualizaciones que son probadas minuciosamente por lo que el sistema, de forma general, es más estable. Por otro lado, Ubuntu permite al usuario usar las últimas versiones de software y nuevas tecnologías.
+
+- **2. ¿Cuáles son los entornos/plataformas más comunes para los que se utiliza Linux? Nombre tres entornos/plataformas diferentes y nombre una distribución que pueda utilizarse para cada uno.**
+Algunos de los entornos/plataformas comunes serían teléfonos inteligentes, computadoras de escritorio y servidores. En teléfonos inteligentes, puede ser utilizado por distribuciones como Android. En escritorios y servidores, puede utilizarse por cualquier distribución, que sea adecuada a la funcionalidad de ese equipo, desde Debian, Ubuntu a CentOS y Red Hat Enterprise Linux.
+
+- **3. Se planea instalar una distribución de Linux en un nuevo entorno. Nombre cuatro aspectos que deban ser considerados al elegir una distribución.**
+Al elegir una distribución, algunos de los aspectos principales que se deben considerar son el costo, el rendimiento, la escalabilidad, la estabilidad y la demanda de hardware del sistema.
+
+- **4. Nombre tres dispositivos en los que se pueda ejecutar el sistema operativo Android, que no sean teléfonos inteligentes.**
+Otros dispositivos en los que se ejecuta Android son televisores inteligentes, tabletas, Android Auto y relojes inteligentes.
+
+- **5. Explique tres ventajas importantes de la computación en la nube.**
+Las principales ventajas de la computación en la nube son la flexibilidad, la fácil recuperación y el bajo costo de uso. Los servicios basados en la nube son fáciles de implementar y escalar, dependiendo de los requisitos del negocio. Tiene una gran ventaja en las soluciones de respaldo y recuperación, ya que permite a las empresas recuperarse de los incidentes más rápido y con menos repercusiones. Además, reduce los costos de operación, ya que permite pagar solo por los recursos que utiliza una empresa en un modelo basado en suscripción.
+
+## Respuestas a los ejercicios exploratorios
+
+- **1. Teniendo en cuenta el costo y el rendimiento, ¿Qué distribuciones son lás adecuadas para una empresa que tiene como objetivo reducir los costos de licencias, manteniendo el rendimiento al máximo? Explique por qué.**
+Una de las distribuciones más adecuadas para ser utilizada por empresas es CentOS. Esto se debe a que incorpora todos los productos de Red Hat que utiliza en su sistema operativo comercial, a la vez que es de uso gratuito. Del mismo modo, las versiones de Ubuntu LTS garantizan la compatibilidad durante un período de tiempo más largo. Las versiones estables de Debian GNU/Linux también se usan a menudo en entornos empresariales.
+
+- **2. ¿Cuáles son las principales ventajas de Raspberry Pi y qué funciones pueden tener en los negocios?**
+A pesar de que el RaspberryPi es muy pequeño, puede utilizarse como una computadora normal. Además, es de bajo costo y puede manejar el tráfico web y muchas otras funcionalidades. Se puede usar como un servidor, cortafuegos y se puede usar como placa principal para robots y muchos otros dispositivos pequeños.
+
+- **3. ¿Qué gama de distribuciones ofrecen Amazon Cloud Services y Google Cloud? Nombre al menos tres comunes y dos diferentes.**
+Las distribuciones comunes entre Amazon y Google Cloud Services son Ubuntu, CentOS y Red Hat Enterprise Linux. Cada proveedor de la nube también ofrece distribuciones específicas que el otro no ofrece. Amazon tiene Amazon Linux y Kali Linux, mientras que Google ofrece el uso de servidores FreeBSD y Windows.
+
+# Instalación Ubuntu Server.
+En esta sección vamos a instalar Ubuntu Server 20.04 en una máquina virtual. Para esto vamos a usar el software [VirtualBox](https://www.virtualbox.org/). ¿Qué es una máquina virtual? En informática una máquina virtual es un software que emula a una computadora y puede ejecutar programas como si fuese una computadora real. 
+
+## Descarga de Ubuntu Server 20.04.
+
+Para instalar Ubuntu Server necesitamos un DVD o USB con la distribución de linux que queremos instalar. Estas distribuciones pueden descargarse de forma gratuita desde su respectiva pagina web. En el caso de Ubuntu Server puede descargarse desde [acá](https://ubuntu.com/download/server). Como nosotros vamos a usar una máquina virtual, no es necesario que grabemos la imagen descargada en un DVD o USB, sino que vamos a trabajar directamente con el archivo.
+
+## Configuración de la máquina virtual.
+Para instalar Ubuntu debemos crear una máquina virtual en VirtualBox. Hacemos click en el boton "nueva", ingresamos los datos para identificarla y las caracteristicas del sistema operativo a utilizar.
+
+![82e82fe5d4efb7a1e0d2e791e5677524.png](resources/197b4ff30b12445da690384b63b336eb.png)
+
+![dab7489b7f1e1fa76e5a8aca27ac55e7.png](resources/9bf01f9d3f92498f98a22f74816271a8.png)
+
+Pulsamos siguiente y seleccionamos las especificaciones de nuestra máquina virtual. Estas van a depender de la capacidad del equipo con el que esten trabajando pero, al menos deberán utilizar 1 GB de memoria RAM (1024 MB). Clickeamos en siguiente y creamos el archivo que va a funcionar como disco rigido virtual. Seleccionamos la opción "Crear un disco virtual ahora" + "Crear", luego "VDI...", reservado dinámicamente + siguiente, definimos el tamaño (10 GB), el lugar donde lo vamos a guardar en nuestra computadora y clickeamos crear.
+
+Una vez creada la máquina vamos al boton de "Configuración", a la opción almacenamiento seleccionamos la opción que dice "Vacío" bajo "Controlador IDE" y hacemos click sobre el icono del CD sobre el lado superior izquierdo, se despliega un menú, vamos a "Seleccionar un archivo de disco", navegamos hasta el archivo de imagen que descargamos de la página de Ubuntu + "Abrir" 
+
+![6ab077fd2cbf0aee8fc2ddedfbadbc69.png](resources/d3abf916e145458db99a511323750bd1.png)
+
+Luego vamos a la opción "Red", en "conectado a" seleccionamos "adaptador puente". Esto nos va a permitir agregar nuestra máquina virtual a la red privada sobre la que estamos trabajando, lo que nos va a permitir acceder a ella desde nuestra computadora o incluso desde otros equipos presentes en la misma red.
+
+Con esto tenemos listo el entorno de trabajo para llevar adelante la instalación.
+
+## Instalación.
+Una vez configurada la máquina virtual vamos a proceder a la instalación del sistema operativo. Para esto, hacemos doble click sobre la máquina virtual, se va a abrir una ventana con la interfaz de la misma y se inicia el instalador con la primer pantalla, que corresponde a la selección del idioma. Para ingresar a la máquina virtual, debemos posicionar el mouse sobre la ventana (para salir debemos apretar ctrl derecho). Nos movemos por el menú con las teclas de arriba y abajo, seleccionamos Español y damos enter.
+
+**Selección de la distribución del teclado**
+
+De nuevo nos movemos con las teclas de flechas (arriba y abajo) y para seleccionar apretamos enter. La disposición de los teclados en Argentina suelen ser las de Español y Español latinoamericano. También se puede usar la opción de identificar el teclado, en caso de no saber cual es la distribución.
+
+**Conexión de red**
+El siguiente paso es la selección y configuración de la red. Por ahora vamos a dejar la configuración por defecto: enp0s3 y la IP asignada mediante DHCP (mas adelante vamos a ver cómo configurar una IP estatica). Para terminar seleccionamos "hecho"
+
+**Seleccionar un proxy**
+Si no es necesario acceder a internet desde un proxy dejamos la opción en blanco.
+
+**Selección del repositorio**
+Dejamos el que trae por defecto
+
+**Configuración de almacenamiento**
+En este paso debemos definir la configuración del sistema de almacenamiento. Podemos llevar a cabo la configuración de forma automática utilizando el disco completo o manual, fijando como queremos particionar el disco. Ademas, podemos definir si queremos utilizar un particionado tradicional o utilizar LVM (Logical Volume Management).
+
+LVM es un conjunto de herramientas que permiten la administración de unidades de almacenamiento denominadas volúmenes lógicos. Provee flexibilidad para administrar el almacenamiento del sistema de manera que pueda expandirse fácilmente. El redimensionado de los volúmenes lógicos bajo LVM se puede realizar sin interrumpir el funcionamiento normal del equipo. Además, el procedimiento es mucho más rápido que en el particionado tradicional.
+
+Cuando se realiza la instalación de servidores es preferible configurar el sistema de almacenamiento sobre LVM. 
+
+Utilizamos todo el disco y LVM, pero seleccionaremos la opción "Custom Storage Layout" ya que vamos a ver como está compuesta la instalación por defecto.
+
+En la siguiente pantalla vemos distintas opciones:
+- Los puntos de montaje, es decir, los puntos del sistema de archivos de linux donde se van a montar los dipositivos de almacenamiento.  
+- Los dispositivos disponibles para ser utilizados
+- Los dispositivos utilizados al momento 
+
+![4385a4cb5cb52e572113ba7d6d837754.png](resources/da3b1e41939f40a5962cd53bf7543e30.png)
+
+Como puede verse en la imagen, la instalación por default establece 2 puntos de montaje:
+- `/				8.996GB	new ext4	new LVM logical volume`
+- `/boot		1.000GB	new ext4	new partition of disco local`
+La primera partición forma parte del LVM y está montado en la raiz (`/`) del SO. La segunda partición no forma parte del LVM y está montada en `/boot` que es el directorio donde se encuentra el kernel de linux.
+
+En la parte de dispositivos utilizados vemos un volume group y un logical volume que es el que se encuentra montado sobre `/`. Finalmente, podemos ver las particiones que tiene el disco, el tipo y el tamaño.
+- `partition 1	new,	BIOS grub spacer											1.0000M`
+- `partition 2	new, to be formatted as ext4, mounted at /boot		1.000G`
+- `partition 3	new, PV of LVM volume group ubuntu-vg			8.997G`
+
+Vamos a la opción `ubuntu-lv	new, to be formatted as ext4, mounted at /` y presionamos "enter" o la "barra espaciadora", nos aparece un menú lateral con las opciones "(close)", "Edit" y "Delete". Vamos a "Edit", se abre una ventana que nos da la posibilidad de modificar distintos aspectos del logical volume. Acá, si modificamos el tamaño del volumen (por uno menor) nos va a aparecer espacio libre dentro del volume group, que posteriormente podemos utilizar para generar otra partición, que luego podríamos montar en algún punto de montaje del SO. Seleccionamos "Hecho" y nos aparece un cartel para indicarnos que si seguimos adelante el proceso va a destruir el contenido del disco y que dicho proceso es irreversible, ponemos "Continuar" y seguimos con la siguiente ventana.
+
+**Configuración de perfil**
+
+![502d1c86db12a6bedf038fe9983fdce6.png](resources/04b66508e42b4eab8eb542b61df59717.png)
+
+En esta ventana debemos ingresar las credenciales que nos permitirán autenticarnos en el sistema y el nombre del host. La clave ingresada tambien nos permitirá ejecutar funciones como administrador.
+
+**Configuración de SSH**
+
+Acá podemos seleccionar si queremos instalar o no el servidor SSH. El protocolo SSH (Secure Shell) es una herramienta que nos permite conectarnos a equipos remotos y nos permite llevar a cabo tareas dentro del mismo como si estuvieramos logueados de forma fisica en dicho equipo. También nos permite copiar datos de forma segura. Vamos a marcar la instalación y continuamos. 
+
+**Instalación de paquetes**
+El sistema nos ofrece la opción de instalar algunos de los paquetes más populares. Nosotros no vamos a instalar ninguno, así que salteamos esta ventana.
+
+**Ahora solo queda esperar**
+
+`sudo touch /etc/cloud/cloud-init.disabled`
+
+`sudo dpkg-reconfigure cloud-init`
+
+# Secuencia de arranque de un núcleo Linux
+
+Aquí aprenderemos la secuencia de arranque de un sistema operativo libre y de código abierto, GNU/Linux, lo que nos va a remitir también a conocer y entender algunos de los componentes de la computadora y su función.
+
+Entender el proceso de arranque nos permite entender también mucho del hardware de la computadora, y cómo interactúa con el software, y además nos brindará conocimientos para depurar el inicio del sistema y permitirnos solucionar cualquier problema elacionado.
+
+Al encender el equipo, el BIOS (Basic Input-Output System) o UEFI (Unified Extensible Firmware Interface) llevan a cabo una revisión del hardware conocida comunmente como POST (Power-On Self Test). A continuación, se busca un gestor de arranque (por lo general, GRUB) en el MBR (Master Boot Record) o en la partición EFI de un dispositivo de almacenamiento (`partition 1	new,	BIOS grub spacer	1.0000M`).
+
+A partir de ese momento, el control del proceso se pasa al GRUB, que se encargará de cargar el kernel. Este reconocerá y configurará los dispositivos de hardware presentes en el equipo y los preparará para su uso. En el próximo paso, el núcleo ejecutará su primer proceso, conocido como **init**. Finalmente, este último utilizará el gestor del sistema ( **systemd o Upstart** ) o los scripts de  **SysVinit** para continuar el inicio de los demás servicios. El proceso de arranque termina al presentar una interfaz de inicio de sesión, que puede ser en modo texto o gráfico.
+
+La secuencia de arranque de Linux puede dividirse en varias etapas:
+
+1. La **fuente de energía** de la computadora envía un OK al timer de la placa madre.
+2. **Bootstrap** y el proceso de arranque del hardware.
+3. El **BIOS** y el proceso de inicio.
+4. El **MBR** (Master Boot Record) o **EFI** y el **GRUB**.
+5. Carga de la imagen del **kernel Linux** (initrd)
+6. Carga de los servicios de inicio (SysVinit, systemd, upstart, etc.)
+
+## 1. Suministro électrico
+
+Uno de los componentes principales de la computadora es la fuente de energía, y su principal objetivo es proveer el nivel de voltaje necesario a la placa madre y demás componentes. Este voltaje trabaja con corriente contínua (DC), por lo que la fuente también transforma la corriente alterna domiciliaria (AC) en corriente continua.
+
+Más allá de esto, la fuente informa sobre un buen suministro eléctrico a la computadora enviando una señal acorde, POWER GOOD, a la placa madre. Si la placa madre no recibe dicha señal de la fuente todo el tiempo, a su vez enviará una señal de reset al procesador y no podrá iniciar.
+
+## 2. Bootstrap y secuencia de arranque
+
+El bootstrap consiste en que el procesador busque en una ROM (Read Only Memory) de la placa madre las instrucciones para arrancar. Estas instrucciones contienen un JUMP o salto a otra dirección de memoria, la del programa BIOS (Basic Input/Output System) de la placa madre.
+
+## 3. BIOS
+
+Aquí comienza realmente el proceso de inicio lógico de la computadora. Una de las primeras tareas que lleva a cabo el BIOS es denominada POST (Power on Self Test). El POST realiza una serie de verificaciones dirigidas por la BIOS que permiten determinar el estado del hardware y con él, saber si la computadora puede iniciar o no.
+
+El POST es muy importante en la secuencia de arranque, y es un paso previo a la carga del sistema operativo, ya que verifica, entre otras cosas, la placa madre, puertos de periféricos como el teclado, los discos, la integridad de la memoria, la CPU, la ROM de video, etc.
+
+En general hay dos tipos de inicio de la computadora, Warm Start y Cold Start. El Cold Start ejecuta el POST conducido por el BIOS cuando inicia la computadora desde su estado apagado, mientras que el Warm Start no ejecuta el post, y se da cuando iniciamos la computadora presionando el botón de Reset del gabinete.
+
+Una confusión generalizada es pensar que el BIOS y el CMOS son la misma cosa. El BIOS, como dijimos, es un componente de software almacenado en una memoria ROM. El CMOS por su parte es una pequeña memoria RAM (Random Access Memory) alojada en la placa madre. Esta memoria almacena las configuraciones que efectuemos en el programa BIOS.
+
+No confundir tampoco esta RAM CMOS con la memoria RAM principal de la computadora.
+
+**RAM CMOS y la persistencia**
+
+Recordemos que una memoria ROM es persistente y no puede modificarse directamente, por lo que NO podemos modificar el BIOS, mientras que la RAM es volátil, puede modificarse, pero su contenido se pierde al perder energía eléctrica. El contenido del CMOS en general se mantiene gracias una batería que se encuentra en la placa madre.
+
+Al quitar la pila que mantiene el CMOS se perderá información como la fecha y hora configuradas en la BIOS, o la password de acceso a la misma.
+
+**Dispositivos de arranque**
+
+Volviendo a la secuencia de arranque, entre las configuraciones almacenadas en el CMOS se encuentra el orden de inicio de los dispositivos de almacenamiento donde se buscará un sistema operativo al finalizar la carga del BIOS. Estos dispositivos son, por lo general:
+
+- CD / DVD ROM
+- Disco Rígido / SSD
+- Dispositivos USB
+- Red (PXE/iPXE)
+- Disquettes / Floppy
+
+Según el orden en el que lo hayamos configurado en el CMOS, al iniciar buscará en uno u otro dispositivo hasta encontrar uno que disponga un sistema operativo instalado utilizable.
+
+## 4. MBR y el gestor de arranque (GRUB)
+
+Si estamos iniciando desde un disco rígido o SSD, o USB por ejemplo, el BIOS buscará en el dispositivo, en una región de memoria denominada Boot Sector, o sector de inicio, las siguientes instrucciones a ejecutar, correspondientes al gestor de arranque del sistema operativo. De ahí en adelante ya es el sistema operativo instalado el que se encarga de continuar la secuencia de arranque.
+
+Ese área del disco en que se encuentra el Boot Sector es el primer sector del disco, y suele denominárselo Master Boot Record, o MBR. Ese sector corresponde a solo 512 bytes y permiten iniciar la primer etapa del boot loader, o el gestor de arranque, como Grub o el viejo Lilo. De esos 512B, solo 440B se utilizan para el cargador de arranque, el resto almacena la tabla de particiones del disco.
+
+Dicho sea de paso, podemos guardar en un archivo binario todo el MBR con un simple comando en una terminal GNU/Linux: dd. Este comando permitirá copiar un bloque de 512B del disco en un archivo que llamaremos mbr.img.
+
+```
+dd if=/dev/sda of=/tmp/mbr.img bs=512 count=1
+```
+En caso de usar la tabla de partición GPT, los pasos son más complejos
+
+```
+parted -ms /dev/sda print
+# Formula = (128*N)+1024 N: nro de particiones
+dd if=/dev/sda of=GPT_TABLE.img bs=1 count=FORMULA
+```
+Podemos analizar el contenido del sector de arranque con `fdisk -l /tmp/mbr.img` si la partición es MBR o con `parted -ms /dev/sda print` si es GPT
+
+```
+BYT;
+/dev/sda:1000GB:scsi:512:4096:gpt:ATA HGST HTS541010A7:;
+1:1049kB:274MB:273MB:fat32:EFI system partition:arranque, esp;
+2:274MB:290MB:16.8MB::Microsoft reserved partition:msftres;
+3:290MB:507GB:506GB:ntfs:Basic data partition:msftdata;
+5:507GB:537GB:30.0GB:ext4::;
+6:537GB:997GB:460GB:ext4::;
+7:997GB:1000GB:2999MB:linux-swap(v1)::swap;
+4:1000GB:1000GB:523MB:ntfs:Basic data partition:oculta, diag;
+```
+
+**GRUB – GRand Unified Bootloader**
+
+El primer sector del disco, el sector 0 mencionado anteriormente, contiene lo que se denomina Stage 1, la primera etapa del cargador de arranque. 
+
+El cargador de arranque GRUB tiene en total tres etapas o stages:
+
+- GRUB Stage 1
+- GRUB Stage 1.5
+- GRUB Stage 2
+
+Normalmente las particiones no comienzan antes del sector 63 del disco, por lo que los sectores 1-63 están vacíos (recordemos que el sector 0 contiene el MBR). Este espacio es utilizado para almacenar lo que se denomina Stage 1.5. A este espacio también se lo denomina MBR GAP.
+
+¿Por qué es necesaria una supuesta Stage 1.5 en GRUB?
+
+La configuración del GRUB se encuentra en el archivo /boot/grub/grub.cfg... pero este archivo está en una partición (que puede ser una partición aislada para /boot, o la misma partición donde tenemos el sistema operativo instalado).
+
+¿Cómo puede el GRUB acceder a dicho archivo si no se ha montado la partición, ni dispone de los drivers o controladores? Puede porque estos controladores de sistema de archivos se encuentran en estos sectores, del 1 al 63.
+
+Aquí es cuando el GRUB carga dicha configuración y nos muestra un menú en terminal donde podemos elegir qué sistema operativo iniciar. Esto corresponde con el Stage 2 del GRUB.
+
+## 5. Cargando la imagen del kernel Linux
+
+Una vez que elegimos un sistema operativo GNU/Linux para iniciar, el GRUB le pasa el control del arranque al sistema operativo mediante la carga de una imagen comprimida del núcleo del mismo.
+
+De manera similar al GRUB, el kernel Linux también se carga en etapas o Stages. El kernel es quien administra la planificación de procesos, memoria, sistemas de archivos, dispositivos periféricos de E/S, mecanismos de comunicación entre procesos (IPC), e interfaces de red, entre otros.
+
+El kernel nunca es utilizado por los usuarios, sino que representa una capa de abstracción entre el resto del sistema operativo y el hardware, monta un entorno en el que puede correr todo el resto del sistema.
+
+El kernel es un archivo comprimido de imagen que generalmente se encuentra dentro del directorio /boot, ubicación que está configurada en el archivo de configuración del GRUB2. Básicamente es un archivo de imagen bzImage ejecutable. Su nombre característico contiene la palabra «vmlinuz«:
+
+```
+ls /boot
+config-5.4.0-80-generic  initrd.img                   memtest86+.bin               System.map-5.4.0-81-generic  vmlinuz.old
+config-5.4.0-81-generic  initrd.img-5.4.0-80-generic  memtest86+.elf               vmlinuz
+efi                      initrd.img-5.4.0-81-generic  memtest86+_multiboot.bin     vmlinuz-5.4.0-80-generic
+grub                     initrd.img.old               System.map-5.4.0-80-generic  vmlinuz-5.4.0-81-generic
+
+```
+
+**initrd e initramfs**
+
+Para poder cargar el sistema operativo primero debemos cargar muchos controladores de diversos dispositivos de hardware. Por ejemplo, podríamos tener el disco configurado en RAID o LVM donde tenemos la partición raíz («/»), o podríamos disponer de varios módulos del núcleo que realicen diferentes tareas. Si toda la funcionalidad estuviera presente en el mismo kernel Linux, la imagen comprimida sería enorme!
+
+No obstante, la imagen del núcleo necesita ser más pequeña, y por eso, entre otras cosas, se encuentra comprimida. Las funcionalidades adicionales no están presentes en dicha imagen, sino que son cargadas mediante un sistema de archivos similar al sistema raíz provisto por initrd, por lo que muchas veces a initrd se lo denomina un sistema de archivos raíz inicial.
+
+Initrd es utilizado por el kernel antes de que se monte el sistema raíz «/» real. En general esta imagen de un sistema de archivos de inicio suele llamarse «initramfs» dentro del directorio /boot.
+
+Una vez que se carga este «mini linux» en memoria RAM (de ahí initramfs), se procede a la verificación de hardware y controladores. Comenzando con la verificación de la arquitectura del procesador.
+
+El kernel dirige una gran cantidad de instrucciones de hardware, y luego carga el primer proceso del sistema operativo, el proceso **init**, cuyo PID (Process ID) es el 1:
+
+Este PID 1 no es intencional, el núcleo le da a cada proceso nuevo que se lanza un identificador incremental. En el caso de init es «1» porque es el primer proceso que se ejecuta en espacio de usuario. El proceso init se mantiene corriendo durante toda la ejecución del sistema operativo hasta que se apaga la computadora.
+
+Luego de cargar los módulos necesarios para «levantar» los dispositivos de hardware del ordenador, comienza la carga «real» del sistema operativo: el sistema de inicio y gestor de servicios y eventos.
+
+Aquí disponemos de varias alternativas, entre las más conocidas: SysV init, systemd, o upstart. Estos gestores se encargan de terminar el proceso de inicio y de gestionar todos los procesos de usuario.
+
+Cada uno tiene características distintivas, y aunque hoy en día systemd es el más común (no sin controversias), existen distribuciones GNU/Linux que utilizan SysV init tales como Devuan.
+
+Por su parte, Upstart fue introducido por primera vez en Ubuntu 6.10, pero cuando Debian migró a systemd, Ubuntu también lo hizo. Algo similar pasó con Fedora, que utilizaba upstart en su v9 para reemplazar a SysV. No obstante, Fedora 15 reemplazó a upstart por systemd también.
+
+Dependiendo del gestor de servicios que use la distro será la forma en la que cargará los siguientes procesos. SysV trabaja con una serie de runlevels predefinidos, mientras que systemd utiliza targets con algunas equivalencias con los runlevels de SysV.
+
+## SysVinit
+Muchas distribuciones, hasta no hace mucho tiempo, utilizaban este sistema de arranque y administración. 
+
+Utiliza scripts y niveles de ejecución para controlar el inicio, apagado y gestión de los procesos del sistema.
+
+Contempla 5 niveles útiles de funcionamiento numerados del 1 al 5 (de ahí el nombre systemV). Ademas se suma el nivel 0 (apagado) y 6 (reinicio del sistema).Estos niveles se conocen como niveles de corrida o runlevels. 
+
+Cada **runlevel** se ecuentra asociado a un cierto número de servicios que por defecto deben iniciarse automáticamente cuando encendemos el equipo, y que deben detenerse al reiniciarlo o apagarlo. 
+
+El archivo /etc/inittab tiene la configuración básica como el nivel de ejecución por defecto y las acciones a tomar en determinadas situaciones.
+
+Se definen niveles de ejecución y qué se hará en cada uno de ellos. Se invoca al script **rc** que, dependiendo de la distribución, puede estar en /etc/rc.d/ o /etc/init.d/ y se le pasa como parámetro el nivel de ejecución.
+
+**rc** ejecuta los archivos que hay en la carpeta /etc/rcN.d/ por orden numérico (siendo N el nivel de ejecución). Estos archivos serán enlaces simbolicos que empiezan con S o K y que apuntan a scripts que están en /etc/init.d/. Los que empiezan con S se van a iniciar y los que empiezan con k se van a apagar. Ademas, despues de la primer letra van a estar seguidos de un número de 2 cifras que va a indicar la secuencia en la que se va a ejecutar el script.
+
+### Inicio de SysV Runlevels
+
+- Varios modelos
+- Cambios de modos
+- Configuración por defecto
+
+#### Modos
+
+Runlevels:
+- 0: halt
+- 1: single-user: Solo root, sin red. Se usa para arreglar cosas o modificar parametros, etc
+- 2-5: Multi-users: Estos se pueden configurar para que hagan distintas cosas. Por ejemplo, en rocks el 3 es solo la terminal y el 5 levanta entorno grafico.
+- 6: Reinicia la maquina.
+
+
+| Nro | Debian/Ubuntu                    | CentOS/Suse        |
+|-----|----------------------------------|--------------------|
+| 0   | Halt                             | Halt               |
+| 1   |	Single User mode                 | Single User Mode   	|
+| 2   |	Full, multiuser, GUI if installed| Multi user, sin red 	|
+| 3   | Nada                             | Multi user, con red	|
+| 4   | Nada                             | Nada 			  			  |
+| 5   | Nada                             | Multi user GUI     |
+| 6   | Reboot                           | Reboot             |
+
+#### Cambios de modos y configuración por defecto
+```
+runlevel  # Indica el runlevel actual
+> N 5 	  # Respuesta: N: anterior (nada), 5: estado (Multi user)
+telinit 3 # Cambio de runlevel (Multi user con red sin GUI)
+telinit 5 # Cambio a Multi User GUI.
+runlevel
+> 3 5
+vi /etc/inittab # Archivo de configuracion
+...
+id:5:initdefault: # Estado por default
+...
+```
+
+#### Manejo de servicio con SysV
+- `/etc/init.d/`
+- service
+- chkconfig
+
+En /etc/init.d están los servicios disponibles y se manejan con el comando service.
+
+```
+service sshd start
+service sshd stop
+service sshd status
+```
+
+*Configuración*
+```
+chkconfig --list sshd # Lista como actua el servicio en cada runlevel
+> sshd 0:off	1:off	2:off	3:off	4:off	5:off	6:off
+chkconfig sshd on # Activa sshd en todos los niveles (no en 0, 1 y 6)
+chkconfig --level 3 sshd on
+```
+
+
+
+### Inicio con SystemD
+
+Se ejecuta un único programa que utiliza archivos de configuración para cada servicio a gestionar (a diferencia de sysV, que utiliza scripts). Los elementos que gestiona systemd se llaman unidades y pueden ser de diversos tipos: automount, device, **service**, mount, path, snapshot, socket y **target**.
+
+Los services se agrupan en targets, donde también podemos definir el orden de ejecución y las dependencias con otros targets o services. Son los equivalentes a los runlevels de SysVinit.
+
+Cada unidad se define en un archivo con el nombre de dicha unidad y en la extensión se indica el tipo de unidad, por ejemplo ssh.service
+
+Ubicaciones:
+
+- /etc/systemd/system
+- /lib/systemd/system
+- /usr/lib/systemd/system
+
+Para estar seguro consultar las paginas man `man systemd.unit`
+
+Ejemplo de archivo:
+
+```
+[Unit]
+Description=System Logging Service
+Requires=syslog.socket
+Documentation=man:rsyslogd(8)
+Documentation=http://www.rsyslog.com/doc/
+
+[Service]
+Type=notify
+ExecStart=/usr/sbin/rsyslogd -n
+StandardOutput=null
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+Alias=syslog.service
+```
+
+Ejemplo target
+```
+#  SPDX-License-Identifier: LGPL-2.1+
+#
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+
+[Unit]
+Description=Graphical Interface
+Documentation=man:systemd.special(7)
+Requires=multi-user.target
+Wants=display-manager.service
+Conflicts=rescue.service rescue.target
+After=multi-user.target rescue.service rescue.target display-manager.service
+AllowIsolate=yes
+```
+
+- Varios modos
+- Cambios de modos
+- Configuración por defecto
+
+| Runlevel | Boot Target |
+|----------|-------------|
+| 0        | poweroff    |
+| 1		 	   | rescue      |
+| 2        | multi-user  |
+| 3        | graphical   |
+| 5        | reboot      |
+
+*Ver estado*
+```
+systemctl get-default
+> graphical.target
+```
+
+*Cambiar estado por defecto*
+```
+systemctl set-default multi-user.target
+```
+luego de reiniciar, cambia el modo
+
+*Cambiar estado*
+```
+systemctl isolate multi-user
+```
+
+
+#### Manejo de servicios con systemD
+- systemctl
+	- enable / disable
+	- start / stop / restart / status
+
+A diferencia de SysV, los achivos de configuración de systemD no se encuentran en un solo lugar. Esto hace muy engorrosa la administración de servicios.
+
+*Manejo de servicios*
+```
+systemctl status sshd
+systemctl start <servicio>
+systemctl stop <servicio>
+systemctl enable <servicio>
+systemctl disable <servicio>
+```
+
+- Fuentes:
+	- [Secuencia de arranque de un núcleo Linux](https://juncotic.com/secuencia-de-arranque-linux/)
+	- Carrera linux - Curso operador linux
+
+# Comandos
