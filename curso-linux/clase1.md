@@ -1,4 +1,4 @@
-Clase 1
+# Clase 1
 
 - 1. Linux y distribuciones
 - 2. Instalación Ubuntu server
