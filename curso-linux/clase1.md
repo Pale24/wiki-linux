@@ -94,6 +94,9 @@ Linux generalmente es ofrecido como parte de Infrastructure as a Service (IaaS
 - 2. ¿Cuáles son las principales ventajas de Raspberry Pi y qué funciones pueden tener en los negocios? 
 - 3. ¿Qué gama de distribuciones ofrecen Amazon Cloud Services y Google Cloud? Nombre al menos tres comunes y dos diferentes.
 
+- Fuentes:
+	- [Linux essentials](https://learning.lpi.org/es/learning-materials/010-160/1/1.1/1.1_01/)
+
 # Instalación Ubuntu Server.
 En esta sección vamos a instalar Ubuntu Server 20.04 en una máquina virtual. Para esto vamos a usar el software [VirtualBox](https://www.virtualbox.org/). ¿Qué es una máquina virtual? En informática una máquina virtual es un software que emula a una computadora y puede ejecutar programas como si fuese una computadora real. 
 
@@ -515,8 +518,213 @@ systemctl enable <servicio>
 systemctl disable <servicio>
 ```
 
+## El proceso de inicio de sesión
+
+Al iniciar, Linux nos solicitará ingresar un usuario y la contraseña para poder acceder a una sesión en el sistema, esta información se compara con la disponible en los archivos /etc/passwd y /etc/shadow. En el primero de ellos encontramos información de cada cuenta de usuario y en el segundo las contraseñas hasheadas de las cuentas que tienen permitido el inicio de sesión. Por lo general, en distribuciones modernas las contraseñas se protegen utilizando el algoritmo SHA-512, para impedir descifrar la contraseña a partir de la cadena de texto que representa.
+
+Si la contraseña es aceptada por el sistema nos aparece el contenido del archivo /etc/motd que suele estar vacío pero que le sirve al administrador para dejar mensajes dirigidos a los usuarios con información pertinente.
+
+A continuación, el sistema operativo nos devuelve el prompt, o la línea de comandos preparada para recibir nuestras órdenes. En el caso de Ubuntu el prompt inicial está compuesto por dos partes:
+
+- El nombre del usuario actual, seguido del símbolo @.
+- El nombre del equipo.
+- El directorio inicial de trabajo, más conocido como el home o el directorio personal del usuario en cuestión. El símbolo ~ se utiliza para representar este directorio.
+- Si estamos logueados como root, veremos el símbolo # a continuación. De otra manera (usuario común), se mostrará el signo $.
+
+Además de su directorio personal, cada usuario tiene asignado un shell o intérprete de comandos. Se trata de un programa que recibe los comandos que escribimos y que los envía al sistema operativo para ser ejecutados.
+
+El intérprete utilizado en la mayoría de las distribuciones actuales se llama Bash (Bourne-Again SHell). Bash tiene la posibilidad de ejecutar comandos en tiempo real pero además tiene un lenguaje de programación de scripts. Permite generar programas con funciones, control de flujo, creación de archivos, seguimiento de procesos, etc.
+
+La interfaz de modo texto es denominada  terminal (también llamada tty) y es un recurso del sistema donde se pueden escribir comandos y ver el resultado de los mismos. Hoy en día asociamos las terminales con tty1, tty2, hasta tty6, que están disponibles para ser utilizadas por distintos usuarios al presionar la combinación de teclas Ctrl+Alt+F1, Ctrl+Alt+F2, y así sucesivamente.
+
+Si en vez de trabajar en el modo texto exclusivamente también hemos instalado una distribución con un entorno gráfico, dispondremos de una aplicación llamada Terminal. Este programa nos permite acceder a la línea de comandos mediante una interfaz gráfica, por lo que recibe el nombre de pseudo terminal o pts.
+
+## Filesystem Hierarchy Standard
+
+En Linux todos los directorios se ubican en forma de árbol invertido con un origen común. Este primer directorio se denomina raíz o root (/) y contiene al resto de los directorios y archivos de manera organizada.
+
+Esta distribución de los directorios está estandarizada en un documento denominado **Filesystem Hierarchy Standard**. Donde se detalla el proposito de los directorios en un sistema Linux.
+
+![filesystem](https://thesagediary.files.wordpress.com/2018/09/linuxfile.png)
+
+En el siguiente nivel hacia abajo podemos encontrar directorios como:
+- /bin/: contiene los archivos ejecutables correspondientes a los comandos que todos los usuarios del sistema pueden utilizar
+- /boot/: Contiene archivos necesarios para el arranque del sistema (incluyendo el propio kernel).
+- /dev/: Aparecen dispositivos presentes en el sistema. Por ejemplo:
+    - Representaciones de discos:
+       - /dev/sda: Primer disco
+        - /dev/sdb: Segundo disco
+        - /dev/sdc: Tercer disco
+    - Representaciones de particiones:
+        - /dev/sda1: primer partición del primer disco
+        - /dev/sda2: segunda partición del primer disco
+- /home/: Es el directorio donde se alojan los directorios personales de los usuarios del sistema
+- /root/: Es el directorio personal del usuario root o superusuario (es el usuario con privilegios ilimitados)
+- /sbin/: Ejecutables correspondientes a utilidades del sistema.
+- /usr/: Contiene comandos accesibles para los usuarios, aunque es de solo lectura. Es decir, son archivos que los usuarios sin privilegios no pueden modificar
+- /var/: Contiene subdirectorios y archivos variables, sujetos a cambios permanentes (registros de logs del sistema o del funcionamiento de procesos)
+- /tmp/: Es una ubicación especial en la que los distintos programas pueden escribir y leer archivos temporales. Es posible que el contenido de este directorio se borre al reiniciar el sistema.
+- /etc/: Este directorio contiene los archivos de configuración del sistema y de las aplicaciones instaladas.
+
+Hay otros directorios y subdirectorios, pero estos serian los más importantes para entender el funcionamiento del sistema.
+
 - Fuentes:
 	- [Secuencia de arranque de un núcleo Linux](https://juncotic.com/secuencia-de-arranque-linux/)
 	- Carrera linux - Curso operador linux
 
 # Comandos
+
+A continuación vamos a ver algunos de los comandos mas comunes y que nos van a permitir navegar e interactuar con el sistema.
+
+## pwd
+Muestra el directorio donde estamos parados
+
+## cd
+Change directory. Cambia de directorios. Para cambiar de directorio utilizamos el comando cd seguido de la ubicación a la que deseamos movernos.
+
+```
+cd                              # Nos lleva al directorio por defecto del usuario con el que estamos logueados. /home/usuario
+cd ~                            # Idem anterior "~" simboliza al directorio del usuario
+cd .                            # Nos lleva al mismo directorio en el que estamos. Para linux "." indica el directorio actual
+cd ..                           # Nos lleva al directorio anterior en el arbol de directorios. Si estamos en /home/usuario -> /home
+cd /                            # Nos lleva al directorio raiz 
+cd Documentos                   # Nos lleva al directorio Documentos (que está dentro del directorio actual). Ruta relativa
+cd /home/usuario/Documentos     # Nos lleva al directorio /home/usuario/Documentos. Ruta absoluta
+```
+
+## ls
+Muestra el contenido de un directorio.
+
+Permite distinguir los siguientes tipos de contenidos en un directorio. Si el argumento representa un archivo, enlace simbólico, dispositivo, etc., veremos datos sobre el mismo en la salida de ls.
+
+- En blanco (en el caso de que el color de fondo de la terminal sea negro u otro color oscuro, que es lo más común), los archivos de texto o binarios no ejecutables.
+- En verde, los archivos de texto (scripts) y otros binarios ejecutables.
+- En celeste, los enlaces simbólicos.
+- En fondo negro con letras rojas, los enlaces simbólicos rotos. Nos referimos a aquellos que apunten a un recurso del sistema que no existe.
+- En amarillo, los dispositivos de bloques.
+- En violeta, los archivos de imágenes o archivos temporales.
+- En rojo, los archivos comprimidos.
+
+
+```
+ls              # Lista el contenido de la carpeta actual
+ls carpeta      # Lista el contenido de la carpeta "carpeta"
+ls -l           # Lista el contenido como una lista en vez de solo los nombre 
+                # y pone información adicional como permisos, propietario (usuario y grupo),
+                # tamaño, fecha de modificación.
+ls -lh          # Idem -l pero el tamaño es mas legible (no está en bits sino en Kb, Mb, etc
+ls -lS          # Ordena por tamaño (mayor a menor)
+ls -lSr         # Ordena por tamaño (menor a mayor), r: invierte el orden
+ls -lt          # Ordena por fecha de modificación, r: invierte el orden
+ls -a           # Muestra archivos ocultos
+ls -lR			# Muestra el contenido de forma recursiva (contenido de los directorios que estan dentro de la carpeta)
+```
+
+Al listar con el modificador -l obtenemos mayor información de los archivos y directorios. La salida del comando en este caso está dispuesta en columnas para que nos resulte más sencillo reconocerla. Veamos cómo queda cada columna:
+` `
+- 1. El primer caracter que aparece en la primera columna indica si lo que estamos viendo es un archivo (-), un directorio (d ), un enlace simbólico (l ), o un dispositivo de bloques (b), por nombrar algunos ejemplos. A continuación, vemos los permisos que poseen sobre el mismo a) el dueño del archivo, b) el grupo dueño, y c) el resto de los usuarios del sistema.
+- 2. Esta columna nos dice si este objeto posee enlaces que lo estén apuntando.
+- 3. Usuario dueño del objeto.
+- 4. Grupo dueño del objeto.
+- 5. Tamaño en bytes del objeto. Para mostrar este dato en una unidad más amigable (KB, MB, etc.) podemos agregar la opción -h.
+- 6. Fecha de última modificación del objeto.
+
+## mkdir
+Crea directorios
+```
+mkdir dir1
+# crear directorio y sus directorios padres (si no existen)
+mkdir -p dir1/dir2/dir3
+```
+
+## cat
+
+## less
+
+## more
+
+## cp
+
+## mv
+
+## rm
+
+## history
+Podemos buscar instrucciones que hayamos usado anteriormente con la tecla de la flecha para arriba (también se puede bajar con la tecla de abajo). Una vez que encontramos la instrucción que queremos, podemos ejecutarla o modificarla.
+
+Tambén podemos buscar la instrucción combinando las teclas ctrl + r y entonces puedo empezar a buscar poniendo las palabras que creo que tenia y cuando la encuentro la selecciono. Si la que sale no es la que busco puedo volver a tipear ctrl + r y voy viendo las opciones.
+
+El comando history nos abre un listado de instrucciones anteriores, para seleccionar una de ellas rapido podemos ingresar !numero de la orden. Por ejemplo !1000.
+
+
+## echo
+
+Muestra el texto que recibe.
+
+Opciones:
+- -e: Interpreta los caracteres especiales después de \ `echo -e "Hola \nMundo"` Sin el -e se interpreta de forma literal
+- Al poner comillas dobles interpreta las variables del sistema que estan adentro. Si uso comillas simples esto no pasa.
+
+## type
+
+El intérprete de comandos BASH tiene comandos internos y otros que son ficheros ejecutables externos. Podemos usar la orden **type** seguido del nombre del comando para saber a qué categoría pertenece dicho comando.
+
+```
+type cd 
+cd es una orden interna del intérprete de ordenes
+type find
+find is /usr/bin/find
+```
+
+## which
+El comando which muestra la ruta absoluta del programa que le indiquemos.
+
+```
+which python
+/usr/bin/python
+```
+
+## man
+
+Muestra ayuda de comandos, ficheros de configuración, etc
+
+## uname
+
+Muestra información sobre el S.O. (sin parámetros sólo el ombre). -a muestra toda la información.
+
+```
+uname
+Linux
+uname -a
+Linux r2-d2 5.4.0-88-generic #99-Ubuntu SMP Thu Sep 23 17:29:00 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+## set
+Muestra o modifica la configuración de nuestro entorno. Sin parámetros visualiza variables del sistema y con -o una lista de las opciones y sus estados. (con -o opción activamos y con +o desactivamos).
+
+## export
+Crea o modifica variables de entorno.
+
+Ejemplo: `export NOMBRE=Pablo`
+
+## unset
+Elimina una variable del entorno.
+
+Ejemplo: unset NOMBRE
+
+## env
+Sin parámetros muestra las variables de entorno. Lo podemos usar para ejecutar un comando modificando el valor de variables de entorno.
+
+Ejemplo: `env PATH=/new/path /bin/bash`
+
+
+
+
+
+
+
+
+
+
+
+
