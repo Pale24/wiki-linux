@@ -146,15 +146,15 @@ Para instalar Ubuntu Server necesitamos un DVD o USB con la distribución de lin
 ## Configuración de la máquina virtual.
 Para instalar Ubuntu debemos crear una máquina virtual en VirtualBox. Hacemos click en el boton "nueva", ingresamos los datos para identificarla y las caracteristicas del sistema operativo a utilizar.
 
-![82e82fe5d4efb7a1e0d2e791e5677524.png](resources/197b4ff30b12445da690384b63b336eb.png)
+![virtual1](./imagenes/virtual1.png)
 
-![dab7489b7f1e1fa76e5a8aca27ac55e7.png](resources/9bf01f9d3f92498f98a22f74816271a8.png)
+![virtual2](./imagenes/virtual2.png)
 
 Pulsamos siguiente y seleccionamos las especificaciones de nuestra máquina virtual. Estas van a depender de la capacidad del equipo con el que esten trabajando pero, al menos deberán utilizar 1 GB de memoria RAM (1024 MB). Clickeamos en siguiente y creamos el archivo que va a funcionar como disco rigido virtual. Seleccionamos la opción "Crear un disco virtual ahora" + "Crear", luego "VDI...", reservado dinámicamente + siguiente, definimos el tamaño (10 GB), el lugar donde lo vamos a guardar en nuestra computadora y clickeamos crear.
 
 Una vez creada la máquina vamos al boton de "Configuración", a la opción almacenamiento seleccionamos la opción que dice "Vacío" bajo "Controlador IDE" y hacemos click sobre el icono del CD sobre el lado superior izquierdo, se despliega un menú, vamos a "Seleccionar un archivo de disco", navegamos hasta el archivo de imagen que descargamos de la página de Ubuntu + "Abrir" 
 
-![6ab077fd2cbf0aee8fc2ddedfbadbc69.png](resources/d3abf916e145458db99a511323750bd1.png)
+![virtual3](./imagenes/virtual3.png)
 
 Luego vamos a la opción "Red", en "conectado a" seleccionamos "adaptador puente". Esto nos va a permitir agregar nuestra máquina virtual a la red privada sobre la que estamos trabajando, lo que nos va a permitir acceder a ella desde nuestra computadora o incluso desde otros equipos presentes en la misma red.
 
@@ -190,7 +190,7 @@ En la siguiente pantalla vemos distintas opciones:
 - Los dispositivos disponibles para ser utilizados
 - Los dispositivos utilizados al momento 
 
-![4385a4cb5cb52e572113ba7d6d837754.png](resources/da3b1e41939f40a5962cd53bf7543e30.png)
+![almacenamiento](./imagenes/almacenamiento.png)
 
 Como puede verse en la imagen, la instalación por default establece 2 puntos de montaje:
 - `/				8.996GB	new ext4	new LVM logical volume`
