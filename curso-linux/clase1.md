@@ -94,48 +94,6 @@ Linux generalmente es ofrecido como parte de Infrastructure as a Service (IaaS
 - 2. ¿Cuáles son las principales ventajas de Raspberry Pi y qué funciones pueden tener en los negocios? 
 - 3. ¿Qué gama de distribuciones ofrecen Amazon Cloud Services y Google Cloud? Nombre al menos tres comunes y dos diferentes.
 
-## Resumen
-
-En esta lección usted aprendió:
-
-- Diferentes distribuciones de Linux.
-- ¿Qué son los sistemas embebidos Linux?
-- ¿Cómo se usan los sistemas embebidos de Linux?
-- Diferentes usos de Android. 
-- Diferentes usos de Raspberry Pi. 
-- ¿Qué es la computación en la nube?
-- ¿Qué papel juega Linux en la computación en la nube?
-
-## Respuestas a los ejercicios guiados
-
-- **1. ¿En qué se diferencia Debian GNU/Linux de Ubuntu? Nombre dos aspectos.**
-Ubuntu está basado en un snapshot de Debian, es por esto que existen muchas características similares entre ellos. Sin embargo, existen otras diferencias significativas entre las dos distribuciones. La primera sería la aplicabilidad para los principiantes. Ubuntu se recomienda para principiantes por su facilidad de uso. Por otro lado, Debian se recomienda para usuarios más avanzados. La mayor diferencia está en la complejidad del proceso de instalación el cual Ubuntu hace más simple al usuario.
-
-Otra diferencia pudiera estar relacionada con la estabilidad de cada distribución. Debian se considera más estable comparada con Ubuntu. Debian recibe pocas actualizaciones que son probadas minuciosamente por lo que el sistema, de forma general, es más estable. Por otro lado, Ubuntu permite al usuario usar las últimas versiones de software y nuevas tecnologías.
-
-- **2. ¿Cuáles son los entornos/plataformas más comunes para los que se utiliza Linux? Nombre tres entornos/plataformas diferentes y nombre una distribución que pueda utilizarse para cada uno.**
-Algunos de los entornos/plataformas comunes serían teléfonos inteligentes, computadoras de escritorio y servidores. En teléfonos inteligentes, puede ser utilizado por distribuciones como Android. En escritorios y servidores, puede utilizarse por cualquier distribución, que sea adecuada a la funcionalidad de ese equipo, desde Debian, Ubuntu a CentOS y Red Hat Enterprise Linux.
-
-- **3. Se planea instalar una distribución de Linux en un nuevo entorno. Nombre cuatro aspectos que deban ser considerados al elegir una distribución.**
-Al elegir una distribución, algunos de los aspectos principales que se deben considerar son el costo, el rendimiento, la escalabilidad, la estabilidad y la demanda de hardware del sistema.
-
-- **4. Nombre tres dispositivos en los que se pueda ejecutar el sistema operativo Android, que no sean teléfonos inteligentes.**
-Otros dispositivos en los que se ejecuta Android son televisores inteligentes, tabletas, Android Auto y relojes inteligentes.
-
-- **5. Explique tres ventajas importantes de la computación en la nube.**
-Las principales ventajas de la computación en la nube son la flexibilidad, la fácil recuperación y el bajo costo de uso. Los servicios basados en la nube son fáciles de implementar y escalar, dependiendo de los requisitos del negocio. Tiene una gran ventaja en las soluciones de respaldo y recuperación, ya que permite a las empresas recuperarse de los incidentes más rápido y con menos repercusiones. Además, reduce los costos de operación, ya que permite pagar solo por los recursos que utiliza una empresa en un modelo basado en suscripción.
-
-## Respuestas a los ejercicios exploratorios
-
-- **1. Teniendo en cuenta el costo y el rendimiento, ¿Qué distribuciones son lás adecuadas para una empresa que tiene como objetivo reducir los costos de licencias, manteniendo el rendimiento al máximo? Explique por qué.**
-Una de las distribuciones más adecuadas para ser utilizada por empresas es CentOS. Esto se debe a que incorpora todos los productos de Red Hat que utiliza en su sistema operativo comercial, a la vez que es de uso gratuito. Del mismo modo, las versiones de Ubuntu LTS garantizan la compatibilidad durante un período de tiempo más largo. Las versiones estables de Debian GNU/Linux también se usan a menudo en entornos empresariales.
-
-- **2. ¿Cuáles son las principales ventajas de Raspberry Pi y qué funciones pueden tener en los negocios?**
-A pesar de que el RaspberryPi es muy pequeño, puede utilizarse como una computadora normal. Además, es de bajo costo y puede manejar el tráfico web y muchas otras funcionalidades. Se puede usar como un servidor, cortafuegos y se puede usar como placa principal para robots y muchos otros dispositivos pequeños.
-
-- **3. ¿Qué gama de distribuciones ofrecen Amazon Cloud Services y Google Cloud? Nombre al menos tres comunes y dos diferentes.**
-Las distribuciones comunes entre Amazon y Google Cloud Services son Ubuntu, CentOS y Red Hat Enterprise Linux. Cada proveedor de la nube también ofrece distribuciones específicas que el otro no ofrece. Amazon tiene Amazon Linux y Kali Linux, mientras que Google ofrece el uso de servidores FreeBSD y Windows.
-
 # Instalación Ubuntu Server.
 En esta sección vamos a instalar Ubuntu Server 20.04 en una máquina virtual. Para esto vamos a usar el software [VirtualBox](https://www.virtualbox.org/). ¿Qué es una máquina virtual? En informática una máquina virtual es un software que emula a una computadora y puede ejecutar programas como si fuese una computadora real. 
 
