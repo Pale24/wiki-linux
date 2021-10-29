@@ -713,8 +713,14 @@ shred -vu -n 100 file1 # 100 ciclos de sobreescritura
 Elimina directorios vacios
 
 ## lspci
+Muestra información sobre los buses PCI y los dispositivos que tienen conectados.
+- "-v": Amplia la información. "-vv": más detalles
+- "-s": Muestra información sólo del dispositivo seleccionado.
 
 ## lsusb
+Muestra información sobre los buses y dispositivos usb conectados.
+- "-v", "-vv" y "-s" igual a lspci
+- "-t": muestra información en árbol y la velocidad del puerto
 
 ## history
 Podemos buscar instrucciones que hayamos usado anteriormente con la tecla de la flecha para arriba (también se puede bajar con la tecla de abajo). Una vez que encontramos la instrucción que queremos, podemos ejecutarla o modificarla.
