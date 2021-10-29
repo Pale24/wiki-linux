@@ -668,12 +668,46 @@ Igual que head pero muestra las últimas lineas
 El comando sudo permite a los usuarios no root ejecutar comandos que normalmente requerirían privilegios de superusuario. Se antepone al comando que se quiere ejecutar como administrador. También permite cambiar de usuario.
 
 ## cp
-
+copia archivos
+```
+cp file1 file2			# copia file1 a file2 en el mismo directorio
+cp file1 dir1/file2		# copia file1 a dir1 con otro nombre
+cp -i file1 file2		# copia file1 a file2 y pregunta al usuario si desea sobreescribir 
+cp -p file1 file2		# copia file1 a file2 preservando los permisos, grupo y dueño al copiar
+cp -v file1 file2		# modo verbose (da más información de lo que esta haciendo)
+cp -r dir1 dir2/		# copia en forma recursiva dir1 en dir2
+# copia muchos archivos y directorios de origen en uno de entrada
+cp -r file1 file2 dir1 dir2 destination_directory/	
+cp {file1, file2, file3} directorio_destino/
+```
 
 ## mv
-
+```
+mv file1 file2 			# renombrar el archivo
+mv file1 dir1/			# mueve file1 a dir1
+mv -i file1 dir1/		# pregunta si queremos sobreescribir file2
+mv -n file1 dir1/		# previene que se sobreescriba un archivo
+mv -u file1 dir1/		# mueve file1 solo si el origen es nuevo respecto al destino o si no existe en el destino
+mv file1 dir1/file2		# mueve file1 a dir1/file2
+# mueve todos los archivos y carpetas de origen a destino
+mv file1 file2 dir1/ dir2/ destino/
+```
 
 ## rm
+Elimina objetos
+```
+rm file1			# elimina file1
+rm -v file1			# modo verboso
+rm -r dir1/			# elimina dir1 y su contenido
+rm -rf dir1/		# elimina dir1 y su contenido sin imprimir salida
+rm -ri file1 dir1/	# elimina file1 y dir1 pidiendo confirmación
+```
+
+## shred
+Elimina de forma segura
+```
+shred -vu -n 100 file1 # 100 ciclos de sobreescritura
+```
 
 ## history
 Podemos buscar instrucciones que hayamos usado anteriormente con la tecla de la flecha para arriba (también se puede bajar con la tecla de abajo). Una vez que encontramos la instrucción que queremos, podemos ejecutarla o modificarla.
