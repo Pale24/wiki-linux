@@ -709,6 +709,13 @@ Elimina de forma segura
 shred -vu -n 100 file1 # 100 ciclos de sobreescritura
 ```
 
+## rmdir
+Elimina directorios vacios
+
+## lspci
+
+## lsusb
+
 ## history
 Podemos buscar instrucciones que hayamos usado anteriormente con la tecla de la flecha para arriba (también se puede bajar con la tecla de abajo). Una vez que encontramos la instrucción que queremos, podemos ejecutarla o modificarla.
 
