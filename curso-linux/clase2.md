@@ -9,9 +9,9 @@
 
 # Bibliotecas compartidas
 
-Casi todo el software comparte funcionalidades como acceder al disco, mostrar botones, usar formularios, etc. En lugar de que todos incluyan el código de las mismas operaciones, utilizan ficheros que las ponen a disposición del sistema. Se llaman bibliotecas compartidas. Son partes de código compilado y reutilizable como funciones o clases, que varios programas utilizan de manera recurrente.
+Casi todo el software comparte funcionalidades como acceder al disco, mostrar botones, usar formularios, etc. En lugar de que todos incluyan el código de las mismas operaciones, utilizan archivos que las ponen a disposición del sistema. Se llaman bibliotecas compartidas y son partes de código compilado y reutilizable como funciones o clases, que varios programas utilizan de manera recurrente.
 
-Para construir un archivo ejecutable a partir del código fuente de un programa, son necesarios dos pasos importantes. Primero, el compilador convierte el código fuente en código de máquina que se almacena en los llamados object files. En segundo lugar, el linker combina los archivos de objetos y los vincula a las bibliotecas para generar el archivo ejecutable final. Este enlace puede hacerse estáticamente (statically) o dinámicamente (dynamically). Dependiendo del método que utilicemos, hablaremos de bibliotecas estáticas o, en caso de vinculación dinámica, de bibliotecas compartidas. Expliquemos sus diferencias.
+Para construir un archivo ejecutable a partir del código fuente de un programa, son necesarios dos pasos importantes. Primero, el compilador convierte el código fuente en código máquina (sistema de códigos directamente interpretable por el microprocesador) que se almacena en los llamados object files. En segundo lugar, el linker o enlazador combina los archivos de objetos y los vincula a las bibliotecas para generar el archivo ejecutable final. Este enlace puede hacerse estáticamente (statically) o dinámicamente (dynamically). Dependiendo del método que utilicemos, hablaremos de bibliotecas estáticas o, en caso de vinculación dinámica, de bibliotecas compartidas. Expliquemos sus diferencias.
 
 **Bibliotecas estáticas**
 
@@ -32,6 +32,28 @@ El nombre de una biblioteca compartida sigue un patrón que se compone de tres e
 Por ejemplo: libpthread.so.0
 
 Por el contrario, los nombres de las bibliotecas estáticas terminan en .a, p. ej. libpthread.a.
+
+```bash
+ls -l $AMBERHOME/lib
+total 51764
+-rw-rw-r-- 1 pale pale   237564 sep 27  2018 libarpack.a
+-rw-rw-r-- 1 pale pale   304876 sep 27  2018 libblas.a
+-rw-rw-r-- 1 pale pale   132652 sep 27  2018 libcifparse.a
+-rwxrwxr-x 1 pale pale  8540656 sep 27  2018 libcpptraj.so
+-rw-rw-r-- 1 pale pale   334268 sep 27  2018 libemil.a
+-rw-r--r-- 1 pale pale  3358584 sep 27  2018 libfftw3.a
+-rwxr-xr-x 1 pale pale      965 sep 27  2018 libfftw3.la
+lrwxrwxrwx 1 pale pale       17 sep 27  2018 libfftw3.so -> libfftw3.so.3.3.0
+lrwxrwxrwx 1 pale pale       17 sep 27  2018 libfftw3.so.3 -> libfftw3.so.3.3.0
+-rwxr-xr-x 1 pale pale  1771208 sep 27  2018 libfftw3.so.3.3.0
+-rw-rw-r-- 1 pale pale  1899778 sep 27  2018 libFpbsa.a
+-rw-rw-r-- 1 pale pale  1472728 sep 27  2018 liblapack.a
+-rwxrwxr-x 1 pale pale  2261264 sep 27  2018 libmdgx.so
+-rw-rw-r-- 1 pale pale   920516 sep 27  2018 libnab.a
+-rw-r--r-- 1 pale pale  1191508 sep 27  2018 libnetcdf.a
+```
+
+
 
 glibc (biblioteca GNU C) es un buen ejemplo de una biblioteca compartida. Su archivo se llama libc.so.6. Tales nombres de archivo bastante generales son normalmente enlaces simbólicos que apuntan al archivo real que contiene una biblioteca, cuyo nombre contiene el número de versión exacto. En el caso de glibc, este enlace simbólico se ve así:
 
