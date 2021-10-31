@@ -1,11 +1,80 @@
 # Clase 2
 
 ## Temas:
-- 5. Bibliotecas compartidas
-- 6. Gestión de paquetes
+- 5. Gestión de paquetes
+- 6. Bibliotecas compartidas
 - 7. Gestión de usuarios
     - crear, eliminar y permisos usuarios
 
+
+# Gestión de paquetes
+Cuando hablamos de "paquetes" de software nos referimos a los programas, datos y otros archivos que se requieren para realizar una función determinada. También suele utilizarse el termino programa o software para referirse a los mismos. 
+
+Podemos definir a la gestión de paquetes como las acciones de instalar, actualizar o eliminar paquetes de nuestro sistema. En linux, en la actualidad, estas tareas pueden llevarse a cabo de 3 maners diferentes:
+
+- **Archivos precompilados:** son archivos ejecutables compatibles para una distribución en particular y que pueden instalarse de manera local con una herramienta de la línea de comandos.
+- **Repositorios:** son servidores centrales, mantenidos generalmente por una distribución en particular, por la comunidad, o por otros terceros, en los que se dispone de una colección de software para la instalación a través de Internet o de una red local. Un repositorio puede residir en un servidor remoto (que es lo más común) o en un (o varios) dispositivos de almacenamiento locales.
+- **Código fuente:** es la forma inicial mediante la cual se distribuía el software en Linux en sus comienzos. Aunque ha sido superada por las dos anteriores, todavía continúa usándose para ofrecer a los usuarios finales la posibilidad de compilar un programa dado con opciones particulares. También se utiliza este método de distribución de software para poner al alcance del público una versión más actualizada que tenga mayores prestaciones que las presentes en los repositorios. 
+
+## Archivos precompilados
+Administra los paquetes desde la línea de comandos. Existen diferentes utilidades para las difentes distribuciones como dpkg (Debian y derivados) y rpm (CentOS y familiares), solamente instalan el programa presente en el archivo .deb o .rpm pero sin instalar dependencias.
+
+
+### Comando dpkg y paquetes .deb 
+Administra los paquetes desde la línea de comandos. Se usan ampliamente no solo en Debian, sino también en sus derivados, como Ubuntu y los derivados de él.
+
+La mayoría de las veces, un paquete puede depender de otros para que funcione. Por ejemplo, un editor de imágenes puede necesitar bibliotecas para abrir archivos JPEG, u otra utilidad puede necesitar un kit de herramientas como Qt o GTK para su interfaz de usuario.
+dpkg verificará si esas dependencias están instaladas en su sistema y no podrá instalar el paquete si no lo están. En este caso, dpkg listará qué paquetes faltan. Sin embargo, no puede resolver dependencias por sí mismo. Depende del usuario encontrar los paquetes .deb con las dependencias correspondientes e instalarlos.
+
+Opciones:
+- -i: instala un paquete. Necesita la ruta completa al archivo .deb a instalar. `dpkg -i htop_2.0.2-1_amd64.deb`
+- -r: borra un paquete pero deja los archivos de configuración (/etc/paquete.conf, etc). Se usa el nombre del programa, no el archivo de instalación `dpkg -r htop`
+- -P: borra un paquete incluyendo todos los archivos de configuración. `dpkg -P htop`
+- -s: muestra información y el estado del paquete instalado. `dpkg -s htop`
+- -I: muestra información de un archivo .deb antes de instalar. `dpkg -I htop_2.0.2-1_amd64.deb`
+- -l: lista todos los paquetes que coinciden con un patrón determinado. `dpkg -l apache*`
+- -L: muestra todos los ficheros que ha instalado un paquete. `dpkg -L htop`
+- -S: Muestra los paquetes que contienen archivos que coincidan con el patrón indicado. `dpkg -S mount*`
+
+**dpkg-reconfigure**: Se utiliza para reconfigurar un paquete instalado en el sistema. `dpkg-reconfigure nslcd`
+
+Cuando se instala un paquete, hay un paso de configuración llamado post-install donde se ejecuta un script para configurar todo lo necesario para que el software se ejecute, como permisos, ubicación de archivos de configuración, etc. Esto también puede generar algunas preguntas de configuración al usuario para establecer preferencias sobre cómo se ejecutará el software.
+
+A veces, debido a un archivo de configuración dañado o con formato incorrecto, es posible que desee restaurar las configuraciones de un paquete a su estado “funcional”. O puede que desee cambiar las respuestas que dio a las preguntas de configuración inicial. 
+
+Este programa realizará una copia de seguridad de los archivos de configuración antiguos, descomprimirá los nuevos en los directorios correctos y ejecutará el script post-install proporcionado por el paquete, como si el paquete se hubiera instalado por primera vez.
+
+### Comando rpm y paquetes .rpm
+El comando rpm administra los paquetes en Red Hat y derivados como Fedora o CentOS
+
+Opciones:
+- -i: Instala un paquete. Necesita la ruta completa del archivo .rpm a instalar
+- -U: Instala un paquete si no existe en el sistema o lo actualiza si ya está instalado.
+- -F: Actualiza un paquete sólo si está instalado.
+- Para todas las opciones anteriores se puede añadir (se añaden despues de las anteriores):
+    - h: Indica el progreso de la operación
+    - v: muestra el progreso de cada paquete. por ejemplo -ihv
+- -e: Elimina un paquete
+- -V: verifica un paquete. Muestra si está instalado, si ha cambiado, etc.
+- -q: Consultas sobre paquetes
+    - a: todos los paquetes
+    - i paquete: información de un paquete en particular
+    - f: muestra los paquetes que contienen un archivo especificado
+    - l: muestra los archivos que se modificaron al instalar un paquete
+    - p: info sobre un paquete que no se ha instalado (es necesaria la ruta al archivo de instalación)
+
+Ejemplos:
+```
+rpm -i htop...rpm
+rmp -e htop
+```
+
+
+## Repositorios
+
+
+
+## Código fuente
 
 # Bibliotecas compartidas
 
@@ -61,7 +130,6 @@ glibc (biblioteca GNU C) es un buen ejemplo de una biblioteca compartida. Su arc
 ls -l /lib/x86_64-linux-gnu/libc.so.6
 lrwxrwxrwx 1 root root 12 dic 16  2020 /lib/x86_64-linux-gnu/libc.so.6 -> libc-2.31.so
 ```
-
 
 Las ubicaciones comunes para las bibliotecas compartidas en un sistema Linux son:
 
@@ -141,4 +209,3 @@ ldd $AMBERHOME/bin/cpptraj
 
 ```
 
-# Gestión de paquetes
