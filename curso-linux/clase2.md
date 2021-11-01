@@ -17,7 +17,7 @@ Podemos definir a la gestión de paquetes como las acciones de instalar, actuali
 - **Código fuente:** es la forma inicial mediante la cual se distribuía el software en Linux en sus comienzos. Aunque ha sido superada por las dos anteriores, todavía continúa usándose para ofrecer a los usuarios finales la posibilidad de compilar un programa dado con opciones particulares. También se utiliza este método de distribución de software para poner al alcance del público una versión más actualizada que tenga mayores prestaciones que las presentes en los repositorios. 
 
 ## Archivos precompilados
-Administra los paquetes desde la línea de comandos. Existen diferentes utilidades para las difentes distribuciones como dpkg (Debian y derivados) y rpm (CentOS y familiares), solamente instalan el programa presente en el archivo .deb o .rpm pero sin instalar dependencias.
+Estos comandos administran paquetes desde la línea de comandos luego de obtener un archivo del paquete precompilado (no los descarga). Existen diferentes utilidades para las difentes distribuciones como dpkg (Debian y derivados) y rpm (CentOS y familiares), solamente instalan el programa presente en el archivo .deb o .rpm pero sin instalar dependencias.
 
 
 ### Comando dpkg y paquetes .deb 
@@ -69,9 +69,82 @@ rpm -i htop...rpm
 rmp -e htop
 ```
 
-
 ## Repositorios
+Como mencionamos previamente un repositorio es una ubicación de almacenamiento desde la cual el sistema recupera, instala y actualiza aplicaciones y maneja automáticamente las dependencias. Según la distribución linux que usemos vamos a tener diferentes herramientas para su uso. En el caso de derivados de Debian utilizaremos **Advanced Package Tool (apt)**, mientras que en derivados de Red Hat se utiliza la herramienta **YellowDog Updater Modificado (yum)**.
 
+### Comando apt
+No es un sustituto de dpkg, puede considerarse como una interfaz, que optimiza la funcionalidad. Por ejemplo, la resolución de dependencias.
+
+Trabaja en conjunto con los repositorios de software que contienen los paquetes disponibles para instalar. Dichos repositorios pueden ser un servidor local o remoto o (menos común) incluso un disco CD-ROM.
+
+Las distribuciones de Linux, como Debian y Ubuntu, mantienen sus propios repositorios, y los desarrolladores o grupos de usuarios pueden mantener otros repositorios para proporcionar software que no está disponible en los principales repositorios de distribución.
+
+Las listas de repositorios se encuentran en el archivo /etc/apt/sources.list y en los archivos dentro de la carpeta /etc/apt/sources.list.d. El formato de estos archivos es similar:
+
+```
+# deb cdrom:[Kubuntu 20.04.3 LTS _Focal Fossa_ - Release amd64 (20210819.1)]/ focal main multiverse restricted universe
+
+# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
+# newer versions of the distribution.
+deb http://ar.archive.ubuntu.com/ubuntu/ focal main restricted
+# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal main restricted
+
+## Major bug fix updates produced after the final release of the
+## distribution.
+deb http://ar.archive.ubuntu.com/ubuntu/ focal-updates main restricted
+# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal-updates main restricted
+
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team. Also, please note that software in universe WILL NOT receive any
+## review or updates from the Ubuntu security team.
+deb http://ar.archive.ubuntu.com/ubuntu/ focal universe
+# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal universe
+deb http://ar.archive.ubuntu.com/ubuntu/ focal-updates universe
+# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal-updates universe
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu 
+## team, and may not be under a free licence. Please satisfy yourself as to 
+## your rights to use the software. Also, please note that software in 
+## multiverse WILL NOT receive any review or updates from the Ubuntu
+## security team.
+deb http://ar.archive.ubuntu.com/ubuntu/ focal multiverse
+# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal multiverse
+deb http://ar.archive.ubuntu.com/ubuntu/ focal-updates multiverse
+# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal-updates multiverse
+
+## N.B. software from this repository may not have been tested as
+## extensively as that contained in the main release, although it includes
+## newer versions of some applications which may provide useful features.
+## Also, please note that software in backports WILL NOT receive any review
+## or updates from the Ubuntu security team.
+deb http://ar.archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
+# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
+
+## Uncomment the following two lines to add software from Canonical's
+## 'partner' repository.
+## This software is not part of Ubuntu, but is offered by Canonical and the
+## respective vendors as a service to Ubuntu users.
+# deb http://archive.canonical.com/ubuntu focal partner
+# deb-src http://archive.canonical.com/ubuntu focal partner
+
+deb http://security.ubuntu.com/ubuntu focal-security main restricted
+# deb-src http://security.ubuntu.com/ubuntu focal-security main restricted
+deb http://security.ubuntu.com/ubuntu focal-security universe
+# deb-src http://security.ubuntu.com/ubuntu focal-security universe
+deb http://security.ubuntu.com/ubuntu focal-security multiverse
+# deb-src http://security.ubuntu.com/ubuntu focal-security multiverse
+
+# This system was installed using small removable media
+# (e.g. netinst, live or single CD). The matching "deb cdrom"
+# entries were disabled at the end of the installation process.
+# For information about how to configure apt package sources,
+# see the sources.list(5) manual.
+deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /
+# deb-src https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /
+```
+
+Veamos ahora en detalle cómo están compuestas las líneas de arriba:
+
+- deb y deb-src indican si el repositorio contiene paquetes binarios compilados previamente o los paquetes fuente (que contienen todo lo necesario para que uno compile un programa en particular), respectivamente.
 
 
 ## Código fuente
