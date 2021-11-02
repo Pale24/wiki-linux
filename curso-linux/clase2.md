@@ -79,7 +79,8 @@ Trabaja en conjunto con los repositorios de software que contienen los paquetes 
 
 Las distribuciones de Linux, como Debian y Ubuntu, mantienen sus propios repositorios, y los desarrolladores o grupos de usuarios pueden mantener otros repositorios para proporcionar software que no está disponible en los principales repositorios de distribución.
 
-Las listas de repositorios se encuentran en el archivo /etc/apt/sources.list y en los archivos dentro de la carpeta /etc/apt/sources.list.d. El formato de estos archivos es similar:
+#### Ubicación
+Las listas de repositorios se encuentran en el archivo **/etc/apt/sources.list** y en los archivos dentro de la carpeta **/etc/apt/sources.list.d**. El formato de estos archivos es similar:
 
 ```
 # deb cdrom:[Kubuntu 20.04.3 LTS _Focal Fossa_ - Release amd64 (20210819.1)]/ focal main multiverse restricted universe
@@ -145,7 +146,51 @@ deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ 
 Veamos ahora en detalle cómo están compuestas las líneas de arriba:
 
 - deb y deb-src indican si el repositorio contiene paquetes binarios compilados previamente o los paquetes fuente (que contienen todo lo necesario para que uno compile un programa en particular), respectivamente.
+- Luego tenemos la dirección URL del repositorio.
+- El nombre de la distribución para la que se proporcionan los paquetes. Un repositorio puede alojar paquetes para múltiples distribuciones. 
+- Cada componente representa un conjunto de paquetes. Estos componentes pueden ser diferentes en diferentes distribuciones de Linux. Por ejemplo, en Ubuntu y derivados, son:
+	- main: contiene paquetes de código abierto con soporte oficial.
+	- restricted: contiene software de código cerrado con soporte oficial, como controladores de dispositivo para tarjetas gráficas, por ejemplo.
+	- universe: contiene software de código abierto mantenido por la comunidad.
+	- multiverse: contiene software no compatible, de código cerrado o con patente gravada.
+- Las líneas que comienzan con el carácter # se consideran comentarios y se ignoran.
 
+Para agregar un nuevo repositorio de paquetes, se puede agregar la línea correspondiente al final de sources.list, se guarda el archivo y se vuelve a cargar el índice del paquete con apt-get update. Después de eso, los paquetes en el nuevo repositorio estarán disponibles para la instalación usando apt-get install.
+
+**El Directorio /etc/apt/sources.list.d**
+
+Dentro del directorio /etc/apt/sources.list.d puede agregar archivos con repositorios adicionales para ser utilizados por APT, sin la necesidad de modificar el archivo principal /etc/apt/sources.list. Estos son archivos de texto simples, con la misma sintaxis descrita anteriormente y la extensión de archivo .list.
+
+#### Actualización de los Índices de Paquetes
+
+Antes de instalar o actualizar un software con APT, se recomienda actualizar primero el índice de paquetes para recuperar información sobre paquetes nuevos y actualizados. Esto se hace con el comando apt o apt-get, seguido del parámetro update:
+
+```
+apt update
+```
+
+#### Instalar y Remover Paquetes
+
+Con los índices de paquetes actualizados, ahora se puede instalar un paquete. Esto se hace con apt install, seguido del nombre del paquete que desea instalar:
+
+```
+apt install nginx
+```
+
+Del mismo modo, para eliminar un paquete, use apt remove, seguido del nombre del paquete:
+
+```
+apt remove nginx
+```
+
+#### Actualizar Paquetes
+
+APT se puede utilizar para actualizar automáticamente cualquier paquete instalado a las últimas versiones disponibles desde los repositorios. Esto se hace con el comando apt upgrade. Antes de ejecutarlo, primero actualice el índice de paquetes con apt update:
+
+```
+apt update
+apt upgrade
+```
 
 ## Código fuente
 
