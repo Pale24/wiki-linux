@@ -182,17 +182,93 @@ Del mismo modo, para eliminar un paquete, use apt remove, seguido del nombre del
 ```
 apt remove nginx
 ```
+Hay que tener en cuenta que cuando se elimina un paquete, los archivos de configuración correspondientes quedan en el sistema. Para eliminar el paquete y cualquier archivo de configuración, hay que usar el parámetro purge en lugar de remove o el parámetro remove con la opción --purge:
 
 #### Actualizar Paquetes
 
-APT se puede utilizar para actualizar automáticamente cualquier paquete instalado a las últimas versiones disponibles desde los repositorios. Esto se hace con el comando apt upgrade. Antes de ejecutarlo, primero actualice el índice de paquetes con apt update:
+APT se puede utilizar para actualizar automáticamente cualquier paquete instalado a las últimas versiones disponibles desde los repositorios. Esto se hace con el comando apt upgrade. Antes de ejecutarlo, primero debe actualizarse el índice de paquetes con apt update:
 
 ```
 apt update
 apt upgrade
 ```
 
+#### Reparar dependencias rotas
+
+Tener dependencias rotas significa que uno o mas paquetes instalados dependen de otros paquetes que no han instalado o que fueron eliminados. Esto puede pasar al instalar un paquete de forma manual (con dpkg) o por un error. Para resolver este problema se utiliza el comando apt install -f, que intentará arreglar las dependencias que faltan. 
+
+#### Caché
+
+Al instalar un paquete, el archivo .deb se descarga antes de instalarlo. Por defecto, este directorio es /var/cache/apt/archives. Por su parte los archivos descargados parcialmente se copian a /var/cache/apt/archives/partial/.
+
+Con el paso del tiempo este directorio puede ser bastante grande. Para recuperar espacio, se puede vaciar la caché utilizando el comando apt clean. Esto eliminará el contenido de ambos directorios.
+
+Con el comando apt-cache se puede realizar operaciones sobre el indice de paquetes, como buscar un paquete especifico o listar qué paquetes contienen un archivo específico. 
+
+Con apt-cache search seguido de un patrón se puede realizar la búsqueda de paquetes que contienen dicho patrón, ya sea en el nombre del paquete, la descripción o en los archivos. 
+
+```
+apt-cache search avogadro
+```
+
+Luego con apt-cache show seguido del paquete de interes se puede ver mas información acerca de este.
+
+```
+apt-cache show avogadro
+```
+
+#### Otros comandos:
+##### Aptitude:
+Actualmente no viene instalado en muchas distribuciones,
+
+`aptitude search vlc`
+
+Da mas información sobre el paquete:
+
+- i   apt                             - Advanced front-end for dpkg
+- pi  apt-build                       - frontend to apt to build, optimize and in
+- cp  apt-file                        - APT package searching utility -- command-
+- ihA raptor-utils                    - Raptor RDF Parser utilities
+
+Para mas información consultar el manual `man aptitude`
+
+### Comando yum:
+Utiliza repositorios que se configuran en ficheros dentro del directorio /etc/yum.repos.d/. Ejemplo: CentOS-Base.repo
+
+```
+[base]
+enabled = 0 # 0 = Desactivado; 1 = Activado
+name=CentOS-$releasever - Base
+mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os&infra=$infra
+#baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/
+gpgcheck=1
+```
+
+Nombre de repositorio, **mirrorlist** contiene  la URL a una lista de servidores, yum elegirá el más rápido. Si queremos una comprobación GPG lo activamos a 1 e indicamos el fichero de la llave.
+
+YUM autocompleta algunas líneas con las variables $basearch (arquitectura) y $baserelease (versión de la distribución)
+
+Variables de YUM:
+- update: actualiza uno o más paquetes
+- install: instala uno o más paquetes
+- remove: desinstala uno o más paquetes
+- check-update: comprueba actualizaciones de los paquetes que están instalados
+- upgrade: actualiza la versión a la última que tengamos configurada en los repositorios.
+- clean: limpia el directorio caché.
+- list: lista los paquetes, podemos especificar all, available, updates, installed, obsoletes, recent
+- repolist: lista los repositorios.
+- info: muestra información de un paquete determinado
+- search: busca un paquete que cntenga un patrón determinado en su nombre o descripción.
+
+### Comando dnf
+Es una evolución de YUM creada por Fedora. Está programado en una versión mas moderna de python y mejora la eficacia de YUM.
+
+### Comando zypper
+Es el gestor de paquetes de SUSE. También derivado de YUM.
+
 ## Código fuente
+
+
 
 # Bibliotecas compartidas
 
