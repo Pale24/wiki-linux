@@ -268,6 +268,45 @@ Es el gestor de paquetes de SUSE. También derivado de YUM.
 
 ## Código fuente
 
+Com podemos ver los gestores de paquetes son herramientas que nos facilitan la tarea a la hora de instalar o actualizar paquetes en Linux. Sin embargo, existen muchas situaciones donde es necesario tener que instalar los paquetes desde el código fuente. Este es el caso de mucho software cientifico (por ejemplo, amber), también puede ser el caso de la instalación de una versión especifica de una biblioteca / software no disponible en los repositorios. Esto implica compilar código c, c++ o fortran (lenguajes de programación) a archivos que puedan ser ejecutados en Linux. 
+
+Lo primero que debemos hacer es instalar las herramientas de desarrollo de linux mediante:
+
+```
+apt install build-essential linux-headers-$(uname -r)
+```
+
+Por lo general, el paquete puede descargarse desde la página web del desarrollador o desde paginas como github o gitlab. Es muy común que los mismos se descarguen como un archivo compactado (.tar varios ficheros y directorios en un sólo archivo) y comprimido (gzip, bzip2 o xz), por lo que es necesario extraerlo.
+
+```
+tar -xzf fichero.tar.gz    # Extrae .tar.gz
+tar -xjf fichero.tar.bz2   # Extrae .tar.bz2
+tar -xJf fichero.tar.xz    # Extrae
+```
+
+Antes de proceder a la instalación es importante leer la documentación del paquete o los archivos README / INSTALL para ver si hay información sobre posibles dependencias, en caso afirmativo deberiamos instalarlas. También puede haber información sobre opciones de configuración, etc.
+
+Para  instalar posibles dependencias:
+```
+apt install dependencia1 dependencia2 ...
+```
+La secuencia tipica de comandos a ejecutar es la siguiente:
+
+```
+cd dir_descomp
+./confugure 		# ./ le indica al sistema que se ejecuta el comando configure desde la ubicación actual.
+make
+sudo make install 	# Se debe ejecutar como root.
+```
+El primer comando ejecuta un script de configuración que analiza las bibliotecas instaladas en el sistema. Si una biblioteca requerida no está instalada, se genera un aviso y es necesario instalarla. Luego de la ejecución del comando configure va a crearse un archivo "Makefile" en el directorio. 
+
+Al ejecutar make, este comando lee el archivo Makefile y corre los compiladores (gcc para c, g++ para C++ o gfortran para fortran) para compilar el programa.
+
+El tercer comando no es estrictamente necesario pero es recomendado para acceder a los ejecutables desde cualquier lugar. Realiza la instalación del programa en el sistema.
+
+Ejecutar el comando `./configure --help` puede mostrarnos más información acerca de las opciones de configuración. Estas opciones pueden ser muy especificas del proyecto, pero hay una que es importante conocer: `--prefix`. Esta opción nos permite indicar donde queremos instalar el paquete. Por defecto, los programas serán instalados en /usr/local, junto con el resto de los programas que se instalen, esto puede ser complejo al momento de querer desinstalar un programa instalado de forma manual. Es por esto que se considera una buena alternativa instalar estos paquetes en el directorio /opt, de forma que el paquete mantiene todos los ficheros dentro de un directorio `/opt/paquete/...`, siendo facilmente identificables al momento de querer desinstalar.
+
+Ejemplo: [Instalación OpenMPI](../mpi.md)
 
 
 # Bibliotecas compartidas
@@ -315,8 +354,6 @@ lrwxrwxrwx 1 pale pale       17 sep 27  2018 libfftw3.so.3 -> libfftw3.so.3.3.0
 -rw-rw-r-- 1 pale pale   920516 sep 27  2018 libnab.a
 -rw-r--r-- 1 pale pale  1191508 sep 27  2018 libnetcdf.a
 ```
-
-
 
 glibc (biblioteca GNU C) es un buen ejemplo de una biblioteca compartida. Su archivo se llama libc.so.6. Tales nombres de archivo bastante generales son normalmente enlaces simbólicos que apuntan al archivo real que contiene una biblioteca, cuyo nombre contiene el número de versión exacto. En el caso de glibc, este enlace simbólico se ve así:
 
