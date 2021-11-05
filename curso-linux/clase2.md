@@ -439,4 +439,51 @@ ldd $AMBERHOME/bin/cpptraj
 	/lib64/ld-linux-x86-64.so.2 (0x00007f9f72082000)
 
 ```
+# Gestión de usuarios:
+
+La gestión de usuarios y grupos en Linux es una tarea fundamental de cualquier administrador de sistemas. Es importante conocer cómo crear, modificar y eliminar cuentas de usuarios y grupos así como establecer permisos para que dichos grupos y usuarios tengan acceso a archivos y directorios según lo necesiten.
+
+Los datos de los usuarios se encuentran en 2 archivos:
+- /etc/passwd: es una base de datos simple contiene información de todas las cuentas de usuario en el sistema. Es propiedad de root. El archivo solo puede ser editado por usuarios root o usuarios con privilegios de sudo y todos los usuarios del sistema pueden leerlo pero no modificarlo.
+- /etc/shadow: contiene la contraseña encriptada con SHA512 y más datos seguros del usuario
+
+Estructura archivo /etc/passwd
+```
+pale:x:1000:1000:Pablo,,,:/home/pale:/bin/zsh
+[---] - [--] [--] [-----] [--------] [--------]
+ | 	  |  | 	  | 	 | 			|		|
+ | 	  |  | 	  | 	 | 			| 		+-> 7. Login shell
+ | 	  |  | 	  | 	 | 			+----------> 6. Home directory
+ | 	  |  | 	  | 	 +--------------------> 5. GECOS
+ | 	  |  | 	  +--------------------------> 4. GID
+ | 	  |  +-------------------------------> 3. UID
+ | 	  +-----------------------------------> 2. Password
+ +----------------------------------------> 1. Username
+```
+
+- 1. Nombre de usuario. La cadena introducida al iniciar sesión en el sistema. Cada nombre de usuario debe ser una cadena única en la máquina. La longitud máxima del nombre de usuario está limitada a 32 caracteres.
+- 2. Contraseña. En sistemas Linux más antiguos, la contraseña cifrada del usuario se almacenaba en el /etc/passwd. En la mayoría de los sistemas modernos, este campo se establece en x y la contraseña del usuario se almacena en el /etc/shadow.
+- 3. UID. El identificador de usuario es un número asignado a cada usuario. Es utilizado por el sistema operativo para referirse a un usuario.
+- 4. GID. El número de identificación de grupo del usuario, que se refiere al grupo principal del usuario. Cuando un usuario crea un archivo, el grupo del archivo se establece en este grupo. Normalmente, el nombre del grupo es el mismo que el del usuario. Los subgrupos de usuarios se enumeran en /etc/groups.
+- 5. GECOS o el nombre completo del usuario. Este campo contiene una lista de valores separados por comas con la siguiente información:
+	- Nombre de usuario completo o nombre de la aplicación.
+	- Número de habitación.
+	- Número de teléfono del trabajo.
+	- Número de teléfono fijo.
+	- Otra información de contacto.
+- 6. Directorio home. La ruta absoluta al directorio de inicio del usuario. Contiene archivos de usuario y configuraciones. De forma predeterminada, los directorios de inicio de los usuarios reciben el nombre del usuario y se crean en el directorio /home
+- 7. Shell de inicio de sesión. La ruta absoluta al shell de inicio de sesión del usuario. Este es el shell que se inicia cuando el usuario inicia sesión en el sistema. En la mayoría de las distribuciones de Linux, el shell de inicio de sesión predeterminado es Bash.
+
+Estructura del archivo /etc/shadow
+
+- Nombre de usuario o inicio de sesión: Este primer campo denota el nombre de usuario que debe usarse al iniciar sesión en el sistema.
+- Contraseña: El segundo campo almacena la contraseña en formato cifrado. la $ xx $ inicial$ 6 $ para el ejemplo anterior) justo después del primer campo (raíz:) indica el tipo de cifrado. Como se señaló anteriormente, el asterisco * significa que esta cuenta no se puede utilizar para iniciar sesión y el !! significa que el usuario no tiene contraseña, por lo que ha sido creado sin contraseña.
+- Fecha del último cambio de contraseña (último cambio): El tercer campo indica la fecha del último cambio de contraseña, expresada como el número de días desde el 1 de enero de 1970. El valor 0 significa que el usuario debe cambiar su contraseña la próxima vez que inicie sesión en el sistema.
+- Días mínimos: Este cuarto campo almacena el número mínimo de días después de los cuales un usuario puede cambiar su contraseña. No podrá cambiar la contraseña antes de eso.
+- Días máximos: Este quinto campo indica el número máximo de días que la contraseña es válida. Después de eso, el usuario se ve obligado a cambiar su contraseña.
+- Período de advertencia de la contraseña: El sexto campo indica el número de días antes de los cuales el usuario recibirá una notificación de advertencia sobre la caducidad de la contraseña y debe cambiarse.
+- Periodo de inactividad: El séptimo campo indica el número de días después de la expiración de la contraseña después de los cuales se deshabilitará la cuenta. Cuando está vacío, este campo indica que no hay cumplimiento de un período de inactividad.
+- Fecha de caducidad: El octavo campo indica los días desde el 1 de enero de 1970 en que la cuenta está deshabilitada.
+- Reservado: el noveno campo está reservado para uso futuro.
+
 
