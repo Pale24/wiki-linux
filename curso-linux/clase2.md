@@ -476,14 +476,64 @@ pale:x:1000:1000:Pablo,,,:/home/pale:/bin/zsh
 
 Estructura del archivo /etc/shadow
 
-- Nombre de usuario o inicio de sesión: Este primer campo denota el nombre de usuario que debe usarse al iniciar sesión en el sistema.
-- Contraseña: El segundo campo almacena la contraseña en formato cifrado. la $ xx $ inicial$ 6 $ para el ejemplo anterior) justo después del primer campo (raíz:) indica el tipo de cifrado. Como se señaló anteriormente, el asterisco * significa que esta cuenta no se puede utilizar para iniciar sesión y el !! significa que el usuario no tiene contraseña, por lo que ha sido creado sin contraseña.
-- Fecha del último cambio de contraseña (último cambio): El tercer campo indica la fecha del último cambio de contraseña, expresada como el número de días desde el 1 de enero de 1970. El valor 0 significa que el usuario debe cambiar su contraseña la próxima vez que inicie sesión en el sistema.
-- Días mínimos: Este cuarto campo almacena el número mínimo de días después de los cuales un usuario puede cambiar su contraseña. No podrá cambiar la contraseña antes de eso.
-- Días máximos: Este quinto campo indica el número máximo de días que la contraseña es válida. Después de eso, el usuario se ve obligado a cambiar su contraseña.
-- Período de advertencia de la contraseña: El sexto campo indica el número de días antes de los cuales el usuario recibirá una notificación de advertencia sobre la caducidad de la contraseña y debe cambiarse.
-- Periodo de inactividad: El séptimo campo indica el número de días después de la expiración de la contraseña después de los cuales se deshabilitará la cuenta. Cuando está vacío, este campo indica que no hay cumplimiento de un período de inactividad.
-- Fecha de caducidad: El octavo campo indica los días desde el 1 de enero de 1970 en que la cuenta está deshabilitada.
-- Reservado: el noveno campo está reservado para uso futuro.
+```
+bin:*:17110:0:99999:7:::
+daemon:*:17110:0:99999:7:::
+linoadmin:!!:17289:0:99999:7:::
+pale:$6$tDH3qFb42aUdtg5E$S3obuA1wCZj8e4MQjzjv8BLPBl5AF./.fhIu4R.ZAuf9jS5Gnr6FySw7kvq/N84uZappXI12wV9rG6h7fdiPG.:18928:0:99999:7:::
+[--] [--------------------------------------------------------------------------------------------------------] [---] - [---] ----
+  |   								 | 																			  |   |   |   ||||
+  +-> 1. Usuario					 +-> 2. Contraseña        													  3	  4   5   6789
+```
+
+- 1. Nombre de usuario: Este primer campo denota el nombre de usuario que debe usarse al iniciar sesión en el sistema.
+- 2. Contraseña: El segundo campo almacena la contraseña en formato cifrado. la $ xx $ inicial ($ 6 $ para el ejemplo anterior) justo después del primer campo (raíz:) indica el tipo de cifrado. El asterisco * significa que esta cuenta no se puede utilizar para iniciar sesión y el !! significa que el usuario no tiene contraseña, por lo que ha sido creado sin contraseña.
+- 3. Fecha del último cambio de contraseña: Fecha del último cambio de contraseña, expresada como el número de días desde el 1 de enero de 1970. El valor 0 significa que el usuario debe cambiar su contraseña la próxima vez que inicie sesión en el sistema.
+- 4. Días mínimos: Número mínimo de días después de los cuales un usuario puede cambiar su contraseña. No podrá cambiar la contraseña antes de eso.
+- 5. Días máximos: Indica el número máximo de días que la contraseña es válida. Después de eso, el usuario está obligado a cambiar su contraseña.
+- 6. Período de advertencia de la contraseña: Número de días antes de los cuales el usuario recibirá una notificación de advertencia sobre la caducidad de la contraseña y debe cambiarse.
+- 7. Periodo de inactividad: Indica el número de días después de la expiración de la contraseña después de los cuales se deshabilitará la cuenta. Cuando está vacío, este campo indica que no hay cumplimiento de un período de inactividad.
+- 8. Fecha de caducidad: Indica los días desde el 1 de enero de 1970 en que la cuenta está deshabilitada.
+- 9. Reservado: el noveno campo está reservado para uso futuro.
+
+Como este archivo almacena las contraseñas de los usuarios, su acceso y modificación están restringidos solo al usuario root:
+
+```
+-rw-r----- 1 root shadow 1953 may 27 12:16 /etc/shadow
+```
+
+Los métodos de encriptación con los que se puede cifrar la contraseña son:
+- $1$: MD5
+- $2a$: Blowfish
+- $5$: SHA-256
+- $6$: SHA-512
+
+El algoritmo utilizado para cifrar el campo de contraseña se conoce técnicamente como función hash unidireccional. Este algoritmo es fácil de calcular en una dirección, pero muy difícil de calcular en la dirección inversa.
+
+Cuando se genera la contraseña de usuario, se codifica con un valor generado aleatoriamente llamado sal (salt). Esto significa que cualquier contraseña en particular podría almacenarse de diferentes formas. Luego, el valor de sal se almacena con la contraseña cifrada. `$id$salt$encrypted`
+
+Cuando un usuario inicia sesión y proporciona una contraseña, la sal se recupera primero de la contraseña cifrada almacenada. Luego, la contraseña proporcionada se codifica con el valor de sal y luego se compara con la contraseña encriptada. Si las contraseñas coinciden, el usuario está autenticado.
+
+Siempre se recomienda seleccionar contraseñas que sean fuertes: contengan una combinación de alfabetos, dígitos y símbolos especiales y evite seleccionar palabras del diccionario.
+
+## Crear usuario
+
+Cuando se agrega un usuario, el sistema operativo agrega una linea al archivo /etc/passwd y al archivo /etc/group (se añade un grupo para cada usuario). También se crea un archivo de correos en /var/spool/mail donde el usuario recibirá notificaciones del sistema y otros usuarios. Ademas, se genera su directorio personal, el lugar donde el usuario podrá guardar sus archivos personales. Fuera de este lugar el usuario no podrá escribir (excepto en /tmp y /var/tmp). 
+
+Para crear un usuario se pueden utilizar 2 comandos:
+- adduser
+- useradd
+
+useradd es un comando que ejecuta un binario del sistema, mientras que adduser es un script en perl que utiliza el binario useradd.
+
+adduser y addgroup ofrecen una interfaz más sencilla que los programas de bajo nivel useradd, groupadd y usermod. 
+
+La mayor ventaja del comando adduser es que crea el directorio home (/home/usuario/) del usuario de manera automática, cosa que no hace useradd (hay que usar la opción -m). 
+
+Ejemplo useradd
+
+Ejemplo adduser
+
+
 
 
