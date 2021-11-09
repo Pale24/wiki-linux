@@ -516,7 +516,7 @@ Cuando un usuario inicia sesión y proporciona una contraseña, la sal se recupe
 
 Siempre se recomienda seleccionar contraseñas que sean fuertes: contengan una combinación de alfabetos, dígitos y símbolos especiales y evite seleccionar palabras del diccionario.
 
-## Crear usuario
+## Crear, modificar y eliminar usuarios
 
 Cuando se agrega un usuario, el sistema operativo agrega una linea al archivo /etc/passwd y al archivo /etc/group (se añade un grupo para cada usuario). También se crea un archivo de correos en /var/spool/mail donde el usuario recibirá notificaciones del sistema y otros usuarios. Ademas, se genera su directorio personal, el lugar donde el usuario podrá guardar sus archivos personales. Fuera de este lugar el usuario no podrá escribir (excepto en /tmp y /var/tmp). 
 
@@ -530,10 +530,177 @@ adduser y addgroup ofrecen una interfaz más sencilla que los programas de bajo 
 
 La mayor ventaja del comando adduser es que crea el directorio home (/home/usuario/) del usuario de manera automática, cosa que no hace useradd (hay que usar la opción -m). 
 
-Ejemplo useradd
+**Ejemplo adduser**
 
-Ejemplo adduser
+```
+adduser user1
 
+Adding user `user1' ...
+Adding new group `user1' (1002) ...
+Adding new user `user1' (1002) with group `user1' ...
+Creating home directory `home/user1` ...
+Copying files from `/etc/skel` ...
+New password:
+Retype new password:
+passwd: password updated successfully
+Changing the user information for user1
+Enter the new value, or press ENTER for the default
+	Full Name []:
+	Room Number []:
+	Work Phone []:
+	Home Phone []:
+	Other []:
+Is the information correct? [Y/n]
+```
+
+Si buscamos al usuario en /etc/passwd vemos:
+
+```
+user1:x:1002:1002:,,,:/home/user1:/bin/bash
+```
+
+Con solo el comando y el nombre del usuario se genera el mismo junto con la configuración del home y el shell por defecto que usará el usuario.
+
+Opciones:
+- --conf FICHERO: Usa FICHERO en vez de la configuración en /etc/adduser.conf
+- --disabled-login: No ejecuta passwd para establecer la clave. El usuario no podrá usar la cuenta hasta que se establezca una clave.
+- --disabled-password: Como «--disabled-login», pero todavía es posible usar la cuenta, por ejemplo mediante claves SSH RSA, pero  no usando autenticación de claves.
+- --home DIRECTORIO: Usa DIRECTORIO para el directorio personal, en vez del predeterminado en el fichero de configuración. 
+- --shell CONSOLA: Usa CONSOLA como la consola de entrada del usuario, en vez de la predeterminada.
+- --no-create-home
+- --ingroup GRUPO
+
+**Ejemplo useradd**
+
+Primero vamos a ver que pasa cuando hacemos lo mismo que con adduser:
+
+```
+useradd user2
+```
+Chequeamos el archivo /etc/passwd:
+
+```
+grep user2 /etc/passwd
+
+user2:x:1003:1003::/home/user2:bin/sh
+```
+Si intentamos loguearnos como user2, vamos a ver que no se puede ya que no tiene contraseña definida:
+
+```
+sudo grep user2 /etc/shadow
+
+user2:!:18939:0:99999:7:::
+```
+La contraseña se debe generar con el comando `passwd user2` y luego ingresando la contraseña 2 veces.
+
+Otro problema es que no existe el directorio home: /home/user2, ya que primero debemos crearlo (también puede ser después) y cambiar los permisos del mismo (ver más adelante):
+
+```
+mkdir /home/user2
+usermod -s /bin/bash -d /home/user2 -c "Usuario 2" # Cambiamos shell, asignamos home y agregamos comentarios (GECOS)
+chown user2.user2 /home/user2 # Cambiamos permisos del directorio home de user2 (lo vemos después)
+```
+
+Ahora:
+
+```
+grep user2 /etc/passwd
+
+user2:x:1003:1003:Usuario 2:/home/user2:/bin/bash
+
+grep user2 /etc/shadow
+
+user2:$6$5sv2BNfw80Z0yUX7$XJc.AkzWQ/1iaKrZJPp2mUXEOTJ6qnPAbyAI9E0SbJuwLX8axnojRVt9/YwCa4SMiu7lWkMDSnvocgsN9X/2v1:18939:0:99999:7:::
+```
+
+También se podría haber realizado todo esto de manera más prolija:
+
+```
+# Crear user3 con useradd
+sudo useradd -m -d /home/user3 -s /bin/bash -c "Usuario 3" user3
+
+sudo passwd user3
+
+New password: 
+Retype new password: 
+passwd: password updated successfully
+
+```
+
+Cómo se puede ver useradd es más complejo de manejar aunque más manipulable.
+
+Para ver las opciones de useradd: `man useradd`
+
+Una vez que hemos creado la cuenta de usuario, el comando chage con su opción -l nos permitirá ver información detallada sobre el período de validez de la misma (por defecto, una cuenta de usuario nunca expira) y de la contraseña.
+
+```
+Last password change								: nov 06, 2021
+Password expires									: never
+Password inactive									: never
+Account expires										: never
+Minimum number of days between password change		: 0
+Maximum number of days between password change		: 99999
+Number of days of warning before password expires	: 7
+```
+
+Podemos editar la cuenta de user1 de tal manera que la cuenta expire (-E) el 31 de diciembre de 2021, y mientras tanto se le permita cambiarla solamente (-m) una vez por semana (7 días). Cada contraseña será válida como máximo (-M) durante 60 días, y 3 días antes se le va a inviar un recordatorio para que la modifique (-W). Finalmente, 5 días después de la fecha de vencimiento de la contraseña se procederá a bloquear (-I) la cuenta:
+
+```
+chage -E 2021-12-31 -m 7 -M 60 -W 3 -I 5 user1
+```
+
+Podemos forzar a que user1 cambie su contraseña la próxima vez que inicie sesión:
+
+```
+chage -d 0 user1
+```
+
+Otra forma de visualizar información de una cuenta dada consiste en utilizar el comando finger seguido por el nombre de usuario en cuestión.
+
+Si lo que queremos es borrar la cuenta del usuario user3, junto con su directorio home (en el caso de que nos interese eliminar la cuenta, pero conservando dichos recursos deberemos omitir la opción -r):
+
+```
+# Elimina solo el usuario
+deluser user3
+userdel user3
+# Elimina el home y otros datos (cola de correo del usuario)
+deluser --remove-home user3
+userdel -r user3
+```
+
+## Grupos
+
+En Linux, los grupos constituyen el primer método de control de acceso a los recursos del sistema. Cuando se crea una cuenta de usuario, también se crea un grupo con el mismo nombre (conocido como grupo primario para dicha cuenta) y ambos son vinculados. Para permitir una administración flexible de los permisos de los usuarios, Linux permite estructurar los usuarios a través de grupos y los permisos pueden ser asignados a un grupo. Por ejemplo, en una institución podemos tener un grupo especifico de usuarios (el grupo de investigadores) que tiene acceso a ciertos archivos, al momento de añadir un nuevo investigador al sistema, solo tenemos que asignarle a su cuenta de usuario el grupo investigador.
+
+Para crear un nuevo grupo adicional llamado *grupo2* se puede utilizar los comandos groupadd o addgroup. A continuación, para agregar algún usuario al grupo podemos usar el comando usermod con sus opciones -a (de append) y -G (group) seguidos por el nombre del grupo y el usuario que deseamos agregar al mismo:
+
+```
+groupadd grupo2 # También: addgroup grupo2
+usermod -a -G grupo2 user2 # Se puede abreviar las opciones con -aG
+```
+
+Para ver la lista de grupos a los que pertenece un determinado usuario podemos utilizar los comandos groups o id, seguido por el nombre de usuario:
+
+```
+id user2
+groups user2
+```
+
+Para eliminar una cuenta de usuario de un grupo suplementario tenemos dos alternativas:
+
+- Utilizar `usermod -G` seguido de los grupos en los que queremos que el usuario permanezca activo, y finalmente del nombre del usuario. Esta opción puede tornarse un tanto engorrosa si el usuario pertenece a muchos grupos suplementarios.
+- Emplear `gpasswd -d` seguido del nombre de usuario y del grupo del que se desea eliminarlo.
+
+```
+usermod -G user2 user2 
+gpasswd -d user2 grupo2
+```
+
+Para borrar un grupo dado (grupo2 en el siguiente ejemplo), utilizaremos:
+
+```
+groupdel grupo2
+```
 
 
 
