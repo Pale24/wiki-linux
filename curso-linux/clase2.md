@@ -443,6 +443,45 @@ ldd $AMBERHOME/bin/cpptraj
 
 La gestión de usuarios y grupos en Linux es una tarea fundamental de cualquier administrador de sistemas. Es importante conocer cómo crear, modificar y eliminar cuentas de usuarios y grupos así como establecer permisos para que dichos grupos y usuarios tengan acceso a archivos y directorios según lo necesiten.
 
+En linux tenemos 2 tipos de usuarios:
+- El ususario administrador (root)
+- Usuarios del sistema que no tienen tantos privilegios.
+
+Siempre podemos saber que usuario es el que está ejecutando los comandos ya que está escrito en el "prompt" a la izquierda del arroba.
+
+Para acceder a los permisos de administrador en sistemas como Ubuntu podemos usar la orden "sudo" (super user do) previa al comando que queremos ejecutar como administrador. En otros sistemas podemos usar el comando su, que sirve para cambiar de usuario. Con este comando podemos también cambiar de usuario ingresando la contraseña de acceso del mismo. Si se ejecuta "su" solo el sistema interpreta que se está queriendo acceder al usuario root.
+
+```
+# Ubuntu u otros sistemas que tengas habilitado sudo
+sudo cat /etc/shadow
+# Login como root
+su
+Contraseña:
+root@...# cat /etc/shadow
+# Login como otro usuario
+su user1
+Contraseña:
+user1@...$ 
+```
+
+Una aclaración respecto al comando sudo, es que sólo lo pueden usar aquellos usuarios que pertenecen al grupo sudo.
+
+En Linux, los grupos constituyen el primer método de control de acceso a los recursos del sistema. Cuando se crea una cuenta de usuario, también se crea un grupo con el mismo nombre (conocido como grupo primario para dicha cuenta) y ambos son vinculados. Para permitir una administración flexible de los permisos de los usuarios, Linux permite estructurar los usuarios a través de grupos y los permisos pueden ser asignados a un grupo. Por ejemplo, en una institución podemos tener un grupo especifico de usuarios (el grupo de investigadores, por ejemplo) que tiene acceso a ciertos archivos, al momento de añadir un nuevo investigador al sistema, solo tenemos que asignarle a su cuenta de usuario el grupo investigador.
+
+Cuando listamos el contenido de un directorio con `ls -l` podemos ver que hay una columna que nos indica cual es el usuario propietario de ese objeto (fichero o directorio) y en la columna siguiente vemos al grupo propietario (por lo general es el grupo principal del usuario que lo creó)
+
+```
+ls -l
+
+total 120
+-rw-rw-r-- 1 pale pale 59196 oct 29 17:51 clase1.md
+-rw-rw-r-- 1 pale pale 42450 nov  8 21:09 clase2.md
+-rw-rw-r-- 1 pale pale   136 oct 29 17:29 clase3.md
+-rw-rw-r-- 1 pale pale    94 oct 29 17:29 clase4.md
+-rw-rw-r-- 1 pale pale   133 oct 28 16:53 home.md
+drwxrwxr-x 2 pale pale  4096 oct 28 17:07 imagenes
+```
+
 Los datos de los usuarios se encuentran en 2 archivos:
 - /etc/passwd: es una base de datos simple contiene información de todas las cuentas de usuario en el sistema. Es propiedad de root. El archivo solo puede ser editado por usuarios root o usuarios con privilegios de sudo y todos los usuarios del sistema pueden leerlo pero no modificarlo.
 - /etc/shadow: contiene la contraseña encriptada con SHA512 y más datos seguros del usuario
@@ -670,7 +709,6 @@ userdel -r user3
 
 ## Grupos
 
-En Linux, los grupos constituyen el primer método de control de acceso a los recursos del sistema. Cuando se crea una cuenta de usuario, también se crea un grupo con el mismo nombre (conocido como grupo primario para dicha cuenta) y ambos son vinculados. Para permitir una administración flexible de los permisos de los usuarios, Linux permite estructurar los usuarios a través de grupos y los permisos pueden ser asignados a un grupo. Por ejemplo, en una institución podemos tener un grupo especifico de usuarios (el grupo de investigadores) que tiene acceso a ciertos archivos, al momento de añadir un nuevo investigador al sistema, solo tenemos que asignarle a su cuenta de usuario el grupo investigador.
 
 Para crear un nuevo grupo adicional llamado *grupo2* se puede utilizar los comandos groupadd o addgroup. A continuación, para agregar algún usuario al grupo podemos usar el comando usermod con sus opciones -a (de append) y -G (group) seguidos por el nombre del grupo y el usuario que deseamos agregar al mismo:
 
