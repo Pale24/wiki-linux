@@ -492,10 +492,10 @@ pale:x:1000:1000:Pablo,,,:/home/pale:/bin/zsh
 [---] - [--] [--] [-----] [--------] [--------]
  |    |  |    |      |          |       |
  |    |  | 	  |      |          |       +-> 7. Login shell
- | 	  |  | 	  |      |          +---------> 6. Home directory
+ |    |  |    |      |          +---------> 6. Home directory
  | 	  |  | 	  |      +--------------------> 5. GECOS
  | 	  |  | 	  +---------------------------> 4. GID
- | 	  |  +--------------------------------> 3. UID
+ |    |  +--------------------------------> 3. UID
  | 	  +-----------------------------------> 2. Password
  +----------------------------------------> 1. Username
 ```
@@ -522,7 +522,7 @@ linoadmin:!!:17289:0:99999:7:::
 pale:$6$tDH3qFb42aUdtg5E$S3obuA1wCZj8e4MQjzjv8BLPBl5AF./.fhIu4R.ZAuf9jS5Gnr6FySw7kvq/N84uZappXI12wV9rG6h7fdiPG.:18928:0:99999:7:::
 [--] [--------------------------------------------------------------------------------------------------------] [---] - [---] ----
   |                                  |                                                                            |   |   |   ||||
-  +-> 1. Usuario					 +-> 2. Contraseña        													  3	  4   5   6789
+  +-> 1. Usuario                     +-> 2. Contraseña                                                            3   4   5   6789
 ```
 
 - 1. Nombre de usuario: Este primer campo denota el nombre de usuario que debe usarse al iniciar sesión en el sistema.
