@@ -492,10 +492,10 @@ pale:x:1000:1000:Pablo,,,:/home/pale:/bin/zsh
 [---] - [--] [--] [-----] [--------] [--------]
  | 	  |  | 	  | 	 | 			|		|
  | 	  |  | 	  | 	 | 			| 		+-> 7. Login shell
- | 	  |  | 	  | 	 | 			+----------> 6. Home directory
+ | 	  |  | 	  | 	 | 			+---------> 6. Home directory
  | 	  |  | 	  | 	 +--------------------> 5. GECOS
- | 	  |  | 	  +--------------------------> 4. GID
- | 	  |  +-------------------------------> 3. UID
+ | 	  |  | 	  +---------------------------> 4. GID
+ | 	  |  +--------------------------------> 3. UID
  | 	  +-----------------------------------> 2. Password
  +----------------------------------------> 1. Username
 ```
@@ -668,7 +668,15 @@ passwd: password updated successfully
 
 Cómo se puede ver useradd es más complejo de manejar aunque más manipulable.
 
-Para ver las opciones de useradd: `man useradd`
+Opciones:
+- -d: directorio home
+- -m: crea el directorio home
+- -g: grupo principal
+- -G: grupo/s secundario/s
+- -s: interprete de comandos
+- -k: directorio de plantilla
+
+Para ver mas opciones de useradd: `man useradd`
 
 Una vez que hemos creado la cuenta de usuario, el comando chage con su opción -l nos permitirá ver información detallada sobre el período de validez de la misma (por defecto, una cuenta de usuario nunca expira) y de la contraseña.
 
@@ -707,8 +715,9 @@ deluser --remove-home user3
 userdel -r user3
 ```
 
-## Grupos
+usermod: modifica un usuario
 
+## Grupos
 
 Para crear un nuevo grupo adicional llamado *grupo2* se puede utilizar los comandos groupadd o addgroup. A continuación, para agregar algún usuario al grupo podemos usar el comando usermod con sus opciones -a (de append) y -G (group) seguidos por el nombre del grupo y el usuario que deseamos agregar al mismo:
 
@@ -740,5 +749,97 @@ Para borrar un grupo dado (grupo2 en el siguiente ejemplo), utilizaremos:
 groupdel grupo2
 ```
 
+## Permisos en Linux
+
+Podemos dividir la política de permisos de directorios y ficheros en 3 grandes categorías:
+- Permisos aplicados al usuario dueño (Owner)
+- Permisos aplicados al grupo (Group)
+- Permisos aplicados a los otros (Others) usuarios del sistema que no están contemplados en las opciones anteriores.
+
+En cada una de estas 3 categorías se pueden aplicar también 3 tipos de permisos: **read** (lectura), **write** (escritura), y **execute** (ejecución):
+- r: El usuario tiene permisos de lectura. Podrá ejecutar comandos de lectura como ls, cat, 
+- w: El usuario tiene permisos de escritura. Esto le permite editar archivos de texto o agregar / eliminar archivos en un directorio
+- x: El usuario tiene permisos de ejecución, es decir podrá ejecutar scripts. Aclaración: los directorios deben tener permisos de ejecución
+
+Como vimos antes, al hacer ls -l sobre un directorio vemos algo similar a esto:
+```
+-rw-rw-r-- 1 pale pale 59196 oct 29 17:51 clase1.md
+-rw-rw-r-- 1 pale pale 44131 nov  9 06:47 clase2.md
+-rw-rw-r-- 1 pale pale   136 oct 29 17:29 clase3.md
+-rw-rw-r-- 1 pale pale    94 oct 29 17:29 clase4.md
+-rw-rw-r-- 1 pale pale   133 oct 28 16:53 home.md
+drwxrwxr-x 2 pale pale  4096 oct 28 17:07 imagenes
+-[-][-][-] - [--] [--]  [--] [----------] 
+| |  |  |  |   |    |     |        | 
+| |  |  |  |   |    |     |        +-> Fecha de creación
+| |  |  |  |   |    |     +----------> Tamaño objeto
+| |  |  |  |   |    +----------------> Grupo
+| |  |  |  |   +---------------------> Usuario
+| |  |  |  +-------------------------> Numero de enlaces duros
+| |  |  +----------------------------> Permisos otros
+| |  +-------------------------------> Permisos grupo
+| +----------------------------------> Permisos usuario
++------------------------------------> Tipo
+```
+
+Vamos a crear un directorio llamado **directorio** en /tmp (este es un directorio donde se puede almacenar información temporal, una vez que se reinicia el equipo se pierde)
+
+```
+mkdir /tmp/directorio
+ls -ld /tmp/directorio
+
+drwxrwxr-x 2 pale pale 4096 nov  9 20:21 /tmp/directorio
+```
+Si queremos cambiar de usuario dueño o el grupo propietario podemos utilizar el comando chown (change owner). Para cambiar el grupo propietario también podemos usar chgrp
+
+```
+chown user1: /tmp/directorio # Cambia el usuario
+chown :user1 /tmp/directorio # Cambia el grupo
+# Con chgrp
+chgrp user1 /tmp/directorio
+chown user1:user1 /tmp/directorio # Cambia ambos
+```
+
+Para ambos comandos podemos usar la opción -r que hace que la operación se aplique de forma recursiva a todo el contenido del directorio.
+
+Para modificar los permisos de un elemento podemos usar la orden chmod. Tenemos 3 formas de hacerlo:
+- + y -: es el más concreto ya que sólo afecta al permiso que indicamos. Ejemplos:
+	- `chmod +x fichero`: habilitamos permisos de ejecución a todos los grupos (`-rwxrwxr-x 1 pale pale 0 nov  9 20:38 fichero`). También puede usarse la opción a+x
+	- `chmod u+x fichero`: habilitamos permisos de ejecución solo al usuario propietario (`-rwxrw-r-- 1 pale pale 0 nov  9 20:38 fichero`)
+	- `chmod g+x fichero`: habilitamos permisos de ejecución solo al grupo propietario (`-rw-rwxr-- 1 pale pale 0 nov  9 20:38 fichero`)
+	- `chmod o+x fichero`: habilitamos permisos de ejecución solo al resto (`-rw-rw-r-x 1 pale pale 0 nov  9 20:38 fichero`)
+	- `chmod g+x fichero`: habilitamos permisos de ejecución solo al grupo propietario (`-rw-rwxr-- 1 pale pale 0 nov  9 20:38 fichero`)
+- =: cambia un grupo entero de permisos.
+	- `chmod u=rw,g=r,o=x fichero`: El usuario sólo tiene permisos de escritura y lectura, el grupo sólo lectura y el resto sólo ejecución. `-rw-r----x 1 pale pale 0 nov  9 20:38 fichero` 
+- Usando numeros (cambia todos los permisos)
+
+Para usar números consideramos cada posición de los permisos como un bit que pondremos a 1 para concederlo o a 0 para denegarlo. Los agrupamos en conjunto de 3 para representar los del usuario, grupo u otros y los pasamos de binario a decimal .
+
+| R | W | X | R | W | X | R | W | X |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+
+Para cada nivel (usuario, grupo, otros):
+
+- 100: 4:      r--
+- 010: 2:      -w-
+- 001: 1:      --x
+- 011: 2+1:3   -wx
+- 101: 4+1:5   r-x
+- 110: 4+2:6   rw-
+- 110: 4+2+1:7 rwx
+
+De está forma si queremos poner permisos al archivo de forma que el usuario pueda leer yescribir, el grupo sólo leer y el resto nada: rw- r-- --- en binario 110 100 000 y en decima 6 4 0. El comando sería: `chmod 640 fichero`
+
+Con la opción -R podemos modificar los permisos de forma recursiva. 
+
+### Permisos especiales:
+- SetUID: El programa que lo tenga activado se ejecutará con los permisos del usuario propietario del chero y no con los permisos de quién invoca al programa. Se representa por la letra s como permiso de ejecución.
+- SetGID: Igual que setUID pero con los permisos del grupo. En caso de ser directorio los elementos creados pertenecerán al grupo del directorio y no al grupo del usuario que crea el elemento.
+- Sticky Bit: En el directorio que lo tenga activado, los cheros que contenga sólo podrán ser borrados por sus propietarios. Se representa por t en el permiso de ejecución de "los otros"
+
+Para administrarlos se usan las letras: `chmod u+s tux.sh` o añadiendo una cifra a la izquierda usando números: `chmod 1777 /home/tmp/`
+
+El este último caso, el orden de los bit sería setuid, setgid y sticky bit
 
 
