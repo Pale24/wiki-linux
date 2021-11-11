@@ -51,7 +51,7 @@ La dirección IP puede cambiar a menudo debido a cambios en la red, o porque el 
 
 Los dispositivos se conectan entre sí mediante sus respectivas direcciones IP. Sin embargo, para las personas es más fácil recordar un nombre de dominio que los números de la dirección IP. Los servidores de nombres de dominio DNS, "traducen" el nombre de dominio en una dirección IP. Si la dirección IP dinámica cambia, es suficiente actualizar la información en el servidor DNS. El resto de las personas seguirán accediendo al dispositivo por el nombre de dominio.
 
-Actualmente, se usan 2 versiones de direcciones IP: IPv4 e IPv6 (pensada para reemplazar a IPv4).
+Actualmente, se usan 2 versiones de direcciones IP: IPv4 e IPv6 (pensada para reemplazar a IPv4). Nosotros nos vamos a centrar en IPv4.
 
 ### IPv4:
 
@@ -64,21 +64,27 @@ Las direcciones IPv4 se expresan mediante un número binario de 32 bits permitie
      255.     255.     255.     255 
 ```
 
+Las direcciones que terminan en .0 y en .255 representan la dirección de la red (la que la identifica) y la de broadcast (envía información a todos los nodos), respectivamente y no pueden asignarse a ningún equipo en particular.
+
 Las direcciones IP se pueden dividir en dos secciones, la ID de red y la ID de host. Siguiendo está idea inicialmente las redes se dividieron en 4 clases según el numero de octetos que definia la red (classfull). 
 - Las direcciones de clase A son aquellas en las que se utiliza el primer octeto para la ID de red, y los tres últimos se utilizan para la ID de host. 
 - Las direcciones de clase B son las que utilizan los dos primeros octetos para la ID de red, y los dos segundos se utilizan para la ID de host. 
 - Las direcciones de clase C son aquellas donde se utilizan los primeros tres octetos para la ID de red y solo se utiliza el octeto final para la ID de host. 
 
-Pero, como dice wikipedia:
+Pero, como dice [wikipedia](https://es.wikipedia.org/wiki/Direcci%C3%B3n_IP#Direcciones_IP):
 
 > El diseño de redes de clases (classful) sirvió durante la expansión de internet, sin embargo este diseño no era escalable y frente a una gran expansión de las redes en la década de los noventa, el sistema de espacio de direcciones de clases fue reemplazado por una arquitectura de redes sin clases (Classless Inter-Domain Routing - CIDR) en el año 1993. CIDR está basada en redes de longitud de máscara de subred variable (variable-length subnet masking VLSM), lo que permite asignar redes de longitud de prefijo arbitrario. Permitiendo por tanto una distribución de direcciones más fina y granulada, calculando las direcciones necesarias y "desperdiciando" las mínimas posibles.
 
+La máscara de red permite distinguir dentro de la dirección IP, los bits que identifican a la red y los bits que identifican al host. La máscara se forma poniendo en 1 los bits que identifican la red y en 0 los bits que identifican al host. De esta forma tenemos 2 maneras de identificar a la máscara de red: 
 
+- indicando el número de "1" que forman a la misma. Ej: Si en una red sólo el último octeto de bits representa a los hosts entonces la máscara está comprendida por los otros 3 octetos, es decir 3*8 = 24
+- Indicando el valor decimal correspondiente a considerar los bits de la máscara de red. Para el caso anterior, si los 3 primeros octetos comprenden la máscara de red entonces los valores decimales serán 255.255.255.0.
 
+El espacio de direcciones de una red puede ser subdividido a su vez creando subredes autónomas separadas. Por ejemplo para agrupar todos los hosts dentro de un área determinada. En este caso crearíamos una subred que englobara las direcciones IP de estos.
 
+## Redes en Linux
 
-
-## Localización de archivos de configuración de red
+### Localización de archivos de configuración de red
 
 - /etc/hosts: Este archivo es un simple archivo de texto que asocia direcciones IP con nombres de dominio, una linea por dirección IP. Por cada host, hay una linea con: `IP hostname [alias...]`
 - /etc/resolv.conf: "resolver" es un set de rutinas que proveen acceso al sistema de dominio de nombres (DNS, Internet Domain System). El archivo de configuración resolv.conf contiene información que es leida por esta rutina la primera vez que es invocada por el proceso 
@@ -86,7 +92,132 @@ Pero, como dice wikipedia:
 - /etc/network/interfaces: El archivo interfaces es usado para definir los nombres lógicos de las interfaces de redes, a los que se les asociará una configuración determinada. 
 - /etc/netplan/* # Ubuntu: Archivos yaml con info de como manejar las redes/etc/netplan/*
 
-## Configuración persistente de interfaces de red
+### Comandos de redes con iproute2:
+
+#### Listado de interfaces de red:
+
+Para listar las interfaces de red que tenemos en el equipo:
+
+```
+ip link 
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 1000
+    link/ether 08:00:27:39:f8:a8 brd ff:ff:ff:ff:ff:ff
+
+```
+
+Para ver la información de nuestras interfaces de red podemos usar cualquiera de los siguientes comandos
+```
+ip address
+ip addr
+ip a
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:39:f8:a8 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.15/24 brd 192.168.0.255 scope global dynamic enp0s3
+       valid_lft 3047sec preferred_lft 3047sec
+    inet6 2800:810:4fd:88d7:a00:27ff:fe39:f8a8/64 scope global dynamic mngtmpaddr noprefixroute
+       valid_lft 3842375sec preferred_lft 3842375sec
+    inet6 fe80::a00:27ff:fe39:f8a8/64 scope link
+       valid_lft forever preferred_lft forever
+```
+- 1. lo ...: interfaz de loopback: Esta dirección se suele utilizar cuando una transmisión de datos tiene como destino el propio host. También se suele usar en tareas de diagnóstico de conectividad y validez del protocolo de comunicación.
+- 2. enp0s3 ...: interfaz de red física (ethernet). 
+- state UP
+- link/ether 08:00:27:39:f8:a8 brd ff:ff:ff:ff:ff:ff: MAC del dispositivo
+- inet 192.168.0.15/24 brd 192.168.0.255 scope global dynamic enp0s3: 
+	- inet: IPv4
+	- 192.168.0.15/24: Dirección IP / máscara de red
+	- brd 192.168.0.255: Broadcast
+	- dynamic: IP dinamica, es decir, que la IP es suminstrada por un servidor DHCP que asigna IPs a los hosts de la red
+- inet6: IPv6
+
+Para ver información de una interfaz especifica podemos ejecutar:
+
+```
+ip a show enp3s0
+
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:39:f8:a8 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.18/24 brd 192.168.0.255 scope global enp0s3
+       valid_lft forever preferred_lft forever
+    inet6 2800:810:4fd:88d7:a00:27ff:fe39:f8a8/64 scope global dynamic mngtmpaddr noprefixroute 
+       valid_lft 3842379sec preferred_lft 3842379sec
+    inet6 fe80::a00:27ff:fe39:f8a8/64 scope link 
+       valid_lft forever preferred_lft forever
+```
+
+#### Analizar la información de nuestra tabla de enrutamiento:
+```
+ip route # tambien 'ip ro' o 'ip r' 
+
+default via 192.168.0.1 dev enp0s3 proto static
+192.168.0.0/24 dev enp0s3 proto kernel scope link src 192.168.0.18
+```
+
+#### Activar/desactivar una interfaz de red
+
+```
+ip link set enp0s3 up
+ip link set enp0s3 down
+```
+
+#### Configurar una dirección IP en una interfaz
+
+```
+ip addr add 192.168.0.19/24 dev enp0s3 brd +
+```
+
+#### Eliminar una dirección IP de una interfaz.
+
+```
+ip addr del 192.168.0.19 dev enp0s3 
+```
+
+#### Agregar una puerta de enlace por defecto
+
+```
+ip route add default via 192.168.0.1 
+```
+
+Todas las configuraciones realizadas con estos comandos son temporarios, es decir, que al reiniciar la máquina toda la configuración se pierde. Para que la configuración sea persistente es necesario escribir los cambios en archivos de configuración.
+
+### Configuración persistente de interfaces de red
+
+En el caso de Debian y derivados esta tarea se lleva a cabo a través del archivo /etc/network/interfaces.
+
+```bash
+# The primary network interface
+allow-hotplug enp0s3
+iface enp0s3 inet static
+	address 192.168.0.100
+	network 192.168.0.0
+	netmask 255.255.255.0
+	gateway 192.168.0.1
+```
+- Líneas que empiezan con #: representan comentarios
+- `allow-hotplug enp0s3`: Las interfaces que aparecen con allw-hotplug se activan cuando se producen eventos hotplug (en caliente), como la detección de la placa de red por parte del kernel, la conexión del cable de red, etc
+- Líneas iface: sirven para definir nombres lógicos de interfaces de red junto con su configuración particular.
+- address IP: indica la IP asignada al dispositivo.
+- network IP: indica la IP de la red.
+- netmask máscara: indica la máscara de la red
+- gateway IP: indica la puesta de enlace
+
+Con estas modificaciones ponemos la interfaz de red con IPs estatica. En este punto es necesario reiniciar el servidor para que tome la configuración.
+
+Si la interface aparece apagada (down) la iniciamos con:
+
+```bash
+ip link set dev enp0s3 up
+```
 
 ### Configuración IP estática en Ubuntu (a partir de la versión 18.04):
 
@@ -94,7 +225,7 @@ Para configurar la red en Ubuntu debemos modificar los archivos /etc/netplan/*.
 
 Por ejemplo:
 
-```
+```bash
 vi /etc/netplan/00-installer-config.yaml
 
 # This is the network config written by 'subiquity'
@@ -116,7 +247,11 @@ network:
     enp3s0:
       dhcp4: true
   version: 2
+```
+Luego de editar el archivo ejecutamos:
 
+```bash
+netplan apply
 ```
 
 #### Configuración modo router:
