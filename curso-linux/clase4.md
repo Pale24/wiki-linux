@@ -4,4 +4,4 @@
 
 - 10. Logs sistema
 - 11. Ssh server
-- 12. Compilar desde código fuente
+- 12. Gestión de procesos

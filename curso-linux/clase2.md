@@ -2,10 +2,14 @@
 
 ## Temas:
 - 5. Gestión de paquetes
+	- Dpkg y rpm
+	- Apt y yum
+	- Código fuente
 - 6. Bibliotecas compartidas
 - 7. Gestión de usuarios
-    - crear, eliminar y permisos usuarios
-
+    - Crear, eliminar y permisos usuarios
+	- Grupos
+	- Permisos de directorios y archivos
 
 # Gestión de paquetes
 Cuando hablamos de "paquetes" de software nos referimos a los programas, datos y otros archivos que se requieren para realizar una función determinada. También suele utilizarse el termino programa o software para referirse a los mismos. 
@@ -733,6 +737,8 @@ id user2
 groups user2
 ```
 
+Si un usuario quiere cambiar el grupo pimario por uno de sus grupos secundarios puede usar el comando newgrp seguido del grupo secundario que quiere asignar como primario.
+
 Para eliminar una cuenta de usuario de un grupo suplementario tenemos dos alternativas:
 
 - Utilizar `usermod -G` seguido de los grupos en los que queremos que el usuario permanezca activo, y finalmente del nombre del usuario. Esta opción puede tornarse un tanto engorrosa si el usuario pertenece a muchos grupos suplementarios.
@@ -748,6 +754,7 @@ Para borrar un grupo dado (grupo2 en el siguiente ejemplo), utilizaremos:
 ```
 groupdel grupo2
 ```
+
 
 ## Permisos en Linux
 
@@ -821,13 +828,13 @@ Para usar números consideramos cada posición de los permisos como un bit que p
 
 Para cada nivel (usuario, grupo, otros):
 
-- 100: 4:      r--
-- 010: 2:      -w-
-- 001: 1:      --x
-- 011: 2+1:3   -wx
-- 101: 4+1:5   r-x
-- 110: 4+2:6   rw-
-- 110: 4+2+1:7 rwx
+- `100: 4:      r--`
+- `010: 2:      -w-`
+- `001: 1:      --x`
+- `011: 2+1:3   -wx`
+- `101: 4+1:5   r-x`
+- `110: 4+2:6   rw-`
+- `110: 4+2+1:7 rwx`
 
 De está forma si queremos poner permisos al archivo de forma que el usuario pueda leer yescribir, el grupo sólo leer y el resto nada: rw- r-- --- en binario 110 100 000 y en decima 6 4 0. El comando sería: `chmod 640 fichero`
 
@@ -841,5 +848,4 @@ Con la opción -R podemos modificar los permisos de forma recursiva.
 Para administrarlos se usan las letras: `chmod u+s tux.sh` o añadiendo una cifra a la izquierda usando números: `chmod 1777 /home/tmp/`
 
 El este último caso, el orden de los bit sería setuid, setgid y sticky bit
-
 
