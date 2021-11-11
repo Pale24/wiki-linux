@@ -129,8 +129,8 @@ ip a
     inet6 fe80::a00:27ff:fe39:f8a8/64 scope link
        valid_lft forever preferred_lft forever
 ```
-- 1. lo ...: interfaz de loopback: Esta dirección se suele utilizar cuando una transmisión de datos tiene como destino el propio host. También se suele usar en tareas de diagnóstico de conectividad y validez del protocolo de comunicación.
-- 2. enp0s3 ...: interfaz de red física (ethernet). 
+- lo ...: interfaz de loopback: Esta dirección se suele utilizar cuando una transmisión de datos tiene como destino el propio host. También se suele usar en tareas de diagnóstico de conectividad y validez del protocolo de comunicación.
+- enp0s3 ...: interfaz de red física (ethernet). 
 - state UP
 - link/ether 08:00:27:39:f8:a8 brd ff:ff:ff:ff:ff:ff: MAC del dispositivo
 - inet 192.168.0.15/24 brd 192.168.0.255 scope global dynamic enp0s3: 
