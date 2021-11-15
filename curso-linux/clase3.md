@@ -5,7 +5,7 @@
     - IP estática
     - forward
     - fijar nombres de hosts
-- 9. Gestión de dispositivos
+- 9. Gestión de dispositivos de almacenamiento
 
 # Gestión de redes
 
@@ -270,6 +270,68 @@ Contenido de /etc/iptables/rules.v4:
 -A POSTROUTING -o enp0s3 -j MASQUERADE
 ...
 ```
+
+# Gestión de dispositivos de almacenamiento
+
+Los dispositivos de almacenamiento son fundamentales para la instalación y la correcta operación del sistema operativo. En un sistema Linux hay solamente una estructura de directorios sin importar de cuántos dispositivos de almacenamiento físico dispongamos. Pero para poder utilizarlos, es necesario que primero asociemos a cada uno con un directorio del sistema. Este directorio recibe el nombre de punto de montaje.
+
+Una partición es una división lógica que se hace a un dispositivo de almacenamiento con el propósito de definir un espacio determinado para un uso en particular, mientras que un sistema de archivos puede definirse como la forma en que se estructurarán los contenidos (archivos y directorios) de dicha partición.
+
+En cualquier sistema Linux el espacio utilizado por ciertos directorios (/home y /var, por nombrar dos ejemplos) puede llegar a aumentar o variar constantemente. El crear una partición dedicada para cada uno de ellos presenta dos ventajas al menos:
+
+- Limitar el espacio que pueden ocupar sus contenidos (de manera que su crecimiento no perjudique el de otros directorios)
+- Impedir que una partición llena afecte críticamente el funcionamiento de todo el sistema.
+
+En cuanto a los sistemas de archivos, los más utilizados hoy en día son ext4 y xfs.
+
+
+### FAT32 - VFAT:
+- Es antiguo y sencillo, por eso es el más compatible con cualquier sistema operativo o dispositivo hardware. Su principal inconveniente es que no puede almacenar archivos de más de 4 GB y las particiones no pueden ser mayores de 2 TB.
+
+### NTFS
+- Es el sucesor de FAT32, desarrollado por Microsoft. Elimina el máximo de 4GB en ficheros y 2TB de partición. Incluye más funcionalidades: permisos, cifrado, copias de seguridad, cuotas, etc.. Es menos compatible que FAT32
+
+### EXT4:
+- Es la última versión del sistema ext usados en Linux.
+- Tamaño máximo de sistema de archivos (generalmente se extiende a toda la partición): 1 EiB = 1024 PB (1 PiB = 1024 TiB, 1 TiB = 1024 GiB)
+- Tamaño máximo de archivos: 16 TiB
+- Cantidad máxima de subdirectorios: 64.000
+- Journaling: permite la recuperación de archivos que estaban siendo escritos en el momento de un fallo del sistema. Si bien esta característica no elimina totalmente las posibilidades de encontrar archivos corruptos, sí contribuye a la confiabilidad del sistema de archivos y a la rapidez del chequeo de los mismos.
+- Permite aumentar o disminuir el tamaño del sistema de archivos.
+
+### XFS:
+
+- Tamaño máximo de sistema de archivos (generalmente se extiende a toda la partición): 8 EiB en sistemas operativos de 64 bits y de 16 TiB en 32 bits.
+- Tamaño máximo de archivos: 9 EiB
+- Journaling
+- Es posible aumentar el tamaño del sistema de archivos pero no disminuirlo
+
+### BTRFS:
+- Es uno de los más recientes y su uso crece cada vez más debido a las ventajas que ofrece, entre ellas:
+	- Multi-devices: Se puede crear un único sistema de ficheros en varias particiones `mkfs.btrfs /dev/device1 /dev/device2 /dev/device3`
+	- Compression: Se puede montar con la opción -o compress y los datos se guardan comprimidos de forma transparente al usuario
+	- Subvolumnes: Se pueden crear subvolúmenes y snapshots (instantaneas) `btrfs subvolume create /mnt/punto-montaje/subvolumen1`
+
+### SWAP:
+- Es el sistema de ficheros para la partición de intercambio de Linux. Se utiliza como memoria alternativa a la RAM y es invisible para el usuario.
+
+### Crear particiones y sistemas de archivos
+
+La herramienta tradicional para administrar particiones basadas en MBR (presente por defecto en computadoras fabricadas hasta 2009 aproximadamente) es fdisk, mientras que desde 2010 en adelante (particiones basadas en GPT) se comenzó a utilizar también otra utilidad llamada gdisk. 
+
+El estándar GPT permite crear hasta 128 particiones primarias en un mismo disco, y permite alcanzar tamaños de particiones no soportados por MBR (el cual soporta hasta 2 TB y hasta 4 particiones primarias – si se necesitan más particiones se puede reemplazar una de las primarias por una extendida que pueda dividirse en múltiples particiones lógicas).
+
+#### fdisk 
+
+#### gdisk
+
+#### Sistemas de archivos
+
+
+
+
+
+
 
 
 
