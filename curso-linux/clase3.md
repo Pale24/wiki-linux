@@ -323,15 +323,212 @@ El estándar GPT permite crear hasta 128 particiones primarias en un mismo disco
 
 #### fdisk 
 
+Con la opción `fdisk -l` podemos listar los distintos discos presentes en la máquina y las particiones que puedan llegar a tener cada uno
+
+```
+fdisk -l #  Lista los discos y sus particiones
+
+Disk /dev/sda: 10 GiB, 10737418240 bytes, 20971520 sectors
+Disk model: VBOX HARDDISK   
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: D2AA813E-4E02-4A05-8579-9EAA76E808B8
+
+Device       Start      End  Sectors Size Type
+/dev/sda1     2048     4095     2048   1M BIOS boot
+/dev/sda2     4096  2101247  2097152   1G Linux filesystem
+/dev/sda3  2101248 20969471 18868224   9G Linux filesystem
+
+
+Disk /dev/sdb: 2 GiB, 2147483648 bytes, 4194304 sectors
+Disk model: VBOX HARDDISK   
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/sdc: 2 GiB, 2147483648 bytes, 4194304 sectors
+Disk model: VBOX HARDDISK   
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/sdd: 2 GiB, 2147483648 bytes, 4194304 sectors
+Disk model: VBOX HARDDISK   
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/ubuntu--vg-ubuntu--lv: 8,102 GiB, 9659482112 bytes, 18866176 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+```
+
+Los discos en linux se van enumerando de forma alfabetica como sda, sdb, sdc, etc. En este caso podemos ver que el sda tiene 3 particiones, una donde se encuentra el GRUB o gestor de arranque, otra donde se encuentra el kernel de linux (como se vió durante la instalación) y por último la partición que contiene al sistema. En el caso de sdb, sdc y sdd se puede ver que no tienen ninguna partición.
+
+Con el comando fdisk más el identificador del dispositivo, por ejemplo `fdisk /dev/sdb`, comenzamos la edición del disco sdb:
+
+```
+fdisk /dev/sdb
+
+Welcome to fdisk (util-linux 2.34).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+Device does not contain a recognized partition table.
+Created a new DOS disklabel with disk identifier 0x77e015af.
+
+Command (m for help):
+
+```
+Algunas opciones más comunes son:
+- m: mostrar el menú de ayuda
+- p: mostrar la tebla de particiones del dispositivo
+- l: mostrar los tipos de particiones soportadas por fdisk
+- n: agregar una nueva partición
+- d: borrar una partición existente
+- w: guardar cambios en la tabla de particiones
+- q: salir sin guardar cambios.
+- g: crea una tabla de particiones GPT vacia
+- o: crea una tabla de particiones DOS vacia
+
+Como se puede ver en la captura, nos dice que el disco en cuestión no tiene tabla de partición.
+
+Con la "m" vemos las opciones que presenta fdisk.
+
+```
+Welcome to fdisk (util-linux 2.34).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+Device does not contain a recognized partition table.
+Created a new DOS disklabel with disk identifier 0x39d24173.
+
+Command (m for help): m
+
+Help:
+
+  DOS (MBR)
+   a   toggle a bootable flag
+   b   edit nested BSD disklabel
+   c   toggle the dos compatibility flag
+
+  Generic
+   d   delete a partition
+   F   list free unpartitioned space
+   l   list known partition types
+   n   add a new partition
+   p   print the partition table
+   t   change a partition type
+   v   verify the partition table
+   i   print information about a partition
+
+  Misc
+   m   print this menu
+   u   change display/entry units
+   x   extra functionality (experts only)
+
+  Script
+   I   load disk layout from sfdisk script file
+   O   dump disk layout to sfdisk script file
+
+  Save & Exit
+   w   write table to disk and exit
+   q   quit without saving changes
+
+  Create a new label
+   g   create a new empty GPT partition table
+   G   create a new empty SGI (IRIX) partition table
+   o   create a new empty DOS partition table
+   s   create a new empty Sun partition table
+
+
+Command (m for help): 
+```
+
+Si queremos crear una nueva partición podemos usar la "n".
+
+```
+Command (m for help): n
+Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p):
+```
+
+Con la letra "p" podemos elegir entre crear una partición primaria o una extendida con la "e". Recordemos qué con MBR podemos crear solo 4 particiones primarias. Si se quiere crear más es necesario crear una partición extendida, sobre la que se puede crear particiones logicas. Si solo damos enter se crea una partición primaria, luego fdisk nos pide que seleccionemos un numero de partición (del 1 al 4, por defecto 1 - si no hay particiones). A continuación seleccionamos el primer sector desde el cual vamos a crear la partición y el sector final o el tamaño ingresando un numero seguido de una letra. Si damos enter sin indicar valores, vamos a usar todo el disco. Por defecto fdisk etiqueta la partición como tipo "linux", esto no quiere decir que ya tenga formato, eso se hace después. De esta forma ya hemos creado la partición y podemos verla con la letra "p"
+
+```
+Using default response p.
+Partition number (1-4, default 1): 
+First sector (2048-4194303, default 2048): 
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-4194303, default 4194303): 
+
+Created a new partition 1 of type 'Linux' and of size 2 GiB.
+
+Command (m for help): p
+Disk /dev/sdb: 2 GiB, 2147483648 bytes, 4194304 sectors
+Disk model: VBOX HARDDISK   
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x39d24173
+
+Device     Boot Start     End Sectors Size Id Type
+/dev/sdb1        2048 4194303 4192256   2G 83 Linux
+
+Command (m for help):  
+```
+
+Si quisieramos cambiar el tipo de partición podemos usar la "t" y luego con la "L" podemos listar los tipos:
+
+```
+Command (m for help): t
+Selected partition 1
+Hex code (type L to list all codes): L
+
+ 0  Empty           24  NEC DOS         81  Minix / old Lin bf  Solaris        
+ 1  FAT12           27  Hidden NTFS Win 82  Linux swap / So c1  DRDOS/sec (FAT-
+ 2  XENIX root      39  Plan 9          83  Linux           c4  DRDOS/sec (FAT-
+ 3  XENIX usr       3c  PartitionMagic  84  OS/2 hidden or  c6  DRDOS/sec (FAT-
+ 4  FAT16 <32M      40  Venix 80286     85  Linux extended  c7  Syrinx         
+ 5  Extended        41  PPC PReP Boot   86  NTFS volume set da  Non-FS data    
+ 6  FAT16           42  SFS             87  NTFS volume set db  CP/M / CTOS / .
+ 7  HPFS/NTFS/exFAT 4d  QNX4.x          88  Linux plaintext de  Dell Utility   
+ 8  AIX             4e  QNX4.x 2nd part 8e  Linux LVM       df  BootIt         
+ 9  AIX bootable    4f  QNX4.x 3rd part 93  Amoeba          e1  DOS access     
+ a  OS/2 Boot Manag 50  OnTrack DM      94  Amoeba BBT      e3  DOS R/O        
+ b  W95 FAT32       51  OnTrack DM6 Aux 9f  BSD/OS          e4  SpeedStor      
+ c  W95 FAT32 (LBA) 52  CP/M            a0  IBM Thinkpad hi ea  Rufus alignment
+ e  W95 FAT16 (LBA) 53  OnTrack DM6 Aux a5  FreeBSD         eb  BeOS fs        
+ f  W95 Ext'd (LBA) 54  OnTrackDM6      a6  OpenBSD         ee  GPT            
+10  OPUS            55  EZ-Drive        a7  NeXTSTEP        ef  EFI (FAT-12/16/
+11  Hidden FAT12    56  Golden Bow      a8  Darwin UFS      f0  Linux/PA-RISC b
+12  Compaq diagnost 5c  Priam Edisk     a9  NetBSD          f1  SpeedStor      
+14  Hidden FAT16 <3 61  SpeedStor       ab  Darwin boot     f4  SpeedStor      
+16  Hidden FAT16    63  GNU HURD or Sys af  HFS / HFS+      f2  DOS secondary  
+17  Hidden HPFS/NTF 64  Novell Netware  b7  BSDI fs         fb  VMware VMFS    
+18  AST SmartSleep  65  Novell Netware  b8  BSDI swap       fc  VMware VMKCORE 
+1b  Hidden W95 FAT3 70  DiskSecure Mult bb  Boot Wizard hid fd  Linux raid auto
+1c  Hidden W95 FAT3 75  PC/IX           bc  Acronis FAT32 L fe  LANstep        
+1e  Hidden W95 FAT1 80  Old Minix       be  Solaris boot    ff  BBT            
+Hex code (type L to list all codes):     
+```
+Si queremos crear una partición para Windows podemos usar la opción 7 (HPFS/NTFS/exFAT).
+
+Para finalizar y escribir los cambios en el disco usamos la opción "w".
+
 #### gdisk
 
 #### Sistemas de archivos
 
+#### LVM
 
-
-
-
-
-
-
+#### Fstab
 
