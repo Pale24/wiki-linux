@@ -672,9 +672,244 @@ La estructura de LVM consiste en diferentes componentes:
 - Grupo de volúmenes (VG, volume Group): Se obtiene a partir de uno a más volúmenes físicos.
 - En cada VG podemos crear varios volúmenes lógicos, los que podrían considerarse analogos a las particiones de discos.
 
+Vamos a usar los 3 discos que creamos anteriormente y vamos a convertirlos en volúmenes físicos. Para esto primero eliminamos la información que pueda haber quedado en los discos ejecutando:
+
+```
+wipefs -a /dev/sdb
+wipefs -a /dev/sdc
+wipefs -a /dev/sdd
+```
+
+Ahora podemos crear los PV:
+
+```
+pvcreate /dev/sdb
+ Physical volume "/dev/sdb" successfully created.
+pvcreate /dev/sdc
+ Physical volume "/dev/sdc" successfully created.
+pvcreate /dev/sdd
+ Physical volume "/dev/sdd" successfully created.
+```
+
+Podemos usar pvdisplay o pvs ara mostrar los atributos o ver información sobre un volumen físico, respectivamente, la ruta del PV (pvdisplay /dev/sdb o pvs /dev/sdb, por ejemplo). Si omitimos la ruta veremos la lista de todos los volúmenes físicos que existen en nuestro sistema. 
+
+```
+pvs
+  PV         VG        Fmt  Attr PSize  PFree
+  /dev/sda3  ubuntu-vg lvm2 a--  <9,00g    0 
+  /dev/sdb             lvm2 ---   2,00g 2,00g
+  /dev/sdc             lvm2 ---   2,00g 2,00g
+  /dev/sdd             lvm2 ---   2,00g 2,00g
+
+pvs /dev/sdb
+  PV         VG Fmt  Attr PSize PFree
+  /dev/sdb      lvm2 ---  2,00g 2,00g
+
+pvdisplay /dev/sdb
+  "/dev/sdb" is a new physical volume of "2,00 GiB"
+  --- NEW Physical volume ---
+  PV Name               /dev/sdb
+  VG Name
+  PV Size               2,00 GiB
+  Allocatable           NO
+  PE Size               0
+  Total PE              0
+  Free PE               0
+  Allocated PE          0
+  PV UUID               rGXJJj-I87g-16q6-fvKU-f95k-5sMo-XxTHmu
+
+```
+
+Ahora ya podemos crear el grupo de volumenes. Vamos a usar solo 2 de los discos (sdb y sdc), con sdd vamos a extender el VG que hicimos al instalar el SO.
+
+Vamos a llamar a este VG curso-vg:
+
+```
+vgcreate curso-vg /dev/sdb /dev/sdc
+ Volume group "curso-vg" successfully created
+```
+
+```
+vgs
+  VG        #PV #LV #SN Attr   VSize  VFree
+  curso-vg    2   0   0 wz--n-  3,99g 3,99g
+  ubuntu-vg   1   1   0 wz--n- <9,00g    0 
 
 
+vgdisplay
+  --- Volume group ---
+  VG Name               curso-vg
+  System ID             
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  1
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                0
+  Open LV               0
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               3,99 GiB
+  PE Size               4,00 MiB
+  Total PE              1022
+  Alloc PE / Size       0 / 0   
+  Free  PE / Size       1022 / 3,99 GiB
+  VG UUID               QtbPqK-ilwi-TD70-jmZt-Qk0U-3zy1-okfRfp
+   
+  --- Volume group ---
+  VG Name               ubuntu-vg
+  System ID             
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  4
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               <9,00 GiB
+  PE Size               4,00 MiB
+  Total PE              2303
+  Alloc PE / Size       2303 / <9,00 GiB
+  Free  PE / Size       0 / 0   
+  VG UUID               dngU2r-IFiM-i4sq-TC8i-JgIX-WKnl-NFfVGe
 
+```
+Como se puede ver, el espacio de curso-vg es ahora de ~ 4GB, esto nos permite crear una unidad de almacenamiento de mayor capacidad utilizando discos o particiones de menor tamaño.
+
+Ahora vamos a crear el primer volumen logico de 1GB llamado lv1 sobre curso-vg:
+
+```
+lvcreate -n lv1 -L 1G curso-vg
+
+  Logical volume "lv1" created.
+```
+
+```
+lvs curso-vg/lv1
+  LV   VG       Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  lv1  curso-vg -wi-a----- 1,00g                                                    
+lvdisplay curso-vg/lv1
+  --- Logical volume ---
+  LV Path                /dev/curso-vg/lv1
+  LV Name                lv1
+  VG Name                curso-vg
+  LV UUID                HJJHRO-txEZ-cUis-QGbs-TXNM-z91H-uNwyaL
+  LV Write Access        read/write
+  LV Creation host, time ubuntu-curso, 2021-11-18 02:34:30 +0000
+  LV Status              available
+  # open                 0
+  LV Size                1,00 GiB
+  Current LE             256
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:1
+
+```
+
+Si se omite -n <nombre>, el nombre se asigna automáticamente.
+
+Ya podemos crear el sistema de archivos sobre lv1 y montarlo en algún directorio creado previamente. Por ejemplo, /home/<usuario>/curso.
+
+```
+mkdir /home/pale/curso
+mkfs.ext4 /dev/curso-vg/lv1
+
+mke2fs 1.45.5 (07-Jan-2020)
+Creating filesystem with 262144 4k blocks and 65536 inodes
+Filesystem UUID: bd17b192-8775-4697-858e-474c91a8e86b
+Superblock backups stored on blocks:
+	32768, 98304, 163840, 229376
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (8192 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+mount /dev/curso-vg/lv1 /home/pale/curso
+
+chown pale:pale .
+```
+
+Si hacemos lsblk podemos ver que el LV está montado:
+
+```
+sda                        8:0    0   10G  0 disk 
+├─sda1                     8:1    0    1M  0 part 
+├─sda2                     8:2    0    1G  0 part /boot
+└─sda3                     8:3    0    9G  0 part 
+  └─ubuntu--vg-ubuntu--lv
+                         253:0    0    9G  0 lvm  /
+sdb                        8:16   0    2G  0 disk 
+└─curso--vg-lv1          253:1    0    1G  0 lvm  /home/pale/curso
+sdc                        8:32   0    2G  0 disk 
+sdd                        8:48   0    2G  0 disk 
+```
+
+Ahora vamos a extender el VG que hicimos durante la instalación. Para agregar un PV a un VG, utilizaremos el comando vgextend seguido del nombre del VG y finalmente del PV:
+
+```
+vgextend ubuntu-vg /dev/sdd
+  Volume group "ubuntu-vg" successfully extended
+```
+
+Si ejecutamos `vgs ubuntu-vg` vemos:
+
+```
+vgs ubuntu-vg
+  VG        #PV #LV #SN Attr   VSize  VFree
+  ubuntu-vg   2   1   0 wz--n- 10,99g <2,00g
+```
+
+Podemos ver que el tamaño se incrementó. 
+
+Ya incrementamos el tamaño del VG y ahora podemos hacer lo mimo con el tamaño del LV. 
+
+```
+lvresize --resizefs --size 10.99G ubuntu-vg/ubuntu-lv
+
+  Rounding size to boundary between physical extents: 10,99 GiB.
+  Size of logical volume ubuntu-vg/ubuntu-lv changed from <9,00 GiB (2303 extents) to 10,99 GiB (2814 extents).
+  Logical volume ubuntu-vg/ubuntu-lv successfully resized.
+resize2fs 1.45.5 (07-Jan-2020)
+Filesystem at /dev/mapper/ubuntu--vg-ubuntu--lv is mounted on /; on-line resizing required
+old_desc_blocks = 2, new_desc_blocks = 2
+The filesystem on /dev/mapper/ubuntu--vg-ubuntu--lv is now 2881536 (4k) blocks long.
+
+```
+
+Ahora comprobamos el espacio del directorio raiz del SO:
+```
+df -h /
+Filesystem                         Size  Used Avail Use% Mounted on
+/dev/mapper/ubuntu--vg-ubuntu--lv   11G  4,3G  6,0G  42% /
+
+```
+
+Como podemos ver, pasó de 9GB a 11G en "caliente", es decir, no tuvimos que desmontar el disco, ni particiones, simplemente ejecutamos un comando y listo.
+
+```
+lsblk 
+NAME                     MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda                        8:0    0   10G  0 disk
+├─sda1                     8:1    0    1M  0 part
+├─sda2                     8:2    0    1G  0 part /boot
+└─sda3                     8:3    0    9G  0 part
+  └─ubuntu--vg-ubuntu--lv
+                         253:0    0   11G  0 lvm  /
+sdb                        8:16   0    2G  0 disk
+└─curso--vg-lv1          253:1    0    1G  0 lvm  /home/pale/curso
+sdc                        8:32   0    2G  0 disk
+sdd                        8:48   0    2G  0 disk
+└─ubuntu--vg-ubuntu--lv  253:0    0   11G  0 lvm  /
+```
 
 #### Fstab
 

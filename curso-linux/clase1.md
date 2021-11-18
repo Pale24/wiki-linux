@@ -80,20 +80,6 @@ El término cloud computing se refiere a una forma estandarizada de consumir r
 
 Linux generalmente es ofrecido como parte de Infrastructure as a Service (IaaS). Las instancias IaaS son máquinas virtuales que se aprovisionan en cuestión de minutos en la nube. Cuando se inicia una instancia IaaS, se elige una imagen que contiene los datos que se desplegarán en la nueva instancia. Los proveedores de nube ofrecen varias imágenes que contienen instalaciones listas para ejecutar tanto de las distribuciones populares, así como sus propias versiones de Linux. El usuario podrá elegir una imagen que contiene su distribución preferida y acceder a una instancia de la nube que ejecute esta distribución poco después de haberse creado. La mayoría de los proveedores agregan herramientas a sus imágenes para ajustar la instalación a una instancia específica de la nube. Estas herramientas pueden, por ejemplo, extender los sistemas de archivos de la imagen para que se ajusten al disco duro real de la máquina virtual.
 
-## Ejercicios guiados
-
-- 1. ¿En qué se diferencia Debian GNU/Linux de Ubuntu? Nombre dos aspectos.
-- 2. ¿Cuáles son los entornos/plataformas más comunes para los que se utiliza Linux? Nombre tres entornos/plataformas diferentes y nombre una distribución que pueda utilizarse para cada uno.
-- 3. Se planea instalar una distribución de Linux en un nuevo entorno. Nombre cuatro aspectos que deban ser considerados al elegir una distribución.
-- 4. Nombre tres dispositivos en los que se pueda ejecutar el sistema operativo Android, que no sean teléfonos inteligentes. 
-- 5. Explique tres ventajas importantes de la computación en la nube.
-
-## Ejercicios exploratorios
-
-- 1. Teniendo en cuenta el costo y el rendimiento, ¿Qué distribuciones son más adecuadas para una empresa que tiene como objetivo reducir los costos de licencias, manteniendo el rendimiento al máximo? Explique por qué. 
-- 2. ¿Cuáles son las principales ventajas de Raspberry Pi y qué funciones pueden tener en los negocios? 
-- 3. ¿Qué gama de distribuciones ofrecen Amazon Cloud Services y Google Cloud? Nombre al menos tres comunes y dos diferentes.
-
 - Fuentes:
 	- [Linux essentials](https://learning.lpi.org/es/learning-materials/010-160/1/1.1/1.1_01/)
 
