@@ -228,14 +228,6 @@ Por ejemplo:
 ```bash
 vi /etc/netplan/00-installer-config.yaml
 
-# This is the network config written by 'subiquity'
-#network:
-#  ethernets:
-#    enp2s0:
-#      dhcp4: true
-#    enp3s0:
-#      dhcp4: true
-#  version: 2
 network:
   ethernets:
     enp2s0:
@@ -526,9 +518,163 @@ Para finalizar y escribir los cambios en el disco usamos la opción "w".
 
 #### gdisk
 
+El comando fdisk estaba pensado para particiones MBR, con la evolución de la BIOS a la UEFI aparecieron las tablas GPT. El comando gdisk es muy parecido a fdisk pero para manejar especificamente particiones GPT.
+
+Para iniciar su uso tipeamos gdisk y el disco que vamos a usar:
+
+```
+gdisk /dev/sdc
+
+GPT fdisk (gdisk) version 1.0.5
+
+Partition table scan:
+  MBR: not present
+  BSD: not present
+  APM: not present
+  GPT: not present
+
+Creating new GPT entries in memory.
+
+Command (? for help):
+
+```
+
+Gdisk nos indica que no hay presente una tabla de particiones y, por lo tanto, nos crea una nueva entrada GPT. 
+
+Los comandos de gdisk suelen ser similares a fdisk. Si queremos ver el disco usamos "p"
+
+```
+Command (? for help): p
+Disk /dev/sdc: 4194304 sectors, 2.0 GiB
+Model: VBOX HARDDISK   
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): DBECDDA1-3EC5-4216-9AB0-21E222D252AF
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 4194270
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 4194237 sectors (2.0 GiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+
+Command (? for help): 
+
+```
+
+Nos indica que el disco ya tiene una tabla de partición pero que el disco no tiene ninguna partición asignada. Podemos pulsar la "n" para crear una partición.
+
+```
+Command (? for help): n
+Partition number (1-128, default 1): 
+```
+
+En este caso se puede ver que gdisk nos permite crear hasta 128 particiones. Si pulsamos enter, se numera por defecto y nos va a pedir que indiquemos el primer sector de la partición y luego el final (con enter estos espacios se seleccionan de forma automática). Vamos a dejar el inicio por defecto y el final lo vamos a fijar en 1G con +1G. Luego, el programa nos dice que por defecto va a seleccionar el tipo de sistema de archivos como linux aunque nos da la opción de cambiarlo, vamos a dejarlo así.
+
+```
+First sector (34-4194270, default = 2048) or {+-}size{KMGTP}: 
+Last sector (2048-4194270, default = 4194270) or {+-}size{KMGTP}: +1G
+Current type is 8300 (Linux filesystem)
+Hex code or GUID (L to show codes, Enter = 8300): 
+Changed type of partition to 'Linux filesystem'
+```
+
+Con "p" podemos ver el resultado:
+
+```
+Command (? for help): p
+Disk /dev/sdc: 4194304 sectors, 2.0 GiB
+Model: VBOX HARDDISK   
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): DBECDDA1-3EC5-4216-9AB0-21E222D252AF
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 4194270
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 2097085 sectors (1024.0 MiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048         2099199   1024.0 MiB  8300  Linux filesystem
+
+Command (? for help):
+```
+
+Si queremos crear otra partición volvemos a usar la "n" ...
+
+Para guardar usamos "w". 
+
+Una vez generadas las particiones podemos ver lo que se hizo con `gdisk -l /dev/sdc`
+
+```
+GPT fdisk (gdisk) version 1.0.5
+
+Partition table scan:
+  MBR: protective
+  BSD: not present
+  APM: not present
+  GPT: present
+
+Found valid GPT with protective MBR; using GPT.
+Disk /dev/sdc: 4194304 sectors, 2.0 GiB
+Model: VBOX HARDDISK   
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): DBECDDA1-3EC5-4216-9AB0-21E222D252AF
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 4194270
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 2014 sectors (1007.0 KiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048         2099199   1024.0 MiB  8300  Linux filesystem
+   2         2099200         4194270   1023.0 MiB  0700  Microsoft basic data
+```
+
 #### Sistemas de archivos
 
-#### LVM
+Una vez que tenemos la particiones hechas, si queremos usarlas para guardar información como archivos, directorios, etc necesitamos que tengan una estructura, es decir que es necesario que tengan un sistema de archivos.
+
+Cada uno de los SO utiliza un tipo de sistema de archivos
+Una vez que tenemos la particiones hechas, si queremos usarlas para guardar información como archivos, directorios, etc necesitamos que tengan una estructura, es decir que es necesario que tengan un sistema de archivos.
+
+Cada uno de los SO utiliza un tipo de sistema de archivos.
+
+La utilidad para realizar esta tarea es mkfs (MaKe File System). El comando es mkfs. y seguido del tipo de partición.
+
+- mkfs.ext4
+- mkfs.ext3
+- mkfs.vfat
+- mkfs.ntfs
+- mkfs.btrfs (btrfs-progs)
+- mkswap
+
+Para generar el sistema de archivos simplemente debemos utilizar el comando con el tipo de sistema que deseamos generar. Por ejemplo, para generar un sistema de archivos ext4 en la partición sdc1 ejecutamos:
+
+```
+mkfs.ext4 /dev/sdc1
+```
+
+Entre las opciones de las que disponemos, -L nos servirá para asignarle una etiqueta al sistema de archivos, mediante la cual podremos identificarlo más fácilmente a la hora de montarlo y disponerlo finalmente para su uso. En este caso quedaría así:
+
+```
+mkfs.ext4 -L etiqueta /dev/sdc1
+```
+
+Una vez hecho esto, ya podemos montar la partición.
+
+#### LVM (Logical Volume Management)
+
+Ya vimos en la [clase1](clase1.md) qué es LVM. Ahora vamos a dedicarnos a crear y manipularlos.
+
+Los LVM pueden ser creados a partir de discos enteros o particiones de los mismos.
+
+La estructura de LVM consiste en diferentes componentes:
+- 2 o más discos o particiones sobre los que se crearán los volúmenes físicos (PV, physical Volume). Si vamos a trabajar con particiones tenemos que indcar que la partición sea del tipo linux LVM (8e en fdisk o 8e00 en gdisk).
+- Grupo de volúmenes (VG, volume Group): Se obtiene a partir de uno a más volúmenes físicos.
+- En cada VG podemos crear varios volúmenes lógicos, los que podrían considerarse analogos a las particiones de discos.
+
+
+
+
 
 #### Fstab
 
