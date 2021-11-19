@@ -265,6 +265,8 @@ Contenido de /etc/iptables/rules.v4:
 
 # Gestión de dispositivos de almacenamiento
 
+Para llevar a cabo esta parte del curso vamos a crear 3 discos de 1 o 2GB (dependiendo el espacio de nuestra computadora) en nuestra máquina virtual. En la ventana de virtualBox seleccionamos nuestra máquina virtual y después vamos a la configuración (ícono del engranaje), de ahí vamos a almacenamiento y sobre el menú "controlador: SATA" seleccionamos agregar disco duro. Se nos abre una nueva ventana, seleccionamos crear y se vuelve a abrir otra ventana donde vamos a crear el disco. Seleccionamos la prime opción "VDI ..." y siguiente, tamaño fijo y siguiente, ponemos el nombre y el tamaño, crear. Esto genera un disco que va a figurar en "not attached", lo seleccionamos y clickeamos seleccionar. Repetimos la operación para generar los otros discos y finalmente seleccionamos aceptar para gardar los cambios.
+
 Los dispositivos de almacenamiento son fundamentales para la instalación y la correcta operación del sistema operativo. En un sistema Linux hay solamente una estructura de directorios sin importar de cuántos dispositivos de almacenamiento físico dispongamos. Pero para poder utilizarlos, es necesario que primero asociemos a cada uno con un directorio del sistema. Este directorio recibe el nombre de punto de montaje.
 
 Una partición es una división lógica que se hace a un dispositivo de almacenamiento con el propósito de definir un espacio determinado para un uso en particular, mientras que un sistema de archivos puede definirse como la forma en que se estructurarán los contenidos (archivos y directorios) de dicha partición.
