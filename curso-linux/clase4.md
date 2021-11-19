@@ -2,6 +2,11 @@
 
 ## Temas:
 
-- 10. Logs sistema
-- 11. Ssh server
-- 12. Gestión de procesos
+- 10. Logs del sistema
+- 11. Gestión de procesos
+- 12. Ssh server
+
+
+
+
+

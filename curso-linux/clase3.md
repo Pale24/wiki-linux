@@ -913,5 +913,9 @@ sdd                        8:48   0    2G  0 disk
 └─ubuntu--vg-ubuntu--lv  253:0    0   11G  0 lvm  /
 ```
 
+#### mount
+
+
 #### Fstab
+
 
