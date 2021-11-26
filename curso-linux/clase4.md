@@ -95,27 +95,27 @@ Nov 25 16:04:22 ubuntu-curso pale: Aviso
 - /var/log/kern.log: Proporciona información detallada de mensajes del kernel. Puede ser útil para intentar detectar y solucionar problemas con la detección de hardware. Consulta: `less /var/log/kern.log`
 - /var/log/dmesg: Información relacionada con el hardware de nuestro equipo. Por lo tanto podremos obtener información para concluir si nuestro hardware funciona de forma adecuada. Consulta: `dmesg | less`
 - /var/log/btmp: Almacena los intentos fallidos de logins en un equipo. Si alguien realizará un ataque de fuerza bruta a un servidor ssh, el fichero registraría la IP del atacante, el día y hora en que ha fallado el login, el nombre de usuario con que se ha intentado loguear, etc. Consulta: `utmpdump /var/log/btmp` o `last -f /var/log/btmp | less`
--
-Ejemplo de intento de ataque por fuerza bruta al servidor:
 
-`hydra -l pale -V -x 4:4:aA1 192.168.0.18 ssh`
+	Ejemplo de intento de ataque por fuerza bruta al servidor:
 
-```
-utmpdump /var/log/btmp
-[6] [02055] [    ] [pale    ] [ssh:notty   ] [192.168.0.3         ] [192.168.0.3    ] [2021-11-25T20:10:32,000000+00:00]
-[6] [02070] [    ] [pale    ] [ssh:notty   ] [192.168.0.3         ] [192.168.0.3    ] [2021-11-25T20:10:32,000000+00:00]
-[6] [02083] [    ] [pale    ] [ssh:notty   ] [192.168.0.3         ] [192.168.0.3    ] [2021-11-25T20:10:32,000000+00:00]
-[6] [02060] [    ] [pale    ] [ssh:notty   ] [192.168.0.3         ] [192.168.0.3    ] [2021-11-25T20:10:34,000000+00:00]
-```
-```
-vi /var/log/auth.log
+	`hydra -l pale -V -x 4:4:aA1 192.168.0.18 ssh`
 
-Nov 25 17:10:28 ubuntu-curso sshd[2070]: Failed password for pale from 192.168.0.3 port 46392 ssh2
-Nov 25 17:10:28 ubuntu-curso sshd[2069]: Failed password for pale from 192.168.0.3 port 46390 ssh2
-Nov 25 17:10:28 ubuntu-curso sshd[2083]: Failed password for pale from 192.168.0.3 port 46398 ssh2
-Nov 25 17:10:30 ubuntu-curso sshd[2054]: error: maximum authentication attempts exceeded for pale from 192.168.0.3 port 46366 ssh2 [preauth]
-Nov 25 17:10:30 ubuntu-curso sshd[2054]: Disconnecting authenticating user pale 192.168.0.3 port 46366: Too many authentication failures [preauth]
-```
+	```
+	utmpdump /var/log/btmp
+	[6] [02055] [    ] [pale    ] [ssh:notty   ] [192.168.0.3         ] [192.168.0.3    ] [2021-11-25T20:10:32,000000+00:00]
+	[6] [02070] [    ] [pale    ] [ssh:notty   ] [192.168.0.3         ] [192.168.0.3    ] [2021-11-25T20:10:32,000000+00:00]
+	[6] [02083] [    ] [pale    ] [ssh:notty   ] [192.168.0.3         ] [192.168.0.3    ] [2021-11-25T20:10:32,000000+00:00]
+	[6] [02060] [    ] [pale    ] [ssh:notty   ] [192.168.0.3         ] [192.168.0.3    ] [2021-11-25T20:10:34,000000+00:00]
+	```
+	```
+	vi /var/log/auth.log
+
+	Nov 25 17:10:28 ubuntu-curso sshd[2070]: Failed password for pale from 192.168.0.3 port 46392 ssh2
+	Nov 25 17:10:28 ubuntu-curso sshd[2069]: Failed password for pale from 192.168.0.3 port 46390 ssh2
+	Nov 25 17:10:28 ubuntu-curso sshd[2083]: Failed password for pale from 192.168.0.3 port 46398 ssh2
+	Nov 25 17:10:30 ubuntu-curso sshd[2054]: error: maximum authentication attempts exceeded for pale from 192.168.0.3 port 46366 ssh2 [preauth]
+	Nov 25 17:10:30 ubuntu-curso sshd[2054]: Disconnecting authenticating user pale 192.168.0.3 port 46366: Too many authentication failures [preauth]
+	```
 - /var/log/dpkg.log: Contiene información sobre la totalidad de paquetes instalados y desinstalados mediante el comando dpkg. `less /var/log/dpkg.log`
 - /var/log/apt/history.log: Detalle de los paquetes instalados, desinstalados o actualizados mediante el gestor de paquetes apt-get.
 - [Otros](https://geekland.eu/logs-en-linux/)
