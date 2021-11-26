@@ -2,9 +2,9 @@
 
 ## Temas:
 
-- 10. Logs del sistema
-- 11. Gestión de procesos
-- 12. Ssh server
+- 11. Logs del sistema
+- 12. Gestión de procesos
+- 13. Tareas programadas
 
 # Logs del sistema
 
@@ -118,6 +118,36 @@ Nov 25 16:04:22 ubuntu-curso pale: Aviso
 	```
 - /var/log/dpkg.log: Contiene información sobre la totalidad de paquetes instalados y desinstalados mediante el comando dpkg. `less /var/log/dpkg.log`
 - /var/log/apt/history.log: Detalle de los paquetes instalados, desinstalados o actualizados mediante el gestor de paquetes apt-get.
-- [Otros](https://geekland.eu/logs-en-linux/)
 
+### Mecanismo de rotación
+
+Si se observa el contenido del directorio /var/log se puede observar que existen archivos .log, .log.1, .log.2.gz, .log.3.gz y .log.4.gz:
+
+```
+ls -l /var/log/auth.log*
+-rw-r----- 1 syslog adm 59615 nov 25 19:17 /var/log/auth.log
+-rw-r----- 1 syslog adm 30296 nov 23 17:54 /var/log/auth.log.1
+-rw-r----- 1 syslog adm  4500 nov 15 19:03 /var/log/auth.log.2.gz
+-rw-r----- 1 syslog adm  1959 nov  6 20:38 /var/log/auth.log.3.gz
+-rw-r----- 1 syslog adm  2148 oct 31 11:46 /var/log/auth.log.4.gz
+```
+Como podemos ver en la salida de ls, cada uno de estos archivos se crea cada una semana y si se ingresa a cada uno de ellos se puede ver que contienen información de los logs creados hasta esa fecha. Ademas, los últimos 3 se encuentran comprimidos (.gz). Este comportamiento es llevado a cabo por el mecanismo de rotación de logs. Su función es evitar que los logs consuman todo el espacio de almacenamiento y sean fáciles de consultar. Si analizamos el comportamiento del log auth.log veremos que semanalmente realiza las siguientes operaciones:
+
+- 1. El contenido que estaba en el fichero auth.log.4.gz se borrará y perderá de forma definitiva.
+- 2. El contenido que estaba en el fichero auth.log.3.gz se trasladará al fichero comprimido auth.log.4.gz.
+- 3. El contenido que estaba en el fichero auth.log.2.gz se trasladará al fichero comprimido auth.log.3.gz.
+- 4. El contenido que estaba en el fichero auth.log.1 se comprimirá y trasladará al fichero auth.log.2.gz.
+- 5. Finalmente, la información almacenada en auth.log se trasladará al fichero auth.log.1 y el fichero auth.log quedará vacío y listo para seguir registrando información.
+
+De esta forma únicamente estaremos almacenando los logs de las últimas 4-5 semanas. Por lo tanto, para consultar las autenticaciones al sistema operativo de 3 semanas atrás deberemos consultar el log auth.log.3.gz
+
+La rotación de los logs es una tarea programada que se realiza de forma periódica. Los logs se rotan en función de un criterio que nosotros mismos podemos configurar. El criterio de rotación de logs se establece en los ficheros de configuración ubicados en /etc/logrotate.d
+
+## Journalctl
+
+
+
+# Tareas programadas ???
+
+# Gestión de procesos
 

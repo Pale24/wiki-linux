@@ -5,7 +5,8 @@
     - IP estática
     - forward
     - fijar nombres de hosts
-- 9. Gestión de dispositivos de almacenamiento
+- 9. SSH
+- 10. Gestión de dispositivos de almacenamiento
 
 # Gestión de redes
 
