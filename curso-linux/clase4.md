@@ -182,7 +182,12 @@ Como pueden ver nos muestra los logs desde el 28/10, que es el día que instalé
 	  lines 652-663/663 (END)
 	  ```
 	- Se puede ver la salida de varios servicios a la vez ingresandolos uno detras de otro `journalctl -u ssh -u cups`
-  
+	- Para ver los servicios que están corriendo en nuestro ordenados podemos correr `sudo systemctl -t service -a`
+- `journalctl -b`: Muestra los eventos del inicio del equipo. Esta opción es muy útil para ver posibles errores al inicio o si algún servicio inició con errores.
+- `journalctl -k`: Muesta los eventos del kernel de linux.
+- Filtrar por tiempo:
+	- -S o --since:
+	- -U o --until: 
 
 # Tareas programadas ???
 
