@@ -145,7 +145,44 @@ La rotación de los logs es una tarea programada que se realiza de forma periód
 
 ## Journalctl
 
+En systemd tenemos un servicio denominado journald que se encarga de recolectar, almacenar y administrar los mensajes de logs del sistema. Esta herramienta tiene la particularidad de almacenar la información en binario, lo que hace necesario el uso de la herramienta journalctl para poder consultar los logs. 
 
+Por defecto, al ejecutar sólo `journalctl` sin ninguna opción adicional el comando nos muestra todo el contenido de journald guardado. Todos los usuarios pueden visualiar sus propios journals pero los archivos de logs principales y los de otros usuarios solo pueden ser accedidos por usuarios con privilegios de administrador.
+
+```
+journalctl
+-- Logs begin at Thu 2021-10-28 08:38:46 -03, end at Mon 2021-11-29 19:14:35 -03. --
+oct 28 08:38:46 ubuntu-curso kernel: Linux version 5.4.0-89-generic (buildd@lgw01-amd64-044) (gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1>
+oct 28 08:38:46 ubuntu-curso kernel: Command line: BOOT_IMAGE=/vmlinuz-5.4.0-89-generic root=/dev/mapper/ubuntu--vg-ubuntu--lv ro maybe>
+oct 28 08:38:46 ubuntu-curso kernel: KERNEL supported cpus:
+oct 28 08:38:46 ubuntu-curso kernel:   Intel GenuineIntel
+oct 28 08:38:46 ubuntu-curso kernel:   AMD AuthenticAMD
+oct 28 08:38:46 ubuntu-curso kernel:   Hygon HygonGenuine
+oct 28 08:38:46 ubuntu-curso kernel:   Centaur CentaurHauls
+oct 28 08:38:46 ubuntu-curso kernel:   zhaoxin   Shanghai  
+oct 28 08:38:46 ubuntu-curso kernel: x86/fpu: Supporting XSAVE feature 0x001: 'x87 floating point registers'
+oct 28 08:38:46 ubuntu-curso kernel: x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
+oct 28 08:38:46 ubuntu-curso kernel: x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
+```
+Como pueden ver nos muestra los logs desde el 28/10, que es el día que instalé la máquina virtual y a medida que vamos bajando vamos viendo el contenido actualizado. El resultado se visualiza sobre el comando `less` por lo que, para ver más lineas podemos usar las flechas de abajo y arriba del teclado y para ver el contenido completo de una linea podemos usar las flechas laterales. También podemos saltar de página en página con la tecla "espacio" y realizar busquedas de patrones con la tecla "/" seguido del patrón que buscamos (luego podemos saltar de patrón en patrón encontrado con la tecla "n" o shift + "n" para ir para atrás) entre otras opciones (para ver todas las opciones se puede tipear "help"). Para salir se usa la tecla "q".
+
+### Otras salidas: 
+- `journalctl -r`: Imprime la salida del comando en orden inverso (los últimos primero)
+- `journalctl -f`: Nos permite ver el journal en tiempo real, las nuevas lineas irán apareciendo al final de la terminal.
+- `journalctl -u servicio`: Nos muestra los registros de un servicio o unidad de systemd dado, por ejemplo, ssh.
+	- ```
+	  journalctl -u ssh
+
+	  nov 29 19:13:49 ubuntu-curso systemd[1]: Starting OpenBSD Secure Shell server...
+	  nov 29 19:13:55 ubuntu-curso sshd[825]: Server listening on 0.0.0.0 port 22.
+	  nov 29 19:13:55 ubuntu-curso sshd[825]: Server listening on :: port 22.
+	  nov 29 19:13:55 ubuntu-curso systemd[1]: Started OpenBSD Secure Shell server.
+	  nov 29 19:14:04 ubuntu-curso sshd[828]: Accepted password for pale from 192.168.0.3 port 32854 ssh2
+	  nov 29 19:14:04 ubuntu-curso sshd[828]: pam_unix(sshd:session): session opened for user pale by (uid=0)
+	  lines 652-663/663 (END)
+	  ```
+	- Se puede ver la salida de varios servicios a la vez ingresandolos uno detras de otro `journalctl -u ssh -u cups`
+  
 
 # Tareas programadas ???
 
