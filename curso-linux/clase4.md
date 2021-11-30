@@ -216,9 +216,76 @@ systemctl restart systemd-journald
 
 Otra manera de configurar la permanencia de los logs es a través del archivo /etc/systemd/journald.conf indicando Storage=persistent debajo de la sección [Journal].
 
+# Tareas programadas:
 
+Una de las tareas habituales de un administrador de sistemas consiste en la planificación de la ejecución de algún comando, script, etc de forma periodica y en lo posible haciendo el menor esfuerzo posible. Para esto linux cuenta con una utilidad llamada **cron** que nos permite realizar tareas repetitivas de manera automática y periódica. 
 
-# Tareas programadas ???
+Cron despierta cada minuto y chequea si hay tareas para ejecutar en la tabla de tareas. Por su parte el comando **crontab** nos permite editar y visualizar la tabla de actividades (en realidad se trata de un archivo de texto plano).
+
+Por defecto todos los usuarios pueden automatizar sus tareas mediante una tabla personal, la cual se encuentra en /var/spool/cron/crontabs/<usuario>. Cada linea del archivo corresponde a una tarea con las indicaciones de cuando se debe ejecutar.
+
+## Crear una tarea:
+
+Para crear una tarea utilizamos el comando `crontab -e`. La primera vez que lo ejecutamos nos pide que definamos que editor de textos vamos a utilizar:
+
+```
+crontab -e
+no crontab for pale - using an empty one
+
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/nano        <---- easiest
+  2. /usr/bin/vim.basic
+  3. /usr/bin/vim.tiny
+  4. /bin/ed
+
+Choose 1-4 [1]: 2
+
+```
+Elegimos vim.basic. Una vez seleccionado el editor nos aparece el contenido del fichero con lineas comentadas conteniendo información y ejemplos:
+
+```
+# Edit this file to introduce tasks to be run by cron.
+# 
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+# 
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').
+# 
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+# 
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+# 
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+# 
+# For more information see the manual pages of crontab(5) and cron(8)
+# 
+# m h  dom mon dow   command
+```
+En la última linea vemos el formato con el que se definen las tareas
+
+```
+ Ejemplo de definición de tareas:
+ .---------------- m - minuto (0 - 59)
+ |  .------------- h - hora (0 - 23)
+ |  |  .---------- dom - day of month - dia del mes (1 - 31)
+ |  |  |  .------- mon - mes (1 - 12) o jan,feb,mar,apr ...
+ |  |  |  |  .---- dow - day of week - dia de la semana (0 - 6) (Sunday=0 o 7) o sun,mon,tue,wed,thu,fri,sat
+ |  |  |  |  |
+ *  *  *  *  * comando que se ejecuta cada minuto
+*/5 *  *  *  * comando que se ejecuta cada 5 minutos 
+17  *  *  *  * comando que se ejecuta todos los dias, cada hora al minuto 17
+25  6  *  *  * comando que se ejecuta todos los dias a las 6:25
+47  6  *  *  7 comando que se ejecuta los Domingos a las 6:47
+52  6  1  *  * comando que se ejecuta el dia 1 de cada mes a las 6:52
+55  8  *  9  1 comando que se ejecuta todos los lunes de septiembre a las 8:55
+```
 
 
 
