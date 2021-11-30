@@ -268,7 +268,7 @@ Elegimos vim.basic. Una vez seleccionado el editor nos aparece el contenido del 
 # 
 # m h  dom mon dow   command
 ```
-En la última linea vemos el formato con el que se definen las tareas
+En la última linea vemos el formato con el que se definen las tareas. 
 
 ```
  Ejemplo de definición de tareas:
@@ -285,10 +285,86 @@ En la última linea vemos el formato con el que se definen las tareas
 47  6  *  *  7 comando que se ejecuta los Domingos a las 6:47
 52  6  1  *  * comando que se ejecuta el dia 1 de cada mes a las 6:52
 55  8  *  9  1 comando que se ejecuta todos los lunes de septiembre a las 8:55
+10,30,55  8  *  9  1 comando que se ejecuta todos los lunes de septiembre a las 8:10, 8:30 y 8:55
+*/15 11 * * 1-5 comando que se ejecuta de lunes a viernes a las 11:00, 11:15, 11:30, 11:45
+```
+Como se puede ver cron nos permite usar "*" para indicar que una condición se cumpla siempre, */valor para indicar una frecuencia temporal, "," para separar valores y "-" para indicar una secuencia. También se puede especificar el momento deseado para la ejecución de una tarea empleando las siguientes indicaciones:
+
+| Indicaciones    | Descripción                    |
+|:---------------:|:------------------------------:|
+| @reboot comando | Ejecutar al iniciar el sistema |
+| @yearly comando | Ejecutar una vez por año       |
+| @monthly comando| Una vez al mes                 |
+| @weekly comando | Una vez por semana             |
+| @daily comando  | Una vez por día                |
+| @hourly comando | Cada 1 hora                    |
+
+Para ver nuestra propia tabla de tareas agendadas utilizaremos `crontab -l`. El usuario root también puede ver (y también editar) la tabla de otros usuarios. Para eso se debe agregar la opción -u seguida del nombre del usuario en cuestión.
+
+## Ubicaciones:
+
+Además, los scripts que se depositen en las carpetas /etc/cron.hourly, /etc/cron.daily, /etc/cron.weekly, y /etc/cron.monthly se ejecutarán una vez por hora, por día, por semana, o por mes, respectivamente. Por lo general, ese es el caso de algunas aplicaciones que al momento de su instalación configuran su tarea agendada de mantenimiento propio.
+```
+ls /etc/cron.{hourly,daily,weekly,monthly}
+
+/etc/cron.daily:
+apport  apt-compat  bsdmainutils  dpkg  logrotate  man-db  popularity-contest  update-notifier-common
+
+/etc/cron.hourly:
+
+/etc/cron.monthly:
+
+/etc/cron.weekly:
+man-db  update-notifier-common
 ```
 
+El administrador también puede editar el archivo /etc/crontab para definir actividades programadas. En este caso las lineas incluyen una columna adicional que especifica el usuario que ejecuta el comando:
 
+```
+cat /etc/crontab 
+# /etc/crontab: system-wide crontab
+# Unlike any other crontab you don't have to run the `crontab'
+# command to install the new version when you edit this file
+# and files in /etc/cron.d. These files also have username fields,
+# that none of the other crontabs do.
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name command to be executed
+17 *	* * *	root    cd / && run-parts --report /etc/cron.hourly
+25 6	* * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
+47 6	* * 7	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )
+52 6	1 * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
+#
+```
+
+Tanto en este archivo como en nuestras tablas de tareas personales se pueden definir variables de entorno, es decir, podemos otorgarle valores a variables que queremos que esten disponibles durante s la ejecución de nuestras tareas. Por ejemplo:
+- PATH contiene los directorios donde crontab podrá buscar archivos ejecutables ejecutables. Si el directorio donde se encuentra uno en particular forma parte de esta variable, podremos utilizar una ruta relativa (en vez de una absoluta) en el sexto campo de la entrada de crontab o septimo de /etc/crontab.
+- SHELL especifica la shell a utiliza para ejecutar las tareas agendadas. Por defecto se usa /bin/bash
+- MAILTO permite especificar una dirección de correo a la que se deberá enviar la salida de un programa (incluyendo cualquier error)
+
+## Acceso a cron
+
+Si no deseamos que todos los usuarios del sistema tengan acceso a cron podemos restringir el acceso creando (si no existen ya) los siguientes archivos para permitir y rechazar respectivamente:
+- /etc/cron.allow
+- /etc/cron.deny
+
+En estos archivos se agregan los usuarios, uno por linea. En el caso del archivo .allow se encontrarán los usuarios autorizados y en .deny los que no lo están.
+
+## Otras utilidades:
+- anacron: permite ejecutar tareas agendadas que no corrieron mientras el equipo estaba apagado
+- at: Permite ejecutar una tarea programada por unica vez
 
 # Gestión de procesos
+
+
 
 
