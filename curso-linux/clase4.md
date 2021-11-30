@@ -206,7 +206,21 @@ Como pueden ver nos muestra los logs desde el 28/10, que es el día que instalé
 	- 6: info
 	- 7: debug 
 
+### Configuración:
+**Persistencia**: Para lograr que se guarden los registros de arranque del sistema de manera persistente podemos habilitarlo de la siguiente forma:
+```
+mkdir /var/log/journal
+systemd-tmpfiles --create --prefix /var/log/journal
+systemctl restart systemd-journald
+```
+
+Otra manera de configurar la permanencia de los logs es a través del archivo /etc/systemd/journald.conf indicando Storage=persistent debajo de la sección [Journal].
+
+
+
 # Tareas programadas ???
+
+
 
 # Gestión de procesos
 
