@@ -183,13 +183,31 @@ Como pueden ver nos muestra los logs desde el 28/10, que es el día que instalé
 	  ```
 	- Se puede ver la salida de varios servicios a la vez ingresandolos uno detras de otro `journalctl -u ssh -u cups`
 	- Para ver los servicios que están corriendo en nuestro ordenados podemos correr `sudo systemctl -t service -a`
-- `journalctl -b`: Muestra los eventos del inicio del equipo. Esta opción es muy útil para ver posibles errores al inicio o si algún servicio inició con errores.
+- `journalctl -b`: Muestra los eventos del inicio del equipo. Esta opción es muy útil para ver posibles errores al inicio o si algún servicio inició con errores. La opción "--list-boots" no permite ver la lista de inicios de los que se posee información. Para seleccionar uno de ellos podemos usar "-n" donde n es el número que aparece en la lista, por ejemplo, `journalctl -b -0` nos muestra los datos del último inicio. 
 - `journalctl -k`: Muesta los eventos del kernel de linux.
 - Filtrar por tiempo:
-	- -S o --since:
+	- -S o --since: 
 	- -U o --until: 
+	- Formatos de tiempo:
+		- Se pueden usar algunos nombres relativos:
+			- yesterday
+			- today
+			- now
+		- YYYY-MM-DD HH:MM:SS 
+			- `journalctl -S "2021-01-10 17:15:00"` 
+			- `journalctl -S -01h15min01sec` 
+- Filtrar por categoría del mensaje: con la opción -p:
+	- 0: emerg `journalctl -p 0` o `journalctl -p emerg`
+	- 1: alert
+	- 2: crit
+	- 3: err
+	- 4: warning
+	- 5: notice
+	- 6: info
+	- 7: debug 
 
 # Tareas programadas ???
 
 # Gestión de procesos
+
 
