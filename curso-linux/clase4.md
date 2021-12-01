@@ -373,3 +373,5 @@ Dependiendo de la forma en la que estos procesos son ejecutados los podemos clas
 - Procesos zombies: Son procesos que han finalizado su ejecución pero no han enviado su señal de finalización a su proceso padre o este no pudo recibir esta señal. Estos procesos pueden ser consecuencia de un error.
 
 Los procesos en linux están representados en el directorio /proc, que es un directorio virtual que se genera durante el arranque. Este directorio contiene subdirectorios que se corresponden con el PID (valor numerico que identifica el proceso), cada uno de estos subdirectorios contiene archivos y directorios con información sobre el proceso.
+
+
