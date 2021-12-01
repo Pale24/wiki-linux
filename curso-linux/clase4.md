@@ -361,10 +361,15 @@ En estos archivos se agregan los usuarios, uno por linea. En el caso del archivo
 
 ## Otras utilidades:
 - anacron: permite ejecutar tareas agendadas que no corrieron mientras el equipo estaba apagado
-- at: Permite ejecutar una tarea programada por unica vez
+- at: Permite ejecutar una tarea programada por única vez
 
 # Gestión de procesos
 
+El monitoreo y la manipulación de los procesos son actividades fundamentales para el administrador de sistemas. Cuando hablamos de procesos nos referimos a programas que se están ejecutando en un momento dado en el sistema. Estos a su vez pueden iniciar otros procesos, y así suscesivamente (se dice que estos procesos son hijos de los primeros).
 
+Dependiendo de la forma en la que estos procesos son ejecutados los podemos clasificar en tres categorías:
+- Procesos normales: Son ejecutados en una terminal y corren bajo el nombre de un usuario.
+- Procesos daemon (servicios): También se ejecutan por un usuario pero corren en segundo plano, es decir, no tienen salida directa por una terminal. Estos procesos escuchan peticiones a través de un puerto.
+- Procesos zombies: Son procesos que han finalizado su ejecución pero no han enviado su señal de finalización a su proceso padre o este no pudo recibir esta señal. Estos procesos pueden ser consecuencia de un error.
 
-
+Los procesos en linux están representados en el directorio /proc, que es un directorio virtual que se genera durante el arranque. Este directorio contiene subdirectorios que se corresponden con el PID (valor numerico que identifica el proceso), cada uno de estos subdirectorios contiene archivos y directorios con información sobre el proceso.
