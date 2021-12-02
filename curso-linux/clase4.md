@@ -658,6 +658,28 @@ Opciones del modo interactivo:
 - \>: ordena según la columna de la derecha
 - W: Guarda los cambios
 
+## Comando htop
+
+Es una herramienta muy similar a top pero un poco más amigable.
+
+## comandos nice y renice
+
+Para modificar la prioridad de un proceso en ejecución podemos usar el comando renice. Los usuarios normales (con privilegios limitados) solo pueden aumentar la prioridad de los procesos de los cuales son dueños, mientras que root puede modificar este valor para cualquier proceso sin importar quién sea el dueño.
+
+Mientras mayor sea la prioridad de un proceso, es menos nice (del inglés bueno) ya que consumirá más recursos del sistema. El valor de niceness puede ubicarse en algún lugar del intervalo comprendido entre -20 y 19. Estos dos límites representan la mayor y la menor prioridad posibles, respectivamente.
+
+
+Por defecto, cualquier nuevo proceso se ejecuta con una prioridad igual a 0. Si deseáramos iniciarlo con una prioridad diferente, podemos hacer uso del comando nice seguido de la opción -n, del nuevo valor de niceness deseado, y del comando a ejecutar. Por ejemplo, iniciemos top con un valor de niceness igual a 10:
+
+```
+nice -n 10 top
+```
+
+Por ejemplo:
+- `renice -n 10 -p 319`: cambia la prioridad del proceso 319 a 10 
+- `renice -n 10 -u pale`: cambia la prioridad de todos los procesos del usuario pale a 10
+
+
 # Anexo
 ```
 KiB = kibibyte = 1024 bytes
