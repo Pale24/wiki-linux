@@ -374,4 +374,203 @@ Dependiendo de la forma en la que estos procesos son ejecutados los podemos clas
 
 Los procesos en linux están representados en el directorio /proc, que es un directorio virtual que se genera durante el arranque. Este directorio contiene subdirectorios que se corresponden con el PID (valor numerico que identifica el proceso), cada uno de estos subdirectorios contiene archivos y directorios con información sobre el proceso.
 
+Para poder ver el contenido de este directorio en un formato más amigable linux dispone de varias herramientas:
+
+## Comando pstree
+
+Permite observar la relación entre procesos padre y sus procesos hijos al visualizarlos en forma de árbol. Con la opción "-p"podemos cer el PID (identificador de procesos) de cada proceso. El PID de un proceso padre es, a su vez, llamado PPID (Parent Process ID) del proceso hijo.
+
+```
+pstree -p
+
+systemd(1)─┬─accounts-daemon(722)─┬─{accounts-daemon}(756)
+           │                      └─{accounts-daemon}(782)
+           ├─agetty(763)
+           ├─atd(749)
+           ├─cron(725)
+           ├─dbus-daemon(726)
+           ├─multipathd(635)─┬─{multipathd}(636)
+           │                 ├─{multipathd}(637)
+           │                 ├─{multipathd}(638)
+           │                 ├─{multipathd}(639)
+           │                 ├─{multipathd}(640)
+           │                 └─{multipathd}(641)
+           ├─networkd-dispat(735)
+           ├─polkitd(827)─┬─{polkitd}(828)
+           │              └─{polkitd}(830)
+           ├─rsyslogd(736)─┬─{rsyslogd}(764)
+           │               ├─{rsyslogd}(765)
+           │               └─{rsyslogd}(766)
+           ├─snapd(738)─┬─{snapd}(866)
+           │            ├─{snapd}(867)
+           │            ├─{snapd}(868)
+           │            ├─{snapd}(869)
+           │            ├─{snapd}(881)
+           │            ├─{snapd}(882)
+           │            ├─{snapd}(925)
+           │            └─{snapd}(1113)
+           ├─sshd(826)───sshd(963)───sshd(1098)───bash(1099)───sudo(1115)───pstree(1117)
+           ├─systemd(981)───(sd-pam)(982)
+           ├─systemd-journal(377)
+           ├─systemd-logind(744)
+           ├─systemd-network(412)
+           ├─systemd-resolve(685)
+           ├─systemd-timesyn(686)───{systemd-timesyn}(690)
+           ├─systemd-udevd(407)───systemd-udevd(1116)
+           ├─udisksd(746)─┬─{udisksd}(770)
+           │              ├─{udisksd}(783)
+           │              ├─{udisksd}(831)
+           │              └─{udisksd}(855)
+           └─unattended-upgr(781)───{unattended-upgr}(902)
+```
+
+Si a continuación de la opción -p indicamos un PID dado, el árbol de procesos se mostrará comenzando por el proceso al que le corresponde dicho PID:
+
+```
+pstree -p 826
+
+sshd(826)───sshd(963)───sshd(1098)───bash(1099)───pstree(1320)
+
+```
+
+## Comando ps
+
+Este comando es el más utilizado para listar los procesos. Por defecto ps selecciona los procesos con el mismo valor de EUID (effective user ID) que el usuario actual y que están asociados a la misma terminal por la que se invoca. Y nos muestra el PID, la terminal asociada a ese proceso (TTY), el tiempo de CPU acumulado ([DD-]hh:mm:ss) y el nombre del ejecutable (CMD)
+
+```
+ps
+
+    PID TTY          TIME CMD
+   1099 pts/0    00:00:00 bash
+   1394 pts/0    00:00:00 ps
+```
+
+Como se puede ver, ps no es interactivo, sino que nos devuelve una captura de los procesos que estaban corriendo en el momento de su ejecución.
+
+Las opciones más comunes para visualizar todos los procesos (aunque con distinto grado de detalle) que están corriendo en el sistema de este comando son "-ef" y "aux" (esta última sin el signo "-"):
+
+```
+ps -ef | head -4
+
+UID          PID    PPID  C STIME TTY          TIME CMD
+root           1       0  0 08:00 ?        00:00:02 /sbin/init maybe-ubiquity
+root           2       0  0 08:00 ?        00:00:00 [kthreadd]
+root           3       2  0 08:00 ?        00:00:00 [rcu_gp]
+
+ps aux | head -4
+
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  1.1 101972 11504 ?        Ss   08:00   0:02 /sbin/init maybe-ubiquity
+root           2  0.0  0.0      0     0 ?        S    08:00   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        I<   08:00   0:00 [rcu_gp]
+```
+
+Las opciones a, u, y x de manera separada devuelve una lista de a) todos los procesos que se están ejecutando en una terminal, u) muestra el estado de los procesos del usuario actual y qué cantidad de recursos está requiriendo cada uno, y x) indica la información de los servicios y procesos sin terminal. Al combinar estas opciones como aux podemos acceder a todos esos datos simultáneamente.
+
+La opción -e nos permite seleccionar todos los procesos y -f nos provee información adicional.
+
+Significado de cada columna:
+
+- USER: usuario dueño del proceso
+- PID: Process ID
+- %CPU: Porcentaje de tiempo de CPU utilizado sobre el tiempo que el proceso ha estado en ejecución
+- %MEM: Porcentaje de memoria física utilizada.
+- VSZ: memoria virtual del proceso (KiB)
+- RSS (Resident Set Size): cantidad de memoria física no swappeada que la tarea ha utilizado (KiB)
+- TTY: Terminal asociada al proceso. El "?" significa que el proceso es un servicio que no utiliza ninguna terminal
+- STAT: Estado. R: proceso en ejecución, S: proceso dormido o esperando que finalice un evento, X: proceso muerto, Z: proceso zombie. También podemos ver otros indicadores como la prioridad del proceso: \<: alta prioridad, N: baja prioridad, l: multi-threaded (corre en varios nucleos), +: proceso corriendo en primer plano 
+- START: fecha y hora de inicio del proceso
+- TIME: tiempo de CPU acumulado
+- COMMAND: comando relacionado con el proceso
+
+Además, ps nos permite adaptar la cantidad y el orden de las columnas a mostrar y hasta podemos ordenar los resultados en base a los valores de una de ellas mendiante las opciones -eo y --sort, respectivamente. Luego de -eo se agrega la lista de los campos que se desea incluir en la salida y luego de --sort el campo a partir del cual vamos a ordenar los datos indicando con los simbolos - o + si el orden es descendente o ascendente, respectivamente. Por ejemplo:
+
+```
+ps -eo pid,ppid,cmd,%cpu,%mem --sort=-%mem
+
+    PID    PPID CMD                         %CPU %MEM
+    738       1 /usr/lib/snapd/snapd         0.0  3.7
+    377       1 /lib/systemd/systemd-journa  0.0  2.3
+    781       1 /usr/bin/python3 /usr/share  0.0  2.0
+    735       1 /usr/bin/python3 /usr/bin/n  0.0  1.8
+    635       1 /sbin/multipathd -d -s       0.0  1.8
+    746       1 /usr/lib/udisks2/udisksd     0.0  1.3
+```
+
+Otras formas de visualzar las salidas del comando ps pueden consultarse en el manual de ps (`man ps`) en la sección Examples.
+
+## Comandos kill y killall
+
+Muchas veces es necesario interrumpir la ejecución de un proceso, ya sea porque nos olvidamos de incluir algún parámetro al ejecutar el comando, porque no hace lo esperadoo quizas está consumiendo muchos recursos. A esta acción la denominamos "matar" el proceso. Para matar un proceso especifico podemos usar el comando kill seguido del PID del proceso que deseamos eliminar. 
+
+Supongamos que tenemos un programa denominado infinito.sh que se está ejecutando en una terminal y queremos matarlo. Primero podemos ver su PID con `ps aux | grep infinito.sh`, con el valor de PID podemos matar el proceso con el comando `kill PID_proceso`
+
+```
+ps aux | grep infinito.sh
+
+pale        2338  0.2  0.3   7024  3612 pts/0    S    13:03   0:00 /bin/bash ./infinito.sh
+pale        2344  0.0  0.0   6432   736 pts/0    S+   13:03   0:00 grep --color=auto infinito
+
+kill 2338
+```
+
+Si existen varios procesos con el mismo nombre pero diferentes PID y deseamos eliminarlos a todos juntos, podemos usar el comando killall, cuya sintaxis es similar al comando kill pero se reemplaza el PID por el nombre del comando. Supongamos una situación donde infinito.sh se ejecutó varias veces y deseamos terminarlo.
+
+```
+ps aux | grep infinito
+pale        2467  0.1  0.3   7024  3724 pts/0    S    13:06   0:00 /bin/bash ./infinito.sh
+pale        2471  0.2  0.3   7024  3580 pts/0    S    13:06   0:00 /bin/bash ./infinito.sh
+pale        2475  0.2  0.3   7024  3596 pts/0    S    13:06   0:00 /bin/bash ./infinito.sh
+pale        2489  0.0  0.0   6432   668 pts/0    S+   13:06   0:00 grep --color=auto infinito
+
+killall infinito.sh
+
+[1]   Terminated              ./infinito.sh
+[2]-  Terminated              ./infinito.sh
+[3]+  Terminated              ./infinito.sh
+```
+También podriamos haber usado el comando `kill 2467 2471 2475` para matar uno por uno los procesos indicados.
+
+Cuando se usa kill para matar un proceso, se le envía una señal indicandole que modifique su funcionamiento normal. Por defecto kill envia la señal SIGTERM que le indica al proceso que inicie su procedimiento de apagado normal. Sin embargo, kill puede enviar diferentes tipos de señales, las que pueden ser listadas mediante la opción -l:
+
+```
+kill -L
+ 1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP
+ 6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1
+11) SIGSEGV	12) SIGUSR2	13) SIGPIPE	14) SIGALRM	15) SIGTERM
+16) SIGSTKFLT	17) SIGCHLD	18) SIGCONT	19) SIGSTOP	20) SIGTSTP
+21) SIGTTIN	22) SIGTTOU	23) SIGURG	24) SIGXCPU	25) SIGXFSZ
+26) SIGVTALRM	27) SIGPROF	28) SIGWINCH	29) SIGIO	30) SIGPWR
+31) SIGSYS	34) SIGRTMIN	35) SIGRTMIN+1	36) SIGRTMIN+2	37) SIGRTMIN+3
+38) SIGRTMIN+4	39) SIGRTMIN+5	40) SIGRTMIN+6	41) SIGRTMIN+7	42) SIGRTMIN+8
+43) SIGRTMIN+9	44) SIGRTMIN+10	45) SIGRTMIN+11	46) SIGRTMIN+12	47) SIGRTMIN+13
+48) SIGRTMIN+14	49) SIGRTMIN+15	50) SIGRTMAX-14	51) SIGRTMAX-13	52) SIGRTMAX-12
+53) SIGRTMAX-11	54) SIGRTMAX-10	55) SIGRTMAX-9	56) SIGRTMAX-8	57) SIGRTMAX-7
+58) SIGRTMAX-6	59) SIGRTMAX-5	60) SIGRTMAX-4	61) SIGRTMAX-3	62) SIGRTMAX-2
+63) SIGRTMAX-1	64) SIGRTMAX
+```
+
+De ellas, las mas importantes a tener en cuenta son **SIGHUP (1)**, **SIGKILL (9)** y **SIGTERM (15)**.
+- **SIGHUP (1)**: es la señal que se envía cuando se cierra la terminal asociada al proceso para que se detenga.
+- **SIGKILL (9)**: indica al proceso que debe detenerse de inmediato, sin darle tiempo a liberar adecuadamente los recursos que está usando. Esta señal no puede ser ignorada por el proceso. 
+- **SIGTERM (15)**: le permite al proceso terminar su ejecución normalmente, lo que le permite liberar los recursos utilizados. Estaseñal puede ser ignorada por el proceso. Por esto puede ser necesario utilizar SIGKILL
+
+Para seleccionar la señal a utilizar podemos ejecutar kill con las siguientes opciones:
+
+```
+# SIGTERM
+kill -15 PID
+kill -TERM PID
+kill -SIGTERM PID
+kill -s SIGTERM PID
+
+# SIGKILL
+
+kill -9 PID
+kill -KILL PID
+kill -SIGKILL PID
+kill -s SIGKILL PID
+```
+
+
 
