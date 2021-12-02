@@ -572,5 +572,100 @@ kill -SIGKILL PID
 kill -s SIGKILL PID
 ```
 
+## Comando top
+
+El comando top, a diferencia de ps, nos devuelve información de los procesos que se actualiza cada una cierta cantidad de tiempo (3 segundos por defecto) y nos brinda otros datos útiles sobre el estado del sistema, como son el número de procesos en ejecución, % de memoria RAM ocupada, etc.
+
+```
+top
+
+top - 15:35:35 up  7:34,  1 user,  load average: 0,00, 0,00, 0,00
+Tasks: 104 total,   1 running, 103 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0,0 us,  0,3 sy,  0,0 ni, 99,3 id,  0,0 wa,  0,0 hi,  0,3 si,  0,0 st
+MiB Mem :    981,2 total,    264,6 free,    150,1 used,    566,6 buff/cache
+MiB Swap:   1735,0 total,   1735,0 free,      0,0 used.    683,3 avail Mem
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+    685 systemd+  20   0   24160  13080   8984 S   0,3   1,3   0:09.67 systemd-resolve
+   1607 root      20   0       0      0      0 I   0,3   0,0   0:30.91 kworker/0:0-events
+   2767 pale      20   0    9232   3892   3232 R   0,3   0,4   0:00.88 top
+      1 root      20   0  101972  11508   8444 S   0,0   1,1   0:03.41 systemd
+      2 root      20   0       0      0      0 S   0,0   0,0   0:00.00 kthreadd
+      3 root       0 -20       0      0      0 I   0,0   0,0   0:00.00 rcu_gp
+      4 root       0 -20       0      0      0 I   0,0   0,0   0:00.00 rcu_par_gp
+      6 root       0 -20       0      0      0 I   0,0   0,0   0:00.00 kworker/0:0H-kblockd
+      9 root       0 -20       0      0      0 I   0,0   0,0   0:00.00 mm_percpu_wq
+     10 root      20   0       0      0      0 S   0,0   0,0   0:00.47 ksoftirqd/0
+     11 root      20   0       0      0      0 I   0,0   0,0   0:08.89 rcu_sched
+     12 root      rt   0       0      0      0 S   0,0   0,0   0:00.25 migration/0
+     13 root     -51   0       0      0      0 S   0,0   0,0   0:00.00 idle_inject/0
+     14 root      20   0       0      0      0 S   0,0   0,0   0:00.00 cpuhp/0
+```
+
+Podemos dividir la salida de top en 2 partes:
+- La primera parte consiste en la información general del sistema
+- La segunda parte es la tabla de procesos.
+
+### Información general:
+
+- Fila 1:
+	- top: nombre del programa
+	- 15:35:35: hora actual
+	- up   7:34: tiempo desde el inicio del equipo
+	- 1 user: cantidad de usuarios
+	- load average: 0,00, 0,00, 0,00: muestra la cantidad de procesos (en promedio) que están utilizando (o han estado esperando para utilizar) el CPU durante los últimos 60 segundos, 5 minutos, y 15 minutos, respectivamente. Para ilustrar el significado de estos valores, supongamos que los valores sean diferentes (digamos 0.64, 0.30, 0.69, por ejemplo). En este supuesto, 0.64 significa que durante los últimos 60 segundos el CPU ha estado desocupado el 36% del tiempo. De la misma manera, 0.30 y 0.69 indican que durante los últimos 5 y 15 minutos el CPU ha estado desocupado el 70% y el 31% del tiempo, respectivamente. 
+- Fila 2: 
+	- Tasks: 104 total,   1 running, 103 sleeping,   0 stopped,   0 zombie: indica la cantidad de procesos que están corriendo en elsistema y los estados de estos.
+		- running: son los procesos que se encuentran corriendo actualmente. Se los puede ver en la tabla de procesos con la letra R (running)
+		- sleeping: procesos que no están corriendo actualmente pero que se encuentran esperando que ocurra un evento para despertarse. Son los indicados con S en la tabla.
+		- stopped: procesos que han sido detenidos. Se identifican con la letra T. 
+		- zombie: procesos que no han finalizado aunque deberían haberlo hecho. Se identifican con la Z.
+- Fila 3: Muestra el estado del CPU. 
+- Fila 4 y 5: estado de la memoria RAM y SWAP respectivamente. Los valores se expresan en KiB (kibibytes). Las columnas de la fila 4 representan los valores de memoria física total, libre, usada y usada por la caché. En el caso de la fila 5 representan valores de memoria de intercambio (swap) total, libre, usada y memoria física disponible para iniciar un nuevo proceso sin virtualizar 
+
+### Tabla de procesos:
+
+- PID: Process ID.
+- USER: Usuario dueño del proceso.
+- PR: Prioridad de ejecución del proceso.
+- NI: Es un valor que refleja la prioridad sobre el uso de los recursos del sistema otorgada a cada proceso en particular.
+- VIRT: Cantidad de memoria virtual que el proceso está manejando.
+- RES: Es la representación más cercana a la cantidad de memoria física que un proceso está utilizando.
+- SHR: La cantidad de memoria compartida (potencialmente con otros procesos) disponible para este proceso en particular, expresada en KiB.
+- S: Estado del proceso.
+- %CPU: Porcentaje de tiempo de CPU utilizado por el proceso desde el último refresco de pantalla.
+- %MEM: Indica el porcentaje correspondiente al uso de memoria física de un proceso en particular.
+- TIME+: Tiempo de CPU que ha utilizado el proceso desde que inició, expresado en minutos:segundos.centésimas de segundo.
+- COMMAND: Comando que se utilizó para iniciar el proceso o el nombre de este último.
+
+top posee opciones que podemos indicar al ejecutar o también luego de haberlo hecho (modo interactivo).
+
+Algunos ejemplos:
+- `top -d 2`: actualizar cada 2 segundos.
+- `top -o %MEM`: Ordenar salida por uso de RAM
+- `top -p 326,459,11389` monitorear sólo los procesos indicados.
+- `top -d 1 -n 3 -b > top_processes.txt`: -b: batch mode (no es interactivo), -d: actualización, -n: veces que se actualiza la información antes de terminar.
+
+Opciones del modo interactivo:
+- h: ayuda
+- espacio: actualización manual
+- d: actualización en segundos.
+- q: salir de top
+- u: mostrar procesos por usuario. Ej: u + pale + enter
+- m: cambia la visualización de la memoria
+- 1: Cambia los datos por CPU
+- \<: ordena según la columna de la izquierda
+- \>: ordena según la columna de la derecha
+- W: Guarda los cambios
+
+# Anexo
+```
+KiB = kibibyte = 1024 bytes
+MiB = mebibyte = 1024 KiB = 1,048,576 bytes
+GiB = gibibyte = 1024 MiB = 1,073,741,824 bytes
+TiB = tebibyte = 1024 GiB = 1,099,511,627,776 bytes
+PiB = pebibyte = 1024 TiB = 1,125,899,906,842,624 bytes
+EiB = exbibyte = 1024 PiB = 1,152,921,504,606,846,976 bytes
+```
 
 
