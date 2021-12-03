@@ -264,6 +264,8 @@ Contenido de /etc/iptables/rules.v4:
 ...
 ```
 
+# SSH
+
 # Gestión de dispositivos de almacenamiento
 
 Para llevar a cabo esta parte del curso vamos a crear 3 discos de 1 o 2GB (dependiendo el espacio de nuestra computadora) en nuestra máquina virtual. En la ventana de virtualBox seleccionamos nuestra máquina virtual y después vamos a la configuración (ícono del engranaje), de ahí vamos a almacenamiento y sobre el menú "controlador: SATA" seleccionamos agregar disco duro. Se nos abre una nueva ventana, seleccionamos crear y se vuelve a abrir otra ventana donde vamos a crear el disco. Seleccionamos la prime opción "VDI ..." y siguiente, tamaño fijo y siguiente, ponemos el nombre y el tamaño, crear. Esto genera un disco que va a figurar en "not attached", lo seleccionamos y clickeamos seleccionar. Repetimos la operación para generar los otros discos y finalmente seleccionamos aceptar para gardar los cambios.

@@ -8,21 +8,21 @@
 # 1 - Linux y sus distribuciones
 ## Introducción 
 
-Cuando decimos "Linux", en general nos referimos al sistema operativo completo pero estrictamente hablando Linux solamente es una parte del SO, para referirnos correctamente al SO deberiamos decir GNU/Linux. Se trata del kernel o núcleo del sistema operativo, una pieza de software fundamental que se encarga de:
+Cuando decimos "Linux", en general nos referimos al sistema operativo (SO) completo pero estrictamente hablando Linux solamente es una parte del SO (el kernel), para referirnos al SO correctamente deberiamos decir GNU/Linux. El kernel o núcleo del sistema operativo es una pieza de software fundamental que se encarga de:
 
 - Administrar el uso de los recursos del equipo.
-- Facilitar la interacción entre aplicaciones y el hardware.
+- Facilitar la interacción entre las aplicaciones y el hardware.
 
-Es uno de los sistemas operativos más populares (aunque no lo crean); su desarrollo se inició en 1991 por Linus Torvalds y se inspiró en Unix, otro sistema operativo desarrollado en la década de 1970 por AT&T Laboratories. Unix estaba orientado a pequeñas computadoras; en ese momento, las computadoras “pequeñas” se consideraban máquinas que no necesitaban una sala completa con aire acondicionado y costaban menos de un millón de dólares. Más tarde, fueron consideradas como máquinas que podían ser transportadas por dos personas. En ese momento, Unix no estaba disponible en computadoras pequeñas como las computadoras de oficina basadas en la plataforma x86. Por lo tanto, Linus, que era un estudiante en ese momento, comenzó a implementar un sistema operativo tipo Unix que se suponía que debía ejecutarse en esta plataforma.
+Linux es uno de los sistemas operativos más populares (aunque no lo crean); su desarrollo se inició en 1991 por Linus Torvalds y se inspiró en Unix, otro sistema operativo desarrollado en la década de 1970 por AT&T Laboratories. Unix estaba orientado a pequeñas computadoras; en ese momento, las computadoras “pequeñas” se consideraban máquinas que no necesitaban una sala completa con aire acondicionado y costaban menos de un millón de dólares. Más tarde, fueron consideradas como máquinas que podían ser transportadas por dos personas. En ese momento, Unix no estaba disponible en computadoras pequeñas como las computadoras de oficina basadas en la plataforma x86. Por lo tanto, Linus, que era un estudiante en ese momento, comenzó a implementar un sistema operativo tipo Unix que se suponía que debía ejecutarse en esta plataforma.
 
 Principalmente, Linux usa los mismos principios e ideas básicas de Unix, pero Linux en sí no contiene código Unix, ya que es un proyecto independiente. Linux no está respaldado por una compañía individual sino por una comunidad internacional de programadores. Como está disponible gratuitamente, puede ser utilizado por cualquier persona sin restricciones.
 
 ### GNU
-A mediados de la década de 1980, Richard Stallman (ex-científico del Massachusetts
-Institute of Technology (MIT) fundó la Free Software Foundation y comenzó el Proyecto GNU con la intención de crear un sistema operativo que respetara la libertad de los usuarios de usarlo, estudiarlo, modificarlo, y distribuirlo sin restricciones GNU (GNU's Not Unix). Este proyecto aportó en su momento (y continúa aportando) software para las distribuciones Linux que usamos hoy en día.
 
-De esta iniciativa también surgieron lo que hoy conocemos como las 4 libertades
-fundamentales del software libre:
+A mediados de la década de 1980, Richard Stallman (ex-científico del Massachusetts Institute of Technology (MIT) fundó la Free Software Foundation y comenzó el Proyecto GNU (GNU's Not Unix) con la intención de crear un sistema operativo que respetara la libertad de los usuarios de usarlo, estudiarlo, modificarlo, y distribuirlo sin restricciones. Este proyecto aportó en su momento (y continúa aportando) software para las distribuciones Linux que usamos hoy en día.
+
+De esta iniciativa también surgieron lo que hoy conocemos como las 4 libertades fundamentales del software libre:
+
 - La libertad de ejecutar el programa como se desee, con cualquier propósito (libertad 0).
 - La libertad de estudiar cómo funciona el programa, y cambiarlo para que haga lo que uno quiera (libertad 1).
 - La libertad de redistribuir copias para ayudar otros (libertad 2).
@@ -79,6 +79,8 @@ La Raspberry Pi utiliza procesadores ARM. Varios sistemas operativos, incluido L
 El término cloud computing se refiere a una forma estandarizada de consumir recursos informáticos, ya sea comprándolos a un proveedor público de cloud computing o ejecutando una nube privada. Según informes del 2017, Linux ejecuta el 90% de la carga de trabajo de la nube pública. Todos los proveedores de cloud computing, desde Amazon Web Services (AWS) hasta Google Cloud Platform (GCP) ofrecen diferentes formas de trabajar con Linux. Incluso Microsoft, una empresa cuyo antiguo CEO comparó Linux con un cáncer, ofrece hoy en día máquinas virtuales basadas en Linux en su nube Azure.
 
 Linux generalmente es ofrecido como parte de Infrastructure as a Service (IaaS). Las instancias IaaS son máquinas virtuales que se aprovisionan en cuestión de minutos en la nube. Cuando se inicia una instancia IaaS, se elige una imagen que contiene los datos que se desplegarán en la nueva instancia. Los proveedores de nube ofrecen varias imágenes que contienen instalaciones listas para ejecutar tanto de las distribuciones populares, así como sus propias versiones de Linux. El usuario podrá elegir una imagen que contiene su distribución preferida y acceder a una instancia de la nube que ejecute esta distribución poco después de haberse creado. La mayoría de los proveedores agregan herramientas a sus imágenes para ajustar la instalación a una instancia específica de la nube. Estas herramientas pueden, por ejemplo, extender los sistemas de archivos de la imagen para que se ajusten al disco duro real de la máquina virtual.
+
+![Top 500](https://en.wikipedia.org/wiki/TOP500#/media/File:Operating_systems_used_on_top_500_supercomputers.svg)
 
 - Fuentes:
 	- [Linux essentials](https://learning.lpi.org/es/learning-materials/010-160/1/1.1/1.1_01/)

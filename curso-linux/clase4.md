@@ -662,7 +662,7 @@ Opciones del modo interactivo:
 
 Es una herramienta muy similar a top pero un poco más amigable.
 
-## comandos nice y renice
+## Comandos nice y renice
 
 Para modificar la prioridad de un proceso en ejecución podemos usar el comando renice. Los usuarios normales (con privilegios limitados) solo pueden aumentar la prioridad de los procesos de los cuales son dueños, mientras que root puede modificar este valor para cualquier proceso sin importar quién sea el dueño.
 
