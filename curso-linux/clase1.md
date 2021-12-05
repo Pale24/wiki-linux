@@ -80,19 +80,21 @@ El término cloud computing se refiere a una forma estandarizada de consumir r
 
 Linux generalmente es ofrecido como parte de Infrastructure as a Service (IaaS). Las instancias IaaS son máquinas virtuales que se aprovisionan en cuestión de minutos en la nube. Cuando se inicia una instancia IaaS, se elige una imagen que contiene los datos que se desplegarán en la nueva instancia. Los proveedores de nube ofrecen varias imágenes que contienen instalaciones listas para ejecutar tanto de las distribuciones populares, así como sus propias versiones de Linux. El usuario podrá elegir una imagen que contiene su distribución preferida y acceder a una instancia de la nube que ejecute esta distribución poco después de haberse creado. La mayoría de los proveedores agregan herramientas a sus imágenes para ajustar la instalación a una instancia específica de la nube. Estas herramientas pueden, por ejemplo, extender los sistemas de archivos de la imagen para que se ajusten al disco duro real de la máquina virtual.
 
-![Top 500](https://en.wikipedia.org/wiki/TOP500#/media/File:Operating_systems_used_on_top_500_supercomputers.svg)
+[Top 500](https://en.wikipedia.org/wiki/TOP500)
 
 - Fuentes:
 	- [Linux essentials](https://learning.lpi.org/es/learning-materials/010-160/1/1.1/1.1_01/)
 
 # Instalación Ubuntu Server.
+
 En esta sección vamos a instalar Ubuntu Server 20.04 en una máquina virtual. Para esto vamos a usar el software [VirtualBox](https://www.virtualbox.org/). ¿Qué es una máquina virtual? En informática una máquina virtual es un software que emula a una computadora y puede ejecutar programas como si fuese una computadora real. 
 
 ## Descarga de Ubuntu Server 20.04.
 
-Para instalar Ubuntu Server necesitamos un DVD o USB con la distribución de linux que queremos instalar. Estas distribuciones pueden descargarse de forma gratuita desde su respectiva pagina web. En el caso de Ubuntu Server puede descargarse desde [acá](https://ubuntu.com/download/server). Como nosotros vamos a usar una máquina virtual, no es necesario que grabemos la imagen descargada en un DVD o USB, sino que vamos a trabajar directamente con el archivo.
+Para instalar Ubuntu Server necesitamos un DVD o USB con la distribución de linux que queremos instalar. Estas distribuciones pueden descargarse de forma gratuita desde su respectiva pagina web. En el caso de Ubuntu Server puede descargarse desde [acá](https://ubuntu.com/download/server). En está página vamos a seleccionar "Option 2 - Manual server installation" y nos va a aparecer un botón con "Download Ubuntu Server 20.04.3 LTS", al hacer click sobre este se iniciará la descarga del archivo "ubuntu-20.04.3-live-server-amd64.iso". Como nosotros vamos a usar una máquina virtual, no es necesario que grabemos la imagen descargada en un DVD o USB, sino que vamos a trabajar directamente con el archivo iso.
 
 ## Configuración de la máquina virtual.
+
 Para instalar Ubuntu debemos crear una máquina virtual en VirtualBox. Hacemos click en el boton "nueva", ingresamos los datos para identificarla y las caracteristicas del sistema operativo a utilizar.
 
 ![virtual1](./imagenes/virtual1.png)
@@ -101,7 +103,7 @@ Para instalar Ubuntu debemos crear una máquina virtual en VirtualBox. Hacemos c
 
 Pulsamos siguiente y seleccionamos las especificaciones de nuestra máquina virtual. Estas van a depender de la capacidad del equipo con el que esten trabajando pero, al menos deberán utilizar 1 GB de memoria RAM (1024 MB). Clickeamos en siguiente y creamos el archivo que va a funcionar como disco rigido virtual. Seleccionamos la opción "Crear un disco virtual ahora" + "Crear", luego "VDI...", reservado dinámicamente + siguiente, definimos el tamaño (10 GB), el lugar donde lo vamos a guardar en nuestra computadora y clickeamos crear.
 
-Una vez creada la máquina vamos al boton de "Configuración", a la opción almacenamiento seleccionamos la opción que dice "Vacío" bajo "Controlador IDE" y hacemos click sobre el icono del CD sobre el lado superior izquierdo, se despliega un menú, vamos a "Seleccionar un archivo de disco", navegamos hasta el archivo de imagen que descargamos de la página de Ubuntu + "Abrir" 
+Una vez creada la máquina vamos al boton de "Configuración", a la opción almacenamiento seleccionamos la opción que dice "Vacío" bajo "Controlador IDE" y hacemos click sobre el icono del CD sobre el lado superior derecho, se despliega un menú, vamos a "Seleccionar un archivo de disco", navegamos hasta el archivo de imagen que descargamos de la página de Ubuntu + "Abrir" 
 
 ![virtual3](./imagenes/virtual3.png)
 
@@ -110,14 +112,14 @@ Luego vamos a la opción "Red", en "conectado a" seleccionamos "adaptador puente
 Con esto tenemos listo el entorno de trabajo para llevar adelante la instalación.
 
 ## Instalación.
+
 Una vez configurada la máquina virtual vamos a proceder a la instalación del sistema operativo. Para esto, hacemos doble click sobre la máquina virtual, se va a abrir una ventana con la interfaz de la misma y se inicia el instalador con la primer pantalla, que corresponde a la selección del idioma. Para ingresar a la máquina virtual, debemos posicionar el mouse sobre la ventana (para salir debemos apretar ctrl derecho). Nos movemos por el menú con las teclas de arriba y abajo, seleccionamos Español y damos enter.
 
 **Selección de la distribución del teclado**
-
 De nuevo nos movemos con las teclas de flechas (arriba y abajo) y para seleccionar apretamos enter. La disposición de los teclados en Argentina suelen ser las de Español y Español latinoamericano. También se puede usar la opción de identificar el teclado, en caso de no saber cual es la distribución.
 
 **Conexión de red**
-El siguiente paso es la selección y configuración de la red. Por ahora vamos a dejar la configuración por defecto: enp0s3 y la IP asignada mediante DHCP (mas adelante vamos a ver cómo configurar una IP estatica). Para terminar seleccionamos "hecho"
+El siguiente paso es la selección y configuración de la red. Por ahora vamos a dejar la configuración por defecto: enp0s3 y la IP asignada mediante DHCP (mas adelante vamos a ver cómo configurar una IP estatica). Para terminar seleccionamos "hecho".
 
 **Seleccionar un proxy**
 Si no es necesario acceder a internet desde un proxy dejamos la opción en blanco.
@@ -126,7 +128,7 @@ Si no es necesario acceder a internet desde un proxy dejamos la opción en blanc
 Dejamos el que trae por defecto
 
 **Configuración de almacenamiento**
-En este paso debemos definir la configuración del sistema de almacenamiento. Podemos llevar a cabo la configuración de forma automática utilizando el disco completo o manual, fijando como queremos particionar el disco. Ademas, podemos definir si queremos utilizar un particionado tradicional o utilizar LVM (Logical Volume Management).
+En este paso debemos definir la configuración del sistema de almacenamiento. Podemos llevar a cabo la configuración de forma automática utilizando el disco completo o manual, fijando como queremos particionar el disco. Además, podemos definir si queremos utilizar un particionado tradicional o utilizar LVM (Logical Volume Management).
 
 LVM es un conjunto de herramientas que permiten la administración de unidades de almacenamiento denominadas volúmenes lógicos. Provee flexibilidad para administrar el almacenamiento del sistema de manera que pueda expandirse fácilmente. El redimensionado de los volúmenes lógicos bajo LVM se puede realizar sin interrumpir el funcionamiento normal del equipo. Además, el procedimiento es mucho más rápido que en el particionado tradicional.
 
@@ -135,21 +137,21 @@ Cuando se realiza la instalación de servidores es preferible configurar el sist
 Utilizamos todo el disco y LVM, pero seleccionaremos la opción "Custom Storage Layout" ya que vamos a ver como está compuesta la instalación por defecto.
 
 En la siguiente pantalla vemos distintas opciones:
-- Los puntos de montaje, es decir, los puntos del sistema de archivos de linux donde se van a montar los dipositivos de almacenamiento.  
-- Los dispositivos disponibles para ser utilizados
-- Los dispositivos utilizados al momento 
+- Los puntos de montaje, es decir, los puntos del sistema de archivos de linux donde se van a montar los dipositivos de almacenamiento.
+- Los dispositivos disponibles para ser utilizados.
+- Los dispositivos utilizados al momento.
 
 ![almacenamiento](./imagenes/almacenamiento.png)
 
-Como puede verse en la imagen, la instalación por default establece 2 puntos de montaje:
+Como puede verse en la imagen, la instalación por defecto establece 2 puntos de montaje:
 - `/				8.996GB	new ext4	new LVM logical volume`
 - `/boot		1.000GB	new ext4	new partition of disco local`
 La primera partición forma parte del LVM y está montado en la raiz (`/`) del SO. La segunda partición no forma parte del LVM y está montada en `/boot` que es el directorio donde se encuentra el kernel de linux.
 
 En la parte de dispositivos utilizados vemos un volume group y un logical volume que es el que se encuentra montado sobre `/`. Finalmente, podemos ver las particiones que tiene el disco, el tipo y el tamaño.
-- `partition 1	new,	BIOS grub spacer											1.0000M`
-- `partition 2	new, to be formatted as ext4, mounted at /boot		1.000G`
-- `partition 3	new, PV of LVM volume group ubuntu-vg			8.997G`
+- `partition 1  new,    BIOS grub spacer                            1.0000M`
+- `partition 2  new, to be formatted as ext4, mounted at /boot      1.000G`
+- `partition 3  new, PV of LVM volume group ubuntu-vg               8.997G`
 
 Vamos a la opción `ubuntu-lv	new, to be formatted as ext4, mounted at /` y presionamos "enter" o la "barra espaciadora", nos aparece un menú lateral con las opciones "(close)", "Edit" y "Delete". Vamos a "Edit", se abre una ventana que nos da la posibilidad de modificar distintos aspectos del logical volume. Acá, si modificamos el tamaño del volumen (por uno menor) nos va a aparecer espacio libre dentro del volume group, que posteriormente podemos utilizar para generar otra partición, que luego podríamos montar en algún punto de montaje del SO. Seleccionamos "Hecho" y nos aparece un cartel para indicarnos que si seguimos adelante el proceso va a destruir el contenido del disco y que dicho proceso es irreversible, ponemos "Continuar" y seguimos con la siguiente ventana.
 
@@ -160,7 +162,6 @@ Vamos a la opción `ubuntu-lv	new, to be formatted as ext4, mounted at /` y pres
 En esta ventana debemos ingresar las credenciales que nos permitirán autenticarnos en el sistema y el nombre del host. La clave ingresada tambien nos permitirá ejecutar funciones como administrador.
 
 **Configuración de SSH**
-
 Acá podemos seleccionar si queremos instalar o no el servidor SSH. El protocolo SSH (Secure Shell) es una herramienta que nos permite conectarnos a equipos remotos y nos permite llevar a cabo tareas dentro del mismo como si estuvieramos logueados de forma fisica en dicho equipo. También nos permite copiar datos de forma segura. Vamos a marcar la instalación y continuamos. 
 
 **Instalación de paquetes**
@@ -168,19 +169,13 @@ El sistema nos ofrece la opción de instalar algunos de los paquetes más popula
 
 **Ahora solo queda esperar**
 
-`sudo touch /etc/cloud/cloud-init.disabled`
-
-`sudo dpkg-reconfigure cloud-init`
-
 # Secuencia de arranque de un núcleo Linux
 
-Aquí aprenderemos la secuencia de arranque de un sistema operativo libre y de código abierto, GNU/Linux, lo que nos va a remitir también a conocer y entender algunos de los componentes de la computadora y su función.
+Aquí aprenderemos la secuencia de arranque de un sistema operativo Linux. Entender el proceso de arranque nos permite entender también mucho del hardware de la computadora, y cómo interactúa con el software, además nos brindará conocimientos para depurar el inicio del sistema y permitirnos solucionar cualquier problema relacionado.
 
-Entender el proceso de arranque nos permite entender también mucho del hardware de la computadora, y cómo interactúa con el software, y además nos brindará conocimientos para depurar el inicio del sistema y permitirnos solucionar cualquier problema elacionado.
+Al encender el equipo, el BIOS (Basic Input-Output System) o UEFI (Unified Extensible Firmware Interface) llevan a cabo una revisión del hardware conocida comunmente como POST (Power-On Self Test). A continuación, se busca un gestor de arranque (en linux por lo general, GRUB) en el MBR (Master Boot Record) o en la partición EFI de un dispositivo de almacenamiento (`partition 1	new,	BIOS grub spacer	1.0000M`).
 
-Al encender el equipo, el BIOS (Basic Input-Output System) o UEFI (Unified Extensible Firmware Interface) llevan a cabo una revisión del hardware conocida comunmente como POST (Power-On Self Test). A continuación, se busca un gestor de arranque (por lo general, GRUB) en el MBR (Master Boot Record) o en la partición EFI de un dispositivo de almacenamiento (`partition 1	new,	BIOS grub spacer	1.0000M`).
-
-A partir de ese momento, el control del proceso se pasa al GRUB, que se encargará de cargar el kernel. Este reconocerá y configurará los dispositivos de hardware presentes en el equipo y los preparará para su uso. En el próximo paso, el núcleo ejecutará su primer proceso, conocido como **init**. Finalmente, este último utilizará el gestor del sistema ( **systemd o Upstart** ) o los scripts de  **SysVinit** para continuar el inicio de los demás servicios. El proceso de arranque termina al presentar una interfaz de inicio de sesión, que puede ser en modo texto o gráfico.
+A partir de ese momento, el GRUB toma el control del proceso de inicio, que se encargará de cargar el kernel de linux. Este reconocerá y configurará los dispositivos de hardware presentes en el equipo y los preparará para su uso. En el próximo paso, el núcleo ejecutará su primer proceso, conocido como **init**. Finalmente, este último utilizará el gestor del sistema ( **systemd o Upstart** ) o los scripts de  **SysVinit** para continuar el inicio de los demás servicios. El proceso de arranque termina al presentar una interfaz de inicio de sesión, que puede ser en modo texto o gráfico.
 
 La secuencia de arranque de Linux puede dividirse en varias etapas:
 
@@ -201,7 +196,7 @@ Más allá de esto, la fuente informa sobre un buen suministro eléctrico a la c
 
 El bootstrap consiste en que el procesador busque en una ROM (Read Only Memory) de la placa madre las instrucciones para arrancar. Estas instrucciones contienen un JUMP o salto a otra dirección de memoria, la del programa BIOS (Basic Input/Output System) de la placa madre.
 
-## 3. BIOS
+## 3. BIOS / UEFI
 
 Aquí comienza realmente el proceso de inicio lógico de la computadora. Una de las primeras tareas que lleva a cabo el BIOS es denominada POST (Power on Self Test). El POST realiza una serie de verificaciones dirigidas por la BIOS que permiten determinar el estado del hardware y con él, saber si la computadora puede iniciar o no.
 
@@ -562,13 +557,38 @@ Hay otros directorios y subdirectorios, pero estos serian los más importantes p
 
 # Comandos
 
+Una vez finalizada la instalación, el equipo se reinicia y nos va a aparecer la ventana de login, para ingresar debemos colocar el nombre de usuario y la contraseña que colocamos durante la instalación. Esta ventana es lo que se denomina terminal o tty que es el espacio donde podemos escribir los comandos y ver los resultados de los mismos. Linux cuenta con 5 terminalestty1 a tty6 a las que se accede con las teclas Alt+Ctrl+F1-6. Si nos conectamos por un entorno gráfico, podemos acceder a esta interfaz mediante un programa denominado pseudo terminal o pts. 
+
+Una vez logueados, el sistema operativo nos devuelve el prompt, o línea de comandos, lista para recibir nuestras ordenes. En el caso de Ubuntu el prompt inicial está compuesto por dos partes:
+
+- El nombre del usuario actual, seguido del símbolo @.
+- El nombre del equipo.
+
+
+Por defecto, al loguearnos el sistema nos lleva a la carpeta personal, que está ubicada en /home/usuario. Aquí es donde el usuario puede guardar sus archivos y directorios. El símbolo ~ se utiliza para representar este directorio. Si estamos logueados como root, veremos el símbolo #, en cambio, si lo hacemos como un usuario común se mostrará el signo $.
+
+Además de su directorio personal, cada usuario tiene asignado un interprete de comandos o shell. Se trata de un programa que se encarga de recibir las ordenes o comandosque este escribe y las envía al sistema operativo para ejecutarlas. El shell por defecto en la mayoria de las distribuciones es **bash** (Bourne-Again SHell). Bash también nos permite escribir y ejecutar scripts ya que es un lenguaje de programación.
+
+Antes de empezar con los comandos, vamos a quitar la función cloud-init que viene por defecto en el SO y que suele enviar notificaciones a la pantalla que pueden ser molestas. Para esto ejecutamos:
+
+```
+sudo touch /etc/cloud/cloud-init.disabled
+sudo dpkg-reconfigure cloud-init
+```
+
+También vamos a agregar este repositorio a nuestro directorio personal para poder navegar por él, ya que este último está vacio.
+```
+git clone https://github.com/Pale24/wiki-linux/
+```
+Git es un software de control de versiones diseñado por Linus Torvalds.
+
 A continuación vamos a ver algunos de los comandos mas comunes y que nos van a permitir navegar e interactuar con el sistema.
 
 ## pwd
-Muestra el directorio donde estamos parados
+Muestra el directorio donde estamos parados dentro del sistema de archivos.
 
 ## cd
-Change directory. Cambia de directorios. Para cambiar de directorio utilizamos el comando cd seguido de la ubicación a la que deseamos movernos.
+Change directory. Cambia de directorios. Utilizamos el comando cd seguido de la ubicación a la que deseamos movernos. Las ubicaciones las podemos ingresar de forma relativa a nuestra ubicación actual o de forma absoluta desde el directorio raíz (/).
 
 ```
 cd                              # Nos lleva al directorio por defecto del usuario con el que estamos logueados. /home/usuario
@@ -578,6 +598,7 @@ cd ..                           # Nos lleva al directorio anterior en el arbol d
 cd /                            # Nos lleva al directorio raiz 
 cd Documentos                   # Nos lleva al directorio Documentos (que está dentro del directorio actual). Ruta relativa
 cd /home/usuario/Documentos     # Nos lleva al directorio /home/usuario/Documentos. Ruta absoluta
+cd wiki-linux
 ```
 
 ## ls
@@ -600,7 +621,7 @@ ls carpeta      # Lista el contenido de la carpeta "carpeta"
 ls -l           # Lista el contenido como una lista en vez de solo los nombre 
                 # y pone información adicional como permisos, propietario (usuario y grupo),
                 # tamaño, fecha de modificación.
-ls -lh          # Idem -l pero el tamaño es mas legible (no está en bits sino en Kb, Mb, etc
+ls -lh          # Idem -l pero el tamaño es más legible (no está en bits sino en Kb, Mb, etc)
 ls -lS          # Ordena por tamaño (mayor a menor)
 ls -lSr         # Ordena por tamaño (menor a mayor), r: invierte el orden
 ls -lt          # Ordena por fecha de modificación, r: invierte el orden
@@ -608,11 +629,11 @@ ls -a           # Muestra archivos ocultos
 ls -lR			# Muestra el contenido de forma recursiva (contenido de los directorios que estan dentro de la carpeta)
 ```
 
-Al listar con el modificador -l obtenemos mayor información de los archivos y directorios. La salida del comando en este caso está dispuesta en columnas para que nos resulte más sencillo reconocerla. Veamos cómo queda cada columna:
+Al listar con el modificador -l obtenemos mayor información de los archivos y directorios. La salida del comando en este caso está dispuesta en columnas para que nos resulte más sencillo reconocerla. A continuación vemos cómo queda cada columna:
 
 `-rw-rw-r-- 1 pale pale 1710 sep 22 13:21 amber20.md`
 
-- 1. El primer caracter que aparece en la primera columna indica si lo que estamos viendo es un archivo (-), un directorio (d ), un enlace simbólico (l ), o un dispositivo de bloques (b), por nombrar algunos ejemplos. A continuación, vemos los permisos que poseen sobre el mismo a) el dueño del archivo, b) el grupo dueño, y c) el resto de los usuarios del sistema.
+- 1. El primer caracter que aparece en la primera columna indica si lo que estamos viendo es un archivo (-), un directorio (d), un enlace simbólico (l) por nombrar algunos ejemplos. A continuación, vemos los permisos que poseen sobre el mismo a) el dueño del archivo, b) el grupo dueño, y c) el resto de los usuarios del sistema.
 - 2. Esta columna nos dice si este objeto posee enlaces que lo estén apuntando.
 - 3. Usuario dueño del objeto.
 - 4. Grupo dueño del objeto.
@@ -630,17 +651,17 @@ mkdir -p dir1/dir2/dir3
 ```
 
 ## cat
-Puede concatenar archivos de texto. Se suele usar para mostrar su contenido por pantalla
+Puede visualizar y concatenar archivos de texto. Se suele usar para mostrar su contenido por pantalla
 ```
 cat archivo.txt 
 cat -n archivo.txt # muestra el numero de linea antes de cada una de estas
 ```
 
 ## more
-Muestra el texto poco a poco, con el espacio avanzamos una pantalla, con el intro una linea, con la q salimos y la h nos muestra ayuda
+Muestra el texto poco a poco, con el espacio avanzamos una pantalla, con el intro una linea, con la q salimos y la h nos muestra ayuda.
 
 ## less
-Parecido a more, pero más potente. Acepta los controles mencionados y también puede realizar búsquedas o modificaciones en los ficheros. Recomendable para ficheros muy grandes
+Parecido a more, pero más potente. Acepta los controles mencionados y también puede realizar búsquedas o modificaciones en los ficheros. Recomendable para ficheros muy grandes.
 
 ## head
 Muestra las N primeras líneas de uno o varios ficheros de texto. Por defecto las 10 primeras
@@ -651,9 +672,6 @@ Muestra las N primeras líneas de uno o varios ficheros de texto. Por defecto la
 ## tail 
 Igual que head pero muestra las últimas lineas
 - -f: muestra las ultimas lineas de forma interativa
-
-## sudo
-El comando sudo permite a los usuarios no root ejecutar comandos que normalmente requerirían privilegios de superusuario. Se antepone al comando que se quiere ejecutar como administrador. También permite cambiar de usuario.
 
 ## cp
 copia archivos
@@ -700,6 +718,9 @@ shred -vu -n 100 file1 # 100 ciclos de sobreescritura
 ## rmdir
 Elimina directorios vacios
 
+## sudo
+El comando sudo permite a los usuarios no root ejecutar comandos que normalmente requerirían privilegios de superusuario. Se antepone al comando que se quiere ejecutar como administrador. También permite cambiar de usuario. Sólo los usuarios que se encuentran en el grupo sudo pueden hacer uso de este comando.
+
 ## lspci
 Muestra información sobre los buses PCI y los dispositivos que tienen conectados.
 - "-v": Amplia la información. "-vv": más detalles
@@ -716,7 +737,6 @@ Podemos buscar instrucciones que hayamos usado anteriormente con la tecla de la 
 Tambén podemos buscar la instrucción combinando las teclas ctrl + r y entonces puedo empezar a buscar poniendo las palabras que creo que tenia y cuando la encuentro la selecciono. Si la que sale no es la que busco puedo volver a tipear ctrl + r y voy viendo las opciones.
 
 El comando history nos abre un listado de instrucciones anteriores, para seleccionar una de ellas rapido podemos ingresar !numero de la orden. Por ejemplo !1000.
-
 
 ## echo
 
@@ -824,14 +844,4 @@ Opciones:
 - -k: envía mensajes pero no apaga
 
 El tiempo puede expresarse en horas y minutos (HH:MM), el tiempo en minutos que faltan para el apagado: +M o con la palabra **now**
-
-
-
-
-
-
-
-
-
-
 
