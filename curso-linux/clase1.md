@@ -462,7 +462,7 @@ AllowIsolate=yes
 | Runlevel | Boot Target |
 |----------|-------------|
 | 0        | poweroff    |
-| 1		 	   | rescue      |
+| 1		   | rescue      |
 | 2        | multi-user  |
 | 3        | graphical   |
 | 5        | reboot      |
@@ -500,27 +500,6 @@ systemctl stop <servicio>
 systemctl enable <servicio>
 systemctl disable <servicio>
 ```
-
-## El proceso de inicio de sesión
-
-Al iniciar, Linux nos solicitará ingresar un usuario y la contraseña para poder acceder a una sesión en el sistema, esta información se compara con la disponible en los archivos /etc/passwd y /etc/shadow. En el primero de ellos encontramos información de cada cuenta de usuario y en el segundo las contraseñas hasheadas de las cuentas que tienen permitido el inicio de sesión. Por lo general, en distribuciones modernas las contraseñas se protegen utilizando el algoritmo SHA-512, para impedir descifrar la contraseña a partir de la cadena de texto que representa.
-
-Si la contraseña es aceptada por el sistema nos aparece el contenido del archivo /etc/motd que suele estar vacío pero que le sirve al administrador para dejar mensajes dirigidos a los usuarios con información pertinente.
-
-A continuación, el sistema operativo nos devuelve el prompt, o la línea de comandos preparada para recibir nuestras órdenes. En el caso de Ubuntu el prompt inicial está compuesto por dos partes:
-
-- El nombre del usuario actual, seguido del símbolo @.
-- El nombre del equipo.
-- El directorio inicial de trabajo, más conocido como el home o el directorio personal del usuario en cuestión. El símbolo ~ se utiliza para representar este directorio.
-- Si estamos logueados como root, veremos el símbolo # a continuación. De otra manera (usuario común), se mostrará el signo $.
-
-Además de su directorio personal, cada usuario tiene asignado un shell o intérprete de comandos. Se trata de un programa que recibe los comandos que escribimos y que los envía al sistema operativo para ser ejecutados.
-
-El intérprete utilizado en la mayoría de las distribuciones actuales se llama Bash (Bourne-Again SHell). Bash tiene la posibilidad de ejecutar comandos en tiempo real pero además tiene un lenguaje de programación de scripts. Permite generar programas con funciones, control de flujo, creación de archivos, seguimiento de procesos, etc.
-
-La interfaz de modo texto es denominada  terminal (también llamada tty) y es un recurso del sistema donde se pueden escribir comandos y ver el resultado de los mismos. Hoy en día asociamos las terminales con tty1, tty2, hasta tty6, que están disponibles para ser utilizadas por distintos usuarios al presionar la combinación de teclas Ctrl+Alt+F1, Ctrl+Alt+F2, y así sucesivamente.
-
-Si en vez de trabajar en el modo texto exclusivamente también hemos instalado una distribución con un entorno gráfico, dispondremos de una aplicación llamada Terminal. Este programa nos permite acceder a la línea de comandos mediante una interfaz gráfica, por lo que recibe el nombre de pseudo terminal o pts.
 
 ## Filesystem Hierarchy Standard
 
