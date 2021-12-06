@@ -354,10 +354,10 @@ Runlevels:
 | Nro | Debian/Ubuntu                    | CentOS/Suse        |
 |-----|----------------------------------|--------------------|
 | 0   | Halt                             | Halt               |
-| 1   |	Single User mode                 | Single User Mode   	|
-| 2   |	Full, multiuser, GUI if installed| Multi user, sin red 	|
-| 3   | Nada                             | Multi user, con red	|
-| 4   | Nada                             | Nada 			  			  |
+| 1   |	Single User mode                 | Single User Mode   |
+| 2   |	Full, multiuser, GUI if installed| Multi user, sin red|
+| 3   | Nada                             | Multi user, con red|
+| 4   | Nada                             | Nada 			  |
 | 5   | Nada                             | Multi user GUI     |
 | 6   | Reboot                           | Reboot             |
 
@@ -764,8 +764,8 @@ La información que se puede obtener de stat es:
 - Inode: Número de inodo. Esto es el número del objeto en una base de datos. Cada inodo identifica a un archivo.
 - Enlaces: Este número indica la cantidad de enlaces duros que apuntan al archivo. Cada archivo se identifica por un inodo. Sin embargo, en linux podemos crear enlaces duros, que son archivos que apuntan al mismo inodo, por lo que si eliminamos uno de los archivos ahora el inodo queda disponible para el otro. Cada vez que se crea un enlace duro este número crece y cuando se elimina decrece. Si el número es igual a cero, el inodo se elimina. Si se usa co un directorio este número representa la cantidad de archivos en el directorio, incluyendo "." y ".." que son archivos que representan al propio directorio y al directorio padre respectivamente.
 - Accesso: Indica los permisos de acceso en notación octal y tradicional rwx (read, write, executs).
-- Uid: User ID y nombre de la cuenta del usuario dueño.
-- Gid: Group ID y nombre del grupo dueño.
+	- Uid: User ID y nombre de la cuenta del usuario dueño.
+	- Gid: Group ID y nombre del grupo dueño.
 - Accesso: Fecha del último acceso al archivo.
 - Modificación: Fecha de la última modificación del contenido del archivo.
 - Cambio: Fecha del último cambio del archivo. Esto implica el cambio del contenido o de los atributos (por ejemplo, cambiar los permisos). En el caso de cambiar los atributos, el tiempo de modificación no se altera.
