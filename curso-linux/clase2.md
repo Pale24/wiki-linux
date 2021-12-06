@@ -14,10 +14,10 @@
 # Gestión de paquetes
 Cuando hablamos de "paquetes" de software nos referimos a los programas, datos y otros archivos que se requieren para realizar una función determinada. También suele utilizarse el termino programa o software para referirse a los mismos. 
 
-Podemos definir a la gestión de paquetes como las acciones de instalar, actualizar o eliminar paquetes de nuestro sistema. En linux, en la actualidad, estas tareas pueden llevarse a cabo de 3 maners diferentes:
+Podemos definir a la gestión de paquetes como las acciones de instalar, actualizar o eliminar paquetes de nuestro sistema. En linux, en la actualidad, estas tareas pueden llevarse a cabo de 3 maneras diferentes:
 
-- **Archivos precompilados:** son archivos ejecutables compatibles para una distribución en particular y que pueden instalarse de manera local con una herramienta de la línea de comandos.
-- **Repositorios:** son servidores centrales, mantenidos generalmente por una distribución en particular, por la comunidad, o por otros terceros, en los que se dispone de una colección de software para la instalación a través de Internet o de una red local. Un repositorio puede residir en un servidor remoto (que es lo más común) o en un (o varios) dispositivos de almacenamiento locales.
+- **Archivos precompilados:** son archivos ejecutables **compatibles para una distribución en particular** y que pueden instalarse de manera local con una herramienta de la línea de comandos.
+- **Repositorios:** son servidores centrales, mantenidos generalmente por una distribución en particular, por la comunidad, o por otros terceros, en los que se dispone de una colección de software para la instalación a través de internet o de una red local. Un repositorio puede residir en un servidor remoto (que es lo más común) o en un (o varios) dispositivos de almacenamiento locales.
 - **Código fuente:** es la forma inicial mediante la cual se distribuía el software en Linux en sus comienzos. Aunque ha sido superada por las dos anteriores, todavía continúa usándose para ofrecer a los usuarios finales la posibilidad de compilar un programa dado con opciones particulares. También se utiliza este método de distribución de software para poner al alcance del público una versión más actualizada que tenga mayores prestaciones que las presentes en los repositorios. 
 
 ## Archivos precompilados
@@ -31,20 +31,20 @@ La mayoría de las veces, un paquete puede depender de otros para que funcione. 
 dpkg verificará si esas dependencias están instaladas en su sistema y no podrá instalar el paquete si no lo están. En este caso, dpkg listará qué paquetes faltan. Sin embargo, no puede resolver dependencias por sí mismo. Depende del usuario encontrar los paquetes .deb con las dependencias correspondientes e instalarlos.
 
 Opciones:
-- -i: instala un paquete. Necesita la ruta completa al archivo .deb a instalar. `dpkg -i htop_2.0.2-1_amd64.deb`
-- -r: borra un paquete pero deja los archivos de configuración (/etc/paquete.conf, etc). Se usa el nombre del programa, no el archivo de instalación `dpkg -r htop`
-- -P: borra un paquete incluyendo todos los archivos de configuración. `dpkg -P htop`
-- -s: muestra información y el estado del paquete instalado. `dpkg -s htop`
-- -I: muestra información de un archivo .deb antes de instalar. `dpkg -I htop_2.0.2-1_amd64.deb`
+- -i: instala un paquete. Necesita la ruta completa al archivo .deb a instalar. `dpkg -i apache2_2.4.41-4ubuntu3.8_amd64.deb`. Si hay errores: `apt --fix-broken install`
+- -s: muestra información y el estado del paquete instalado. `dpkg -s apache2`
+- -I: muestra información de un archivo .deb antes de instalar. `dpkg -I apache2_2.4.41-4ubuntu3.8_amd64.deb`
 - -l: lista todos los paquetes que coinciden con un patrón determinado. `dpkg -l apache*`
-- -L: muestra todos los ficheros que ha instalado un paquete. `dpkg -L htop`
-- -S: Muestra los paquetes que contienen archivos que coincidan con el patrón indicado. `dpkg -S mount*`
+- -L: muestra todos los ficheros que ha instalado un paquete. `dpkg -L apache2_2.4.41-4ubuntu3.8_amd64.deb`
+- -S: muestra los paquetes que contienen archivos que coincidan con el patrón indicado. `dpkg -S apache*`
+- -r: borra un paquete pero deja los archivos de configuración (/etc/paquete.conf, etc). Se usa el nombre del programa, no el archivo de instalación `dpkg -r apache2`
+- -P: borra un paquete incluyendo todos los archivos de configuración. `dpkg -P apache2`
 
-**dpkg-reconfigure**: Se utiliza para reconfigurar un paquete instalado en el sistema. `dpkg-reconfigure nslcd`
+**dpkg-reconfigure:** Se utiliza para reconfigurar un paquete instalado en el sistema. `dpkg-reconfigure nslcd`
 
 Cuando se instala un paquete, hay un paso de configuración llamado post-install donde se ejecuta un script para configurar todo lo necesario para que el software se ejecute, como permisos, ubicación de archivos de configuración, etc. Esto también puede generar algunas preguntas de configuración al usuario para establecer preferencias sobre cómo se ejecutará el software.
 
-A veces, debido a un archivo de configuración dañado o con formato incorrecto, es posible que desee restaurar las configuraciones de un paquete a su estado “funcional”. O puede que desee cambiar las respuestas que dio a las preguntas de configuración inicial. 
+A veces, debido a un archivo de configuración dañado o con formato incorrecto, es posible que se quiera restaurar las configuraciones de un paquete a su estado “funcional”. O puede que se desee cambiar las respuestas que se dieron a las preguntas de configuración inicial. 
 
 Este programa realizará una copia de seguridad de los archivos de configuración antiguos, descomprimirá los nuevos en los directorios correctos y ejecutará el script post-install proporcionado por el paquete, como si el paquete se hubiera instalado por primera vez.
 
