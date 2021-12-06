@@ -748,6 +748,30 @@ shred -vu -n 100 file1 # 100 ciclos de sobreescritura
 ## rmdir
 Elimina directorios vacios
 
+## stat
+
+```
+stat file
+```
+La información que se puede obtener de stat es:
+
+- Fichero: El nombre del fichero (en linux todo es un fichero, directorios, dispositivos, etc). Usualmente, es el nombre que se le pasa al comando pero puede cambiar si le pasamos un enlace simbolico.
+- Tamaño: El tamaño del archivo en bytes.
+- Bloques: El numero de bloques del sistema de archivos requeridos para ser almacenados en el disco.
+- Bloques E/S: Tamaño del bloque.
+- Tipo de archivo: El tipo de objeto. Los más comunes son archivos y directorios, pero también pueden ser links, sockets, etc.
+- Dispositivo: El número de dispositivo en hexadecimal y decimal. Es el ID del disco donde está almacenado el archivo.
+- Inode: Número de inodo. Esto es el número del objeto en una base de datos. Cada inodo identifica a un archivo.
+- Enlaces: Este número indica la cantidad de enlaces duros que apuntan al archivo. Cada archivo se identifica por un inodo. Sin embargo, en linux podemos crear enlaces duros, que son archivos que apuntan al mismo inodo, por lo que si eliminamos uno de los archivos ahora el inodo queda disponible para el otro. Cada vez que se crea un enlace duro este número crece y cuando se elimina decrece. Si el número es igual a cero, el inodo se elimina. Si se usa co un directorio este número representa la cantidad de archivos en el directorio, incluyendo "." y ".." que son archivos que representan al propio directorio y al directorio padre respectivamente.
+- Accesso: Indica los permisos de acceso en notación octal y tradicional rwx (read, write, executs).
+- Uid: User ID y nombre de la cuenta del usuario dueño.
+- Gid: Group ID y nombre del grupo dueño.
+- Accesso: Fecha del último acceso al archivo (si se hace `touch file` se cambia está fecha).
+- Modificación: Fecha de la última modificación del contenido del archivo.
+- Cambio: Fecha del último cambio del archivo. Esto implica el cambio del contenido o de los atributos (por ejemplo, cambiar los permisos). En el caso de cambiar los atributos, el tiempo de modificación no se altera.
+- Creación: Reservado para ver la fecha original de creación del archivo, pero no se implementa en linux.
+
+
 ## sudo
 El comando sudo permite a los usuarios no root ejecutar comandos que normalmente requerirían privilegios de superusuario. Se antepone al comando que se quiere ejecutar como administrador. También permite cambiar de usuario. Sólo los usuarios que se encuentran en el grupo sudo pueden hacer uso de este comando.
 
