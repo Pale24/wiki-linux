@@ -766,7 +766,7 @@ La información que se puede obtener de stat es:
 - Accesso: Indica los permisos de acceso en notación octal y tradicional rwx (read, write, executs).
 - Uid: User ID y nombre de la cuenta del usuario dueño.
 - Gid: Group ID y nombre del grupo dueño.
-- Accesso: Fecha del último acceso al archivo (si se hace `touch file` se cambia está fecha).
+- Accesso: Fecha del último acceso al archivo.
 - Modificación: Fecha de la última modificación del contenido del archivo.
 - Cambio: Fecha del último cambio del archivo. Esto implica el cambio del contenido o de los atributos (por ejemplo, cambiar los permisos). En el caso de cambiar los atributos, el tiempo de modificación no se altera.
 - Creación: Reservado para ver la fecha original de creación del archivo, pero no se implementa en linux.
