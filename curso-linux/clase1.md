@@ -771,6 +771,67 @@ La información que se puede obtener de stat es:
 - Cambio: Fecha del último cambio del archivo. Esto implica el cambio del contenido o de los atributos (por ejemplo, cambiar los permisos). En el caso de cambiar los atributos, el tiempo de modificación no se altera.
 - Creación: Reservado para ver la fecha original de creación del archivo, pero no se implementa en linux.
 
+## locate y updatedb
+Para realizar búsquedas rápidas de archivos en Linux disponemos de estas dos herramientas que se utilizan en conjunto. El propósito de locate es buscar la ubicación de archivos en las bases de datos escritas por updatedb. esta herramienta busca archivos que tengan la expresión buscada y la lsta linea por linea. La función de updatedb es actualizar la base de datos, por ejemplo, si creamos un archivo recientemente no va a estar indexado en la base de datos y, por tanto, si queremos que aparezca con locate debemos ejecutar updatedb previamente (updatedb se ejecuta diariamente en segundo plano para actualizar la base de datos).
+
+La sintaxis básica de locate es la siguiente:
+
+locate [OPCIONES] [PATRÓN]
+
+- -r (--regexp): PATRÓN puede reemplazarse por una expresión regular
+- -i (--ignore-case): ignora mayúsculas o minúsculas al buscar el patrón.
+- -b '\PATRON': permite buscar sólo los archivos que coinciden con el patrón (entre comillas simples y barra invertida adelante.
+
+```
+locate -r clase\[1-4\].md # Utilizar expresión regular
+locate -i CLASE1.MD # Ignorar mayúsculas y minúsculas
+locate -b '\clase1.md' # Sólo si existe un archivo clase1.md
+```
+
+## find
+
+Con `find` podemos realizar busquedas por distintos criterios como nombre, dueño, grupo dueño, permisos, tipo de archivo, etc.
+
+Sintaxis:
+
+find [RUTA] [OPCIONES]
+
+```
+find curso-linux -name '*.md'        # busca archivos con el patrón .md en el directorio curso-linux
+find . -size +10k -size -20480k      # busca archivos de tamaño entre 10kb y 20480 kb
+find . -type f -user pale -mtime -60 # busca archivos del usuario pale que se hayan modificado hace menos de 60 días 
+find . -type f -user pale -mtime +60 # busca archivos del usuario pale que se hayan modificado hace más de 60 días 
+find . -type f -user pale -mtime 60  # busca archivos del usuario pale que se hayan modificado hace exactamente 60 días 
+find . -type f -perm -o=x            # busca archivos con permisos de ejecución
+```
+
+## whereis
+
+Al realizar búsquedas con whereis podemos especificar qué estamos buscando. 
+- Si nos interesa encontrar los binarios usamos la opción -b. 
+- Si queremos el archivo correspondiente al man page, usamos -m.
+- Con -s indicaremos que deseamos ubicar el código fuente. 
+- Si se omiten estas opciones, whereis devolverá los tres recursos mencionados simultáneamente. 
+- También podemos combinar dos de ellas para devolver la información correspondiente.
+
+```
+whereis htop
+htop: /usr/bin/htop /usr/share/man/man1/htop.1.gz
+
+whereis -b htop
+htop: /usr/bin/htop
+
+whereis -m htop
+htop: /usr/share/man/man1/htop.1.gz
+```
+
+## which
+El comando which muestra la ruta absoluta del programa que le indiquemos.
+
+```
+which python
+/usr/bin/python
+```
 
 ## sudo
 El comando sudo permite a los usuarios no root ejecutar comandos que normalmente requerirían privilegios de superusuario. Se antepone al comando que se quiere ejecutar como administrador. También permite cambiar de usuario. Sólo los usuarios que se encuentran en el grupo sudo pueden hacer uso de este comando.
@@ -809,14 +870,6 @@ type cd
 cd es una orden interna del intérprete de ordenes
 type find
 find is /usr/bin/find
-```
-
-## which
-El comando which muestra la ruta absoluta del programa que le indiquemos.
-
-```
-which python
-/usr/bin/python
 ```
 
 ## man
