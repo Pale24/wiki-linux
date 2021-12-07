@@ -159,11 +159,19 @@ Veamos ahora en detalle cómo están compuestas las líneas de arriba:
 	- multiverse: contiene software no compatible, de código cerrado o con patente gravada.
 - Las líneas que comienzan con el carácter # se consideran comentarios y se ignoran.
 
-Para agregar un nuevo repositorio de paquetes, se puede agregar la línea correspondiente al final de sources.list, se guarda el archivo y se vuelve a cargar el índice del paquete con apt-get update. Después de eso, los paquetes en el nuevo repositorio estarán disponibles para la instalación usando apt-get install.
-
 **El Directorio /etc/apt/sources.list.d**
 
 Dentro del directorio /etc/apt/sources.list.d puede agregar archivos con repositorios adicionales para ser utilizados por APT, sin la necesidad de modificar el archivo principal /etc/apt/sources.list. Estos son archivos de texto simples, con la misma sintaxis descrita anteriormente y la extensión de archivo .list.
+
+#### Agregar un repositorio nuevo
+
+Para agregar un nuevo repositorio de paquetes, se puede agregar la línea correspondiente al final de sources.list o crear un archivo en /etc/apt/sources.list.d, se guarda el archivo y se agrega la clave pública con el comando curl o wget:
+
+```
+# Ejemplo de https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#using-deb-packages-recommended
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" >> /etc/apt/sources.list.d/mongodb-org-5.0.list
+curl -L https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
+```
 
 #### Actualización de los Índices de Paquetes
 
