@@ -242,6 +242,9 @@ Da mas información sobre el paquete:
 - cp  apt-file                        - APT package searching utility -- command-
 - ihA raptor-utils                    - Raptor RDF Parser utilities
 
+Cada resultado de la búsqueda aparece en una línea distinta. El primer carácter de cada línea indica el estado actual del paquete: los estados más comunes son **p**, no se encontró ninguna señal de que tal paquete exista en el sistema, **c**, el paquete se eliminó pero sus ficheros de configuración permanecen en el sistema, **i**, el paquete está instalado, y **v**, que significa que el paquete es virtual. El segundo carácter indica la acción programada (de existir, si no, verá un espacio en blanco) para el paquete. Las acciones principales son **i**, el paquete se va a instalar, **d**, el paquete se va a eliminar, y **p**, que significa que el paquete y sus ficheros de configuración se van a eliminar completamente (purgar). Si el carácter es **A**, es que el paquete se instaló automáticamente.
+
+
 Para mas información consultar el manual `man aptitude`
 
 ### Comando yum:
@@ -456,7 +459,7 @@ ldd $AMBERHOME/bin/cpptraj
 La gestión de usuarios y grupos en Linux es una tarea fundamental de cualquier administrador de sistemas. Es importante conocer cómo crear, modificar y eliminar cuentas de usuarios y grupos así como establecer permisos para que dichos grupos y usuarios tengan acceso a archivos y directorios según lo necesiten.
 
 En linux tenemos 2 tipos de usuarios:
-- El ususario administrador (root)
+- El usuario administrador (root)
 - Usuarios del sistema que no tienen tantos privilegios.
 
 Siempre podemos saber que usuario es el que está ejecutando los comandos ya que está escrito en el "prompt" a la izquierda del arroba.
@@ -844,16 +847,56 @@ Para cada nivel (usuario, grupo, otros):
 - `110: 4+2:6   rw-`
 - `110: 4+2+1:7 rwx`
 
-De está forma si queremos poner permisos al archivo de forma que el usuario pueda leer yescribir, el grupo sólo leer y el resto nada: rw- r-- --- en binario 110 100 000 y en decima 6 4 0. El comando sería: `chmod 640 fichero`
+De está forma si queremos poner permisos al archivo de forma que el usuario pueda leer y escribir, el grupo sólo leer y el resto nada: rw- r-- --- en binario 110 100 000 y en decima 6 4 0. El comando sería: `chmod 640 fichero`
 
 Con la opción -R podemos modificar los permisos de forma recursiva. 
 
 ### Permisos especiales:
-- SetUID: El programa que lo tenga activado se ejecutará con los permisos del usuario propietario del chero y no con los permisos de quién invoca al programa. Se representa por la letra s como permiso de ejecución.
-- SetGID: Igual que setUID pero con los permisos del grupo. En caso de ser directorio los elementos creados pertenecerán al grupo del directorio y no al grupo del usuario que crea el elemento.
-- Sticky Bit: En el directorio que lo tenga activado, los cheros que contenga sólo podrán ser borrados por sus propietarios. Se representa por t en el permiso de ejecución de "los otros"
+- SetUID: El programa que lo tenga activado se ejecutará con los permisos del usuario propietario del archivo y no con los permisos de quién invoca al programa. Se representa por la letra s como permiso de ejecución. `rws`. Para administrarlos se usan las letras: `chmod u+s tux.sh` o añadiendo una cifra a la izquierda usando números: `chmod 4777 /home/tmp/`
+- SetGID: Igual que setUID pero con los permisos del grupo. En caso de ser un directorio los elementos creados pertenecerán al grupo del directorio y no al grupo del usuario que crea el elemento. Letras: `chmod g+s tux.sh`. Números: `chmod 2777 /home/tmp/`
 
-Para administrarlos se usan las letras: `chmod u+s tux.sh` o añadiendo una cifra a la izquierda usando números: `chmod 1777 /home/tmp/`
+```
+# UID
+ls -l /usr/bin/passwd 
+-rwsr-xr-x 1 root root 68208 jul 14 19:08 /usr/bin/passwd
+# GID
+mkdir gid
+chmod g+s gid
+ls -ld gid/
+drwxrwsr-x 2 pale pale 4096 dic  8 17:46 gid/
+```
 
-El este último caso, el orden de los bit sería setuid, setgid y sticky bit
+- Sticky Bit: En el directorio que lo tenga activado, los ficheros que contenga sólo podrán ser borrados por sus propietarios o por el propietario del directorio. Se representa por t en el permiso de ejecución de "los otros"
+
+```
+# Sticky bit
+# Creamos un directorio con todos los permisos para todos los usuarios
+mkdir sticky 
+chmod 777 sticky
+# Creamos un archivo en sticky
+touch sticky/file.txt
+# Cambiamos de usuario
+su user1
+# Con user1 intentamos eliminar file.txt en sticky
+rm sticky/file.txt
+rm: remove write-protected regular empty file 'sticky/file.txt'? y
+# Comprobamos que el fichero se eliminó
+ls sticky
+
+# Repetimos, pero antes asignamos sticky bit al directorio sticky con el usuario dueño
+chmod +t sticky
+ls -ld sticky/
+drwxrwxrwt 2 pale pale 4096 dic  8 17:58 sticky/
+touch sticky/file.txt
+su user1
+rm sticky/file.txt
+rm: remove write-protected regular empty file 'sticky/file.txt'? s
+rm: cannot remove 'sticky/file.txt': Operation not permitted
+ls sticky/
+file.txt
+# Luego probamos eliminar con el usuario dueño
+rm sticky/file.txt
+ls sticky
+
+```
 
