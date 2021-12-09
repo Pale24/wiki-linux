@@ -1,5 +1,12 @@
 # Curso Introducción Linux 2021
 
+## Instalar VirtualBox
+
+- [windows](https://www.youtube.com/watch?v=UfCkZZQ8N4k)
+
+- [Ubuntu](https://www.youtube.com/watch?v=BqO8iOWPLQg)
+
+
 ## [Clase 1](clase1.md)
 
 ## [Clase 2](clase2.md)

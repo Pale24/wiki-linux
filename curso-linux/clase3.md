@@ -20,7 +20,7 @@ Algunos conceptos de redes:
 
 - El Protocolo de Internet o IP, es responsable de entregar nuestros paquetes a los equipos correctos. El protocolo de Internet nos ayuda a encaminar la información. 
 
-- Los dispositivos que pueden conectarse a una red tienen un identificador único llamado dirección MAC. Las direcciones MAC son por lo general permanentes y están codificadas en un dispositivo. Además para poder conectarse a la red a la cual el dispositivo debe disponer de una dirección IP.
+- Los dispositivos que pueden conectarse a una red tienen un identificador único llamado dirección MAC. Las direcciones MAC son por lo general permanentes y están codificadas en un dispositivo. Además para poder conectarse a la red el dispositivo debe disponer de una dirección IP.
 
 - Los datos se envían a través de una red por medio de paquetes. Cuando movemos datos a través de la red, los dividimos en paquetes. Cuando un paquete llega a su destino, se volverá a ordenar.
 
