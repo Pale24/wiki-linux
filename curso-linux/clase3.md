@@ -921,4 +921,58 @@ sdd                        8:48   0    2G  0 disk
 
 #### Fstab
 
+El archivo /etc/fstab contiene información sobre los sistemas de archivos que deben montarse al inicio del sistema. Cada línea en el archivo posee los siguientes 6 campos:
+
+```
+tail -6 /etc/fstab
+
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/ubuntu-vg/ubuntu-lv during curtin installation
+/dev/disk/by-id/dm-uuid-LVM-dngU2rIFiMi4sqTC8iJgIXWKnlNFfVGewEG6AYTDp8B9AQ9qehCeq83nfFABkG83 / ext4 defaults 0 1
+# /boot was on /dev/sda2 during curtin installation
+/dev/disk/by-uuid/99753967-872c-4a15-97fa-a8c831c75b45 /boot ext4 defaults 0 1
+#[---------------------------------------------------] [---] [--] [------] - -
+#                     1                                  2     3      4    5 6
+/swap.img   none    swap    sw  0   0
+```
+- 1. Dispositivo de almacenamiento (local o remoto) que debe montarse. Puede especificarse mediante el identificador de dispositivo (por ejemplo, /dev/sdb1) o mediante la etiqueta asignada al momento de crear el sistema de archivos (LABEL=etiqueta), o mediante el UUID del sistema de archivos (lo cual puede averiguarse mediante el comando blkid)
+- 2. Punto de montaje en el que se anexará el sistema de archivos.
+- 3. Tipo de sistema de archivos (ext4, xfs, etc.)
+- 4. Opciones de montaje (separadas por comas si hay más que una). En `man  mount` podemos encontrar una descripción detallada.
+- 5. Opción en desuso.
+- 6. Indica si el sistema de archivos debe chequearse al iniciar el sistema y en qué orden:
+        - Para / (la raíz del árbol de directorios) siempre debería ser 1,
+        - Mientras que para el resto siempre 2.
+        - Si este campo no existe o es 0 significa que no se debe chequear el sistema de archivos.
+
+Vamos a montar el volúmen lógico "curso-lv1" en un directorio del usuario:
+```
+# chequeamos el nombre del disco con blkid
+blkid | grep curso
+/dev/mapper/curso--vg-lv1: UUID="bd17b192-8775-4697-858e-474c91a8e86b" TYPE="ext4"
+
+# creamos el directorio:
+mkdir /home/pale/lv1
+# agregamos la siguiente linea en /etc/fstab:
+vi /etc/fstab
+/dev/mapper/curso--vg-lv1 /home/pale/lv1 ext4 defaults 0 2
+# Aplicamos los cambios ejecutando
+mount -a
+# asignamos el directorio al usuario
+chown -R pale.pale /home/pale/lv1
+```
+#### mount
+
+Para montar un dispositivo bajo demanda podemos usar la función mount:
+
+```
+mount -t ext4 LABEL=etiqueta /mnt/pruebas
+mount -t ext4 /dev/sde1 /mnt/pruebas
+```
+
+Con el comando umount desmontamos
+
+```
+umount /mnt/pruebas
+```
 
