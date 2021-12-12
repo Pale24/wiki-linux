@@ -116,25 +116,30 @@ Con esto tenemos listo el entorno de trabajo para llevar adelante la instalació
 Una vez configurada la máquina virtual vamos a proceder a la instalación del sistema operativo. Para esto, hacemos doble click sobre la máquina virtual, se va a abrir una ventana con la interfaz de la misma y se inicia el instalador con la primer pantalla, que corresponde a la selección del idioma. Para ingresar a la máquina virtual, debemos posicionar el mouse sobre la ventana (para salir debemos apretar ctrl derecho). Nos movemos por el menú con las teclas de arriba y abajo, seleccionamos Español y damos enter.
 
 **Selección de la distribución del teclado**
+
 De nuevo nos movemos con las teclas de flechas (arriba y abajo) y para seleccionar apretamos enter. La disposición de los teclados en Argentina suelen ser las de Español y Español latinoamericano. También se puede usar la opción de identificar el teclado, en caso de no saber cual es la distribución.
 
 **Conexión de red**
+
 El siguiente paso es la selección y configuración de la red. Por ahora vamos a dejar la configuración por defecto: enp0s3 y la IP asignada mediante DHCP (mas adelante vamos a ver cómo configurar una IP estatica). Para terminar seleccionamos "hecho".
 
 **Seleccionar un proxy**
+
 Si no es necesario acceder a internet desde un proxy dejamos la opción en blanco.
 
 **Selección del repositorio**
+
 Dejamos el que trae por defecto
 
 **Configuración de almacenamiento**
+
 En este paso debemos definir la configuración del sistema de almacenamiento. Podemos llevar a cabo la configuración de forma automática utilizando el disco completo o manual, fijando como queremos particionar el disco. Además, podemos definir si queremos utilizar un particionado tradicional o utilizar LVM (Logical Volume Management).
 
 LVM es un conjunto de herramientas que permiten la administración de unidades de almacenamiento denominadas volúmenes lógicos. Provee flexibilidad para administrar el almacenamiento del sistema de manera que pueda expandirse fácilmente. El redimensionado de los volúmenes lógicos bajo LVM se puede realizar sin interrumpir el funcionamiento normal del equipo. Además, el procedimiento es mucho más rápido que en el particionado tradicional.
 
 Cuando se realiza la instalación de servidores es preferible configurar el sistema de almacenamiento sobre LVM. 
 
-Utilizamos todo el disco y LVM, pero seleccionaremos la opción "Custom Storage Layout" ya que vamos a ver como está compuesta la instalación por defecto.
+Utilizamos todo el disco y LVM, y vamos a ver como está compuesta la instalación por defecto.
 
 En la siguiente pantalla vemos distintas opciones:
 - Los puntos de montaje, es decir, los puntos del sistema de archivos de linux donde se van a montar los dipositivos de almacenamiento.
@@ -162,9 +167,11 @@ Vamos a la opción `ubuntu-lv	new, to be formatted as ext4, mounted at /` y pres
 En esta ventana debemos ingresar las credenciales que nos permitirán autenticarnos en el sistema y el nombre del host. La clave ingresada tambien nos permitirá ejecutar funciones como administrador.
 
 **Configuración de SSH**
+
 Acá podemos seleccionar si queremos instalar o no el servidor SSH. El protocolo SSH (Secure Shell) es una herramienta que nos permite conectarnos a equipos remotos y nos permite llevar a cabo tareas dentro del mismo como si estuvieramos logueados de forma fisica en dicho equipo. También nos permite copiar datos de forma segura. Vamos a marcar la instalación y continuamos. 
 
 **Instalación de paquetes**
+
 El sistema nos ofrece la opción de instalar algunos de los paquetes más populares. Nosotros no vamos a instalar ninguno, así que salteamos esta ventana.
 
 **Ahora solo queda esperar**
