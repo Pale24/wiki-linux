@@ -169,7 +169,7 @@ En esta ventana debemos ingresar las credenciales que nos permitirán autenticar
 
 **Configuración de SSH**
 
-Acá podemos seleccionar si queremos instalar o no el servidor SSH. El protocolo SSH (Secure Shell) es una herramienta que nos permite conectarnos a equipos remotos y nos permite llevar a cabo tareas dentro del mismo como si estuvieramos logueados de forma fisica en dicho equipo. También nos permite copiar datos de forma segura. Vamos a marcar la instalación y continuamos. 
+Acá podemos seleccionar si queremos instalar o no el servidor SSH. El protocolo SSH (Secure Shell) es una herramienta que nos permite conectarnos a equipos remotos y llevar a cabo tareas dentro del mismo como si estuvieramos logueados de forma física en dicho equipo. También nos permite copiar datos de forma segura. Vamos a marcar la instalación y continuamos. 
 
 **Instalación de paquetes**
 
