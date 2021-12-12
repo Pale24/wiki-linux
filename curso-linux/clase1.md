@@ -151,6 +151,7 @@ En la siguiente pantalla vemos distintas opciones:
 Como puede verse en la imagen, la instalación por defecto establece 2 puntos de montaje:
 - `/				8.996GB	new ext4	new LVM logical volume`
 - `/boot		1.000GB	new ext4	new partition of disco local`
+
 La primera partición forma parte del LVM y está montado en la raiz (`/`) del SO. La segunda partición no forma parte del LVM y está montada en `/boot` que es el directorio donde se encuentra el kernel de linux.
 
 En la parte de dispositivos utilizados vemos un volume group y un logical volume que es el que se encuentra montado sobre `/`. Finalmente, podemos ver las particiones que tiene el disco, el tipo y el tamaño.
