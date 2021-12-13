@@ -255,7 +255,7 @@ La secuencia de arranque de Linux puede dividirse en varias etapas:
 
 ## 5. Cargando la imagen del kernel Linux
 
-* GRUB → kernel linux (/boot) → control SO 
+* GRUB → kernel linux (/boot/vmlinuz) → control SO 
 	- initrd e initramfs: Sistema de archivos de inicio 
 		- mini linux
 		- Funciones adicionales → Inicia módulos y comprueba hardware
@@ -550,11 +550,11 @@ vi file
 
 Al invocar a vi seguido del nombre de un archivo, lo crea si no existe. En la pantalla aparecerá la posición actual del cursor resaltada, las líneas en blanco indicadas con el símbolo ~, y en la parte inferior la línea de estado. En este sector se mostrará el nombre del archivo y el número de caracteres que contiene.
 
-Existen dos modos de operación en el vi:
+Existen dos modos de operación en vi:
 - Modo entrada: Se usa para añadir texto al archivo.
 - Modo comando: Es el modo de operación por defecto. Se usa para introducir comandos que realizan funciones específicas del editor.
 
-Cuando se abre por primera vez un archivo, vi siempre se encuentra en modo comando. Por esa razón, antes de poder escribir texto en el archivo se necesita presionar una de las teclas que habilitan el modo entrada:
+`vi` siempre se inicia en modo comando. Por esa razón, antes de poder escribir texto en el archivo se necesita presionar una de las teclas que habilitan el modo entrada:
 - i (insert), para insertar texto en la posición actual del cursor.
 - a (append) para insertar texto después de la posición actual del cursor.
 
@@ -575,7 +575,7 @@ Si queremos descartar:
 Esc :q! [ENTER]
 ```
 
-Si queremos guardar los cambios: 
+Si queremos guardar los cambios y salir: 
 ```
 Esc :wq [ENTER]
 ```
@@ -595,10 +595,11 @@ cp {file1, file2, file3} directorio_destino/
 ```
 
 ## mv
+Mueve / renombra archivos
 ```
 mv file1 file2 			# renombrar el archivo
 mv file1 dir1/			# mueve file1 a dir1
-mv -i file1 dir1/		# pregunta si queremos sobreescribir file2
+mv -i file1 dir1/		# pregunta si queremos sobreescribir file1
 mv -n file1 dir1/		# previene que se sobreescriba un archivo
 mv -u file1 dir1/		# mueve file1 solo si el origen es nuevo respecto al destino o si no existe en el destino
 mv file1 dir1/file2		# mueve file1 a dir1/file2
@@ -649,7 +650,7 @@ La información que se puede obtener de stat es:
 - Creación: Reservado para ver la fecha original de creación del archivo, pero no se implementa en linux.
 
 ## locate y updatedb
-Para realizar búsquedas rápidas de archivos en Linux disponemos de estas dos herramientas que se utilizan en conjunto. El propósito de locate es buscar la ubicación de archivos en las bases de datos escritas por updatedb. esta herramienta busca archivos que tengan la expresión buscada y la lsta linea por linea. La función de updatedb es actualizar la base de datos, por ejemplo, si creamos un archivo recientemente no va a estar indexado en la base de datos y, por tanto, si queremos que aparezca con locate debemos ejecutar updatedb previamente (updatedb se ejecuta diariamente en segundo plano para actualizar la base de datos).
+Para realizar búsquedas rápidas de archivos en Linux. El propósito de locate es buscar la ubicación de archivos en las bases de datos escritas por updatedb. Esta herramienta busca archivos que tengan la expresión buscada y la lista linea por linea. La función de updatedb es actualizar la base de datos, por ejemplo, si creamos un archivo recientemente no va a estar indexado en la base de datos y, por tanto, si queremos que aparezca con locate debemos ejecutar updatedb previamente (updatedb se ejecuta diariamente en segundo plano para actualizar la base de datos).
 
 La sintaxis básica de locate es la siguiente:
 
