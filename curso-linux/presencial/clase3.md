@@ -30,31 +30,15 @@ Algunos conceptos de redes:
 
 - Servidores y clientes. Un servidor es algo que proporciona datos a algo que los solicita, el cliente. 
 
-## Protocolo TCP/IP
-
-Para entender la red de verdad, necesitamos entender todos los componentes involucrados. Hablamos de todo, desde los cables que conectan dispositivos entre sí a los protocolos que estos dispositivos utilizan para comunicarse. Hay un montón de modelos que permiten explicar cómo se comunican los dispositivos de red, pero en este curso, nos centraremos en un modelo de cuatro capas.
-
-| TCP/IP                    |
-|:-------------------------:|
-| 4. Capa de aplicación     |
-| 3. Capa de transporte     |
-| 2. Capa de internet       |
-| 1. Capa de acceso a Redes |
-
-- 1. La capa de acceso a la red especifica las características del hardware (incluyendo el medio de transporte) y la forma en la que los datos deben enrutarse.
-- 2. La capa de Internet permite administrar las direcciones de enrutamiento de datos. Es esta capa la que permite que diferentes redes se comuniquen entre sí a través de dispositivos conocidos como routers. Permite que un paquete llegue desde un origen a un destino. Esta capa engloba protocolos como IP (Internet Protocol) e ICMP (Internet Control Message Protocol).
-- 3. La capa de transporte se encarga de transporte de datos, su división en paquetes y la administración de potenciales errores de transmisión. Es aquí donde encontramos al protocolo TCP (Transmission Control Protocol).
-- 4. La capa de aplicación es administrada directamente por el software y está relacionado con el tipo de servicio que provee una determinada aplicación. Ejemplo de protocolos de esta capa son ssh, http, ftp, y rsyslog. Cada uno de estos protocolos tiene una finalidad específica (http es para la web, ftp para transferir archivos, etc).
-
 ## Dirección IP
 
 Según [wikipedia](https://es.wikipedia.org/wiki/Direcci%C3%B3n_IP):
 
-La dirección IP es un conjunto de números que identifica, de manera lógica y jerárquica, a una interfaz en la red (elemento de comunicación/conexión) de un dispositivo (computadora, laptop, teléfono inteligente) que utilice el protocolo (Internet Protocol) o que corresponde al nivel de red del modelo TCP/IP.
+La dirección IP es un conjunto de números que identifica, de manera lógica y jerárquica, a una interfaz en la red de un dispositivo (computadora, laptop, etc) que utilice el protocolo IP (Internet Protocol) o que corresponde al nivel de red del modelo TCP/IP.
 
-La dirección IP puede cambiar a menudo debido a cambios en la red, o porque el dispositivo encargado dentro de la red de asignar las direcciones IP decida asignar otra IP (por ejemplo, con el protocolo DHCP). A esta forma de asignación de dirección IP se le denomina también dirección IP dinámica (normalmente abreviado como IP dinámica). Los sitios de Internet que por su naturaleza necesitan estar permanentemente conectados, generalmente tienen la necesidad de una dirección IP fija (comúnmente, IP fija o IP estática). Esta no cambia con el tiempo.
+La dirección IP puede cambiar a menudo debido a cambios en la red, o porque el dispositivo encargado dentro de la red de asignar las direcciones IP decida asignar otra IP (por ejemplo, con el protocolo DHCP). A esta forma de asignación de dirección IP se le denomina también dirección IP dinámica. Los sitios de Internet que por su naturaleza necesitan estar permanentemente conectados, generalmente tienen la necesidad de una dirección IP fija (IP fija o IP estática). Esta no cambia con el tiempo.
 
-Los dispositivos se conectan entre sí mediante sus respectivas direcciones IP. Sin embargo, para las personas es más fácil recordar un nombre de dominio que los números de la dirección IP. Los servidores de nombres de dominio DNS, "traducen" el nombre de dominio en una dirección IP. Si la dirección IP dinámica cambia, es suficiente actualizar la información en el servidor DNS. El resto de las personas seguirán accediendo al dispositivo por el nombre de dominio.
+Los dispositivos se conectan entre sí mediante sus respectivas direcciones IP. Sin embargo, para las personas es más fácil recordar un nombre de dominio que los números de la dirección IP. Los servidores de nombres de dominio (DNS), "traducen" el nombre de dominio en una dirección IP. Si la dirección IP dinámica cambia, es suficiente actualizar la información en el servidor DNS. El resto de las personas seguirán accediendo al dispositivo por el nombre de dominio.
 
 Actualmente, se usan 2 versiones de direcciones IP: IPv4 e IPv6 (pensada para reemplazar a IPv4). Nosotros nos vamos a centrar en IPv4.
 
@@ -68,10 +52,10 @@ Una dirección IP está compuesta por 4 octetos y cada octeto se describe normal
 	- La dirección 123.456.789.100 tiene números más grandes que los que se podrían representar mediante 8 bits.
 
 ```
-       0.       0.       0.       .0
-00000000.00000000.00000000.00000000
-11111111.11111111.11111111.11111111 -> 32 bits
-     255.     255.     255.     255 
+D        0.       0.       0.       .0
+B 00000000.00000000.00000000.00000000
+B 11111111.11111111.11111111.11111111 -> 32 bits
+D     255.     255.     255.     255 
 ```
 
 Las direcciones inicial y final dentro de una red representan la dirección de la red (la que la identifica) y la de broadcast (envía información a todos los nodos), respectivamente y no pueden asignarse a ningún equipo en particular.
@@ -109,15 +93,15 @@ En una red 192.168.0.0/24 tenemos: 256 hosts (2^8) - 2 (una para identificar la 
 Si tenemos el mismo espacio de direcciones (192.168.0.0/24) podemos dividir la red en subredes más pequeñas. Supongamos que necesitamos armar redes de oficinas en una empresa y queremos que cada una tenga su propia subred de, al menos, 40 IPs cada una:
 	- Podemos dividir la red en subredes /26 o 255.255.255.192:
 		- 192.168.0.0 – 192.168.0.63: la primera IP es la dirección de red, y la última es la dirección de broadcast. Las IP que están en el medio son para los hosts (62)
-		- 192.168.1.64 – 192.168.1.127
-		- 192.168.1.128 – 192.168.1.191
-		- 192.168.1.192 – 192.168.1.255
+		- 192.168.0.64 – 192.168.0.127
+		- 192.168.0.128 – 192.168.0.191
+		- 192.168.0.192 – 192.168.0.255
 
 ## Redes en Linux
 
 ### Localización de archivos de configuración de red
 
-- /etc/hosts: Este  es un simple archivo de texto que asocia direcciones IP con nombres de dominio, una linea por dirección IP. Por cada host, hay una linea con: `IP hostname [alias...]`
+- /etc/hosts: Este es un archivo de texto que asocia direcciones IP con nombres de dominio, una linea por dirección IP. Por cada host, hay una linea con: `IP hostname [alias...]`
 
 - /etc/resolv.conf: "resolver" es un set de rutinas que proveen acceso al sistema de dominio de nombres (DNS, Internet Domain System). El archivo de configuración resolv.conf contiene información que es leida por esta rutina la primera vez que es invocada por el proceso 
 
@@ -170,7 +154,7 @@ ip a
 - enp0s3 ...: interfaz de red física (ethernet). 
 	- state UP
 	- link/ether 08:00:27:39:f8:a8 brd ff:ff:ff:ff:ff:ff: MAC del dispositivo
-	- inet 192.168.0.15/24 brd 192.168.0.255 scope global dynamic enp0s3: 
+	- inet 192.168.0.18/24 brd 192.168.0.255 scope global dynamic enp0s3: 
 		- inet: IPv4
 		- 192.168.0.18/24: Dirección IP / máscara de red
 		- brd 192.168.0.255: Broadcast
@@ -238,7 +222,7 @@ En el caso de Debian y derivados esta tarea se lleva a cabo a través del archiv
 
 ```bash
 # The primary network interface
-allow-hotplug enp0s3
+allow-hotplug enp0s3 
 iface enp0s3 inet static
 	address 192.168.0.100
 	network 192.168.0.0
@@ -251,7 +235,7 @@ iface enp0s3 inet static
 - address IP: indica la IP asignada al dispositivo
 - network IP: indica la IP de la red
 - netmask máscara: indica la máscara de la red
-- gateway IP: indica la puesta de enlace
+- gateway IP: indica la puerta de enlace
 
 Con estas modificaciones ponemos la interfaz de red con IPs estática. En este punto es necesario reiniciar el servidor para que tome la configuración.
 
@@ -368,7 +352,7 @@ man sshd_config
 
 # Gestión de dispositivos de almacenamiento
 
-Para llevar a cabo esta parte del curso vamos a crear 3 discos de 1 GB (dependiendo el espacio de nuestra computadora) en nuestra máquina virtual. 
+Para llevar a cabo esta parte del curso vamos a crear 3 discos de 500MB (dependiendo el espacio de la computadora) en nuestra máquina virtual. 
 
 En VirtualBox seleccionamos nuestra máquina virtual (apagada) y después vamos a la configuración (ícono del engranaje),
 	- vamos a almacenamiento y sobre el menú "controlador: SATA" seleccionamos agregar disco duro. 
@@ -380,6 +364,7 @@ Repetimos la operación para generar los otros discos y finalmente seleccionamos
 
 En un sistema Linux hay solamente una estructura de directorios sin importar de cuántos dispositivos de almacenamiento físico dispongamos. Pero para poder utilizarlos, es necesario que primero asociemos a cada uno con un directorio del sistema. Este directorio recibe el nombre de punto de montaje.
 
+## Definiciones:
 Una partición es una división lógica que se hace a un dispositivo de almacenamiento con el propósito de definir un espacio determinado para un uso en particular. 
 
 Un sistema de archivos puede definirse como la forma en que se estructurarán los contenidos (archivos y directorios) de dicha partición.
@@ -494,7 +479,7 @@ Command (m for help):
 ```
 Algunas opciones más comunes son:
 - m: mostrar el menú de ayuda
-- p: mostrar la tebla de particiones del dispositivo
+- p: mostrar la tabla de particiones del dispositivo
 - l: mostrar los tipos de particiones soportadas por fdisk
 - n: agregar una nueva partición
 - d: borrar una partición existente
@@ -634,6 +619,8 @@ Hex code (type L to list all codes):
 ```
 Si queremos crear una partición para Windows podemos usar la opción 7 (HPFS/NTFS/exFAT).
 
+Si queremos crear una partición etx4 podemos usar la opción 83.
+
 Para finalizar y escribir los cambios en el disco usamos la opción "w".
 
 #### gdisk
@@ -767,20 +754,20 @@ La utilidad para realizar esta tarea es mkfs (MaKe File System). El comando es m
 Para generar el sistema de archivos simplemente debemos utilizar el comando con el tipo de sistema que deseamos generar. Por ejemplo, para generar un sistema de archivos ext4 en la partición sdc1 ejecutamos:
 
 ```
-mkfs.ext4 /dev/sdc1
+mkfs.ext4 /dev/sdb1
 ```
 
 Entre las opciones de las que disponemos, -L nos servirá para asignarle una etiqueta al sistema de archivos, mediante la cual podremos identificarlo más fácilmente a la hora de montarlo y disponerlo finalmente para su uso. En este caso quedaría así:
 
 ```
-mkfs.ext4 -L etiqueta /dev/sdc1
+mkfs.ext4 -L etiqueta /dev/sdb1
 ```
 
 Una vez hecho esto, ya podemos montar la partición.
 
 ```
 mkdir /tmp/disco
-mount /dev/sde1 /tmp/disco/
+mount /dev/sdb1 /tmp/disco/
 ```
 
 #### LVM (Logical Volume Management)
@@ -904,10 +891,10 @@ vgdisplay
 ```
 Como se puede ver, el espacio de curso-vg es ahora de ~ 4GB, esto nos permite crear una unidad de almacenamiento de mayor capacidad utilizando discos o particiones de menor tamaño.
 
-Ahora vamos a crear el primer volumen logico de 1GB llamado lv1 sobre curso-vg:
+Ahora vamos a crear el primer volumen logico de 500M llamado lv1 sobre curso-vg:
 
 ```
-lvcreate -n lv1 -L 1G curso-vg
+lvcreate -n lv1 -L 500M curso-vg
 
   Logical volume "lv1" created.
 ```
