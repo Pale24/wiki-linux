@@ -10,8 +10,8 @@
 
 ## Temas:
 - 5. Gestión de paquetes
-	- Dpkg y rpm
-	- Apt y yum
+	- Dpkg 
+	- Apt 
 	- Código fuente
 - 6. Bibliotecas compartidas
 - 7. Gestión de usuarios
@@ -48,13 +48,10 @@ Podemos definir a la gestión de paquetes como las acciones de instalar, actuali
 
 
 
-
-
-
 ## Archivos precompilados
 
 - Comandos que administran paquetes luego de obtener un archivo del paquete precompilado (no los descarga). 
-- Existen diferentes utilidades para las difentes distribuciones 
+- Existen diferentes utilidades para las diferentes distribuciones 
 - Solamente instalan el programa presente en el archivo .deb o .rpm pero sin instalar dependencias.
 
 ### Comando dpkg y paquetes .deb 
@@ -97,9 +94,6 @@ Podemos definir a la gestión de paquetes como las acciones de instalar, actuali
 
 
 
-
-
-
 ## Repositorios
 
 - Un repositorio es una ubicación de almacenamiento desde la cual el sistema recupera, instala y actualiza aplicaciones y maneja automáticamente las dependencias. 
@@ -122,62 +116,15 @@ Trabaja en conjunto con los repositorios de software que contienen los paquetes 
 - Debian y Ubuntu, mantienen sus propios repositorios 
 - Desarrolladores o grupos de usuarios
 
-
 #### Ubicación
 - **/etc/apt/sources.list** 
 - archivos dentro de la carpeta **/etc/apt/sources.list.d**. 
 - El formato de estos archivos es similar:
 
-```
-# deb cdrom:[Kubuntu 20.04.3 LTS _Focal Fossa_ - Release amd64 (20210819.1)]/ focal main multiverse restricted universe
-
-# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to newer versions of the distribution.
-deb http://ar.archive.ubuntu.com/ubuntu/ focal main restricted
-# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal main restricted
-
-## Major bug fix updates produced after the final release of the distribution.
-deb http://ar.archive.ubuntu.com/ubuntu/ focal-updates main restricted
-# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal-updates main restricted
-
-## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu team. Also, please note that software in universe 
-## WILL NOT receive any review or updates from the Ubuntu security team.
-deb http://ar.archive.ubuntu.com/ubuntu/ focal universe
-# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal universe
-deb http://ar.archive.ubuntu.com/ubuntu/ focal-updates universe
-# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal-updates universe
-## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu team, and may not be under a free licence. 
-## Please satisfy yourself as to your rights to use the software. Also, please note that software in multiverse WILL NOT 
-## receive any review or updates from the Ubuntu security team.
-deb http://ar.archive.ubuntu.com/ubuntu/ focal multiverse
-# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal multiverse
-deb http://ar.archive.ubuntu.com/ubuntu/ focal-updates multiverse
-# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal-updates multiverse
-
-## N.B. software from this repository may not have been tested as extensively as that contained in the main release,
-## although it includes  newer versions of some applications which may provide useful features.
-## Also, please note that software in backports WILL NOT receive any review or updates from the Ubuntu security team.
-deb http://ar.archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
-# deb-src http://ar.archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
-
-## Uncomment the following two lines to add software from Canonical's 'partner' repository.
-## This software is not part of Ubuntu, but is offered by Canonical and the respective vendors as a service to Ubuntu users.
-# deb http://archive.canonical.com/ubuntu focal partner
-# deb-src http://archive.canonical.com/ubuntu focal partner
-
-deb http://security.ubuntu.com/ubuntu focal-security main restricted
-deb http://security.ubuntu.com/ubuntu focal-security universe
-deb http://security.ubuntu.com/ubuntu focal-security multiverse
-
-# This system was installed using small removable media (e.g. netinst, live or single CD). The matching "deb cdrom" entries were 
-# disabled at the end of the installation process. For information about how to configure apt package sources, see the sources.list(5) 
-# manual.
-deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /
-# deb-src https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /
-```
-
+### Archivos:
 - Las líneas que comienzan con el carácter # son comentarios y se ignoran.
-- deb y deb-src indican si el repositorio contiene paquetes binarios compilados previamente o los paquetes fuente (que contienen todo lo necesario para que uno compile un programa en particular), respectivamente.
-- Luego tenemos la dirección URL del repositorio.
+- deb y deb-src: contiene paquetes binarios compilados previamente o los paquetes fuente (que contienen todo lo necesario para que uno compile un programa en particular), respectivamente.
+- Dirección URL del repositorio.
 - El nombre de la distribución para la que se proporcionan los paquetes.
 - Componente: representa un conjunto de paquetes. Estos componentes pueden ser diferentes en cada distribución de Linux. Por ejemplo, en Ubuntu y derivados, son:
 	- main: contiene paquetes de código abierto con soporte oficial.
@@ -185,10 +132,9 @@ deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ 
 	- universe: contiene software de código abierto mantenido por la comunidad.
 	- multiverse: contiene software no compatible, de código cerrado o con patente gravada.
 
-
 **El Directorio /etc/apt/sources.list.d**
 
-Dentro del directorio /etc/apt/sources.list.d puede agregar archivos con repositorios adicionales para ser utilizados por APT, sin la necesidad de modificar el archivo principal /etc/apt/sources.list. Estos son archivos de texto simples, con la misma sintaxis descrita anteriormente y la extensión de archivo .list.
+Dentro del directorio /etc/apt/sources.list.d se puede agregar archivos con repositorios adicionale, sin la necesidad de modificar el archivo principal /etc/apt/sources.list. Estos son archivos de texto simples, con la misma sintaxis descrita anteriormente y la extensión de archivo .list.
 
 #### Agregar un repositorio nuevo
 
@@ -256,17 +202,17 @@ apt install --fix-broken
 
 Al instalar un paquete, el archivo .deb se descarga antes de instalarlo. Por defecto, este directorio es /var/cache/apt/archives. Por su parte los archivos descargados parcialmente se copian a /var/cache/apt/archives/partial/.
 
-Con el paso del tiempo este directorio puede ser bastante grande. Para recuperar espacio, se puede vaciar la caché utilizando el comando apt clean. Esto eliminará el contenido de ambos directorios.
+Con el paso del tiempo este directorio puede ser bastante grande. Para recuperar espacio, se puede vaciar la caché utilizando el comando `apt clean`. Esto eliminará el contenido de ambos directorios.
 
-Con el comando apt-cache se puede realizar operaciones sobre el indice de paquetes, como buscar un paquete especifico o listar qué paquetes contienen un archivo específico. 
+Con el comando `apt-cache` se puede realizar operaciones sobre el indice de paquetes, como buscar un paquete especifico o listar qué paquetes contienen un archivo específico. 
 
-Con apt-cache search seguido de un patrón se puede realizar la búsqueda de paquetes que contienen dicho patrón, ya sea en el nombre del paquete, la descripción o en los archivos. 
+Con `apt-cache search` seguido de un patrón se puede realizar la búsqueda de paquetes que contienen dicho patrón, ya sea en el nombre del paquete, la descripción o en los archivos. 
 
 ```
 apt-cache search avogadro
 ```
 
-Luego con apt-cache show seguido del paquete de interes se puede ver mas información acerca de este.
+Luego con `apt-cache show` seguido del paquete de interes se puede ver mas información acerca de este.
 
 ```
 apt-cache show avogadro
@@ -310,7 +256,7 @@ Para mas información consultar el manual `man aptitude`
 Existen muchas situaciones donde es necesario tener que instalar los paquetes desde el código fuente. 
 - Mucho software cientifico (por ejemplo, amber), 
 - Versión especifica de una biblioteca / software no disponible en los repositorios. 
-- Esto implica compilar código c, c++ o fortran (lenguajes de programación compilados) a archivos que puedan ser ejecutados en Linux. 
+- Esto implica compilar código c, c++ o fortran (lenguajes de programación compilados) a archivos que puedan ser ejecutados en Linux
 
 Lo primero que debemos hacer es instalar las herramientas de desarrollo de linux mediante:
 
@@ -328,7 +274,7 @@ tar -xjf fichero.tar.bz2   # Extrae .tar.bz2
 tar -xJf fichero.tar.xz    # Extrae .tar.xz
 ```
 
-Antes de proceder a la instalación es importante leer la documentación del paquete o los archivos README / INSTALL para ver si hay información sobre posibles dependencias, en caso afirmativo deberiamos instalarlas. También puede haber información sobre opciones de configuración, etc.
+Antes de la instalación es importante leer la documentación del paquete o los archivos README / INSTALL para ver si hay información sobre posibles dependencias, en caso afirmativo deberiamos instalarlas. También puede haber información sobre opciones de configuración, etc.
 
 Para  instalar posibles dependencias:
 ```
@@ -401,15 +347,10 @@ via the "-np" argument.
 Casi todo el software comparte funcionalidades como acceder al disco, mostrar botones, usar formularios, etc. En lugar de que todos incluyan el código de las mismas operaciones, utilizan archivos que las ponen a disposición del sistema. Se llaman bibliotecas compartidas y son partes de código compilado y reutilizable como funciones o clases, que varios programas utilizan de manera recurrente.
 
 Para construir un archivo ejecutable a partir del código fuente de un programa, son necesarios dos pasos importantes.
-- 1. El compilador convierte el código fuente en código máquina (sistema de códigos directamente interpretable por el microprocesador).
+- 1. El compilador convierte el código fuente en código máquina.
 - 2. El linker o enlazador combina los archivos de objetos y los vincula a las bibliotecas para generar el archivo ejecutable final. 
 	- Estáticamente (statically)
-	- dinámicamente (dynamically). 
-
-
-
-
-
+	- dinámicamente (dynamically)
 
 **Bibliotecas estáticas**
 
@@ -423,10 +364,6 @@ Puede verse como una ventaja, ya que no tiene que preocuparse de que las bibliot
 
 En el lado negativo, los programas vinculados estáticamente son más pesados.
 
-
-
-
-
 **Bibliotecas compartidas (o dinámicas)**
 
 El enlazador simplemente se encarga de que el programa haga referencia a las bibliotecas correctamente. 
@@ -434,13 +371,6 @@ El enlazador simplemente se encarga de que el programa haga referencia a las bib
 Sin embargo, el enlazador no copia ningún código de biblioteca en el archivo del programa. En tiempo de ejecución, la biblioteca compartida debe estar disponible para satisfacer las dependencias del programa. 
 
 Este es un enfoque económico para administrar los recursos del sistema, ya que ayuda a reducir el tamaño de los archivos de programa y solo se carga una copia de la biblioteca en la memoria, incluso cuando es utilizada por varios programas.
-
-
-
-
-
-
-
 
 
 ## Nomenclatura de archivos de objetos compartidos
@@ -606,7 +536,7 @@ Los grupos constituyen el primer método de control de acceso a los recursos del
 
 Para permitir una administración flexible de los permisos de los usuarios, Linux permite estructurar los usuarios a través de grupos y los permisos pueden ser asignados a un grupo. 
 
-Por ejemplo, en una institución podemos tener un grupo especifico de usuarios (el grupo de investigadores, por ejemplo) que tiene acceso a ciertos archivos, al momento de añadir un nuevo investigador al sistema, solo tenemos que asignarle a su cuenta de usuario el grupo investigador.
+Por ejemplo, en una institución podemos tener un grupo especifico de usuarios (el grupo de investigadores) que tiene acceso a ciertos archivos, al momento de añadir un nuevo investigador al sistema, solo tenemos que asignarle a su cuenta de usuario el grupo investigador.
 
 Cuando listamos el contenido de un directorio con `ls -l` podemos ver que hay una columna que nos indica cual es el usuario propietario de ese objeto (fichero o directorio) y en la columna siguiente vemos al grupo propietario (por lo general es el grupo principal del usuario que lo creó).
 
