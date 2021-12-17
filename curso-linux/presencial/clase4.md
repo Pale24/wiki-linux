@@ -18,7 +18,7 @@ Los logs o registros del sistema son archivos de texto que registran cronológic
 - Registro de errores que se dan en los programas o servicios.
 - Accesos o salidas bloqueadas por el firewall.
 
-Mediante estos logs se puede saber todo lo que está pasando en el equipo y así poder detectar problemas que pueda tener el equipo, registrar posibles intrusiones, evaluar el rendimiento, etc.
+Mediante estos logs se puede saber todo lo que está pasando en el equipo y así poder detectar problemas, registrar posibles intrusiones, evaluar el rendimiento, etc.
 
 Por defecto estos logs se almacenan en /var/log y subdirectorios. Sin embargo, este servicio puede configurarse a traves del archivo /etc/rsyslog.conf y archivos de configuración en /etc/rsyslog.d/ (el archivo por defecto es 50-default.conf).
 
@@ -26,9 +26,11 @@ Por defecto estos logs se almacenan en /var/log y subdirectorios. Sin embargo, e
 
 Presenta diferentes secciones.
 
-La sección **Modules** nos permite agregar funcionalidades especificas, como la posibilidad de recibir logs de equipos remotos.
+La sección **Modules** nos permite agregar funcionalidades específicas, como la posibilidad de recibir logs de equipos remotos.
 
-La sección **Global directives** nos permite modificar la configuración por defecto de los archivos. Podemos generar un template que establezca donde se van a guardar ciertos archivos, el propietario de los archivos generados, etc. Por ejemplo, en la siguiente linea le indicamos al servidor que los logs generados en equipos remotos se almacenen en el directorio /var/log/remote/nombre del host/nombre del programa.log.
+La sección **Global directives** nos permite modificar la configuración por defecto de los archivos. Podemos generar un template que establezca donde se van a guardar ciertos archivos, el propietario de los archivos generados, etc. 
+
+Por ejemplo, en la siguiente linea le indicamos al servidor que los logs generados en equipos remotos se almacenen en el directorio /var/log/remote/nombre del host/nombre del programa.log.
 
 ```
 $template RemoteLogs,"/var/log/remote/%HOSTNAME%/%PROGRAMNAME%.log"
@@ -164,7 +166,7 @@ oct 28 08:38:46 ubuntu-curso kernel: x86/fpu: Supporting XSAVE feature 0x001: 'x
 oct 28 08:38:46 ubuntu-curso kernel: x86/fpu: Supporting XSAVE feature 0x002: 'SSE registers'
 oct 28 08:38:46 ubuntu-curso kernel: x86/fpu: Supporting XSAVE feature 0x004: 'AVX registers'
 ```
-Como pueden ver nos muestra los logs desde el 28/10, que es el día que instalé la máquina virtual y a medida que vamos bajando vamos viendo el contenido actualizado. El resultado se visualiza sobre el comando `less` por lo que, para ver más lineas podemos usar las flechas de abajo y arriba del teclado y para ver el contenido completo de una linea podemos usar las flechas laterales. También podemos saltar de página en página con la tecla "espacio" y realizar busquedas de patrones con la tecla "/" seguido del patrón que buscamos (luego podemos saltar de patrón en patrón encontrado con la tecla "n" o shift + "n" para ir para atrás) entre otras opciones (para ver todas las opciones se puede tipear "help"). Para salir se usa la tecla "q".
+Nos muestra los logs desde el 28/10, que es el día que instalé la máquina virtual y a medida que vamos bajando vamos viendo el contenido actualizado. El resultado se visualiza sobre el comando `less` por lo que, para ver más lineas podemos usar las flechas de abajo y arriba del teclado y para ver el contenido completo de una linea podemos usar las flechas laterales. También podemos saltar de página en página con la tecla "espacio" y realizar busquedas de patrones con la tecla "/" seguido del patrón que buscamos (luego podemos saltar de patrón en patrón encontrado con la tecla "n" o shift + "n" para ir para atrás) entre otras opciones (para ver todas las opciones se puede tipear "help"). Para salir se usa la tecla "q".
 
 ### Otras salidas: 
 - `journalctl -r`: Imprime la salida del comando en orden inverso (los últimos primero)
@@ -218,9 +220,9 @@ Otra manera de configurar la permanencia de los logs es a través del archivo /e
 
 # Tareas programadas:
 
-Una de las tareas habituales de un administrador de sistemas consiste en la planificación de la ejecución de algún comando, script, etc de forma periodica y en lo posible **haciendo el menor esfuerzo posible**. Para esto linux cuenta con una utilidad llamada **cron** que nos permite realizar tareas repetitivas de manera automática y periódica. 
+Una de las tareas habituales de un administrador de sistemas consiste en la planificación de la ejecución de algún comando, script, etc de forma periódica y en lo posible **haciendo el menor esfuerzo posible**. Para esto linux cuenta con una utilidad llamada **cron** que nos permite realizar tareas repetitivas de manera automática y periódica. 
 
-Cron despierta cada minuto y chequea si hay tareas para ejecutar en la tabla de tareas. Por su parte el comando **crontab** nos permite editar y visualizar la tabla de actividades (en realidad se trata de un archivo de texto plano).
+**Cron** despierta cada minuto y chequea si hay tareas para ejecutar en la tabla de tareas. Por su parte el comando **crontab** nos permite editar y visualizar la tabla de actividades (en realidad se trata de un archivo de texto plano).
 
 Por defecto todos los usuarios pueden automatizar sus tareas mediante una tabla personal, la cual se encuentra en /var/spool/cron/crontabs/<usuario>. Cada linea del archivo corresponde a una tarea con las indicaciones de cuando se debe ejecutar.
 
@@ -368,8 +370,11 @@ En estos archivos se agregan los usuarios, uno por linea. En el caso del archivo
 Cuando hablamos de procesos nos referimos a programas que se están ejecutando en un momento dado en el sistema. Estos a su vez pueden iniciar otros procesos, y así suscesivamente (se dice que estos procesos son hijos de los primeros).
 
 Dependiendo de la forma en la que estos procesos son ejecutados los podemos clasificar en tres categorías:
+
 - Procesos normales: Son ejecutados en una terminal y corren bajo el nombre de un usuario.
+
 - Procesos daemon (servicios): También se ejecutan por un usuario pero corren en segundo plano, es decir, no tienen salida directa por una terminal. Estos procesos escuchan peticiones a través de un puerto.
+
 - Procesos zombies: Son procesos que han finalizado su ejecución pero no han enviado su señal de finalización a su proceso padre o este no pudo recibir esta señal. Estos procesos pueden ser consecuencia de un error.
 
 Los procesos en linux están representados en el directorio /proc, que es un directorio virtual que se genera durante el arranque. Este directorio contiene subdirectorios que se corresponden con el PID (valor numerico que identifica el proceso), cada uno de estos subdirectorios contiene archivos y directorios con información sobre el proceso.
@@ -435,7 +440,7 @@ sshd(826)───sshd(963)───sshd(1098)───bash(1099)───pstree
 
 ## Comando ps
 
-Es el más utilizado para listar los procesos. Por defecto ps selecciona los procesos del usuario actual y que están asociados a la misma terminal por la que se invoca. Y nos muestra el PID, la terminal asociada a ese proceso (TTY), el tiempo de CPU acumulado ([DD-]hh:mm:ss) y el nombre del ejecutable (CMD)
+Es el más utilizado para listar los procesos. Por defecto **ps** selecciona los procesos del usuario actual y que están asociados a la misma terminal por la que se invoca. Y nos muestra el PID, la terminal asociada a ese proceso (TTY), el tiempo de CPU acumulado ([DD-]hh:mm:ss) y el nombre del ejecutable (CMD)
 
 ```
 ps
