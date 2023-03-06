@@ -1,26 +1,7 @@
 
 # Comandos
 
-Una vez finalizada la instalación, el equipo se reinicia y nos va a aparecer la ventana de login, para ingresar debemos colocar el nombre de usuario y la contraseña que colocamos durante la instalación. Esta ventana es lo que se denomina terminal o tty que es el espacio donde podemos escribir los comandos y ver los resultados de los mismos. Linux cuenta con 5 terminales tty1 a tty6 a las que se accede con las teclas Alt+Ctrl+F1-6. Si nos conectamos por un entorno gráfico, podemos acceder a esta interfaz mediante un programa denominado pseudo terminal o pts. 
-
-Una vez logueados, el sistema operativo nos devuelve el prompt, o línea de comandos, lista para recibir nuestras ordenes. En el caso de Ubuntu el prompt inicial está compuesto por dos partes:
-
-- El nombre del usuario actual, seguido del símbolo @.
-- El nombre del equipo.
-
-
-Por defecto, al loguearnos el sistema nos lleva a la carpeta personal, que está ubicada en /home/usuario. Aquí es donde el usuario puede guardar sus archivos y directorios. El símbolo ~ se utiliza para representar este directorio. Si estamos logueados como root, veremos el símbolo #, en cambio, si lo hacemos como un usuario común se mostrará el signo $.
-
-Además de su directorio personal, cada usuario tiene asignado un interprete de comandos o shell. Se trata de un programa que se encarga de recibir las ordenes o comandos que este escribe y las envía al sistema operativo para ejecutarlas. El shell por defecto en la mayoria de las distribuciones es **bash** (Bourne-Again SHell). Bash también nos permite escribir y ejecutar scripts ya que es un lenguaje de programación.
-
-Antes de empezar con los comandos, vamos a quitar la función cloud-init que viene por defecto en el SO y que suele enviar notificaciones a la pantalla que pueden ser molestas. Para esto ejecutamos:
-
-```
-sudo touch /etc/cloud/cloud-init.disabled
-sudo dpkg-reconfigure cloud-init
-```
-
-También vamos a agregar este repositorio a nuestro directorio personal para poder navegar por él, ya que este último está vacio.
+Vamos a agregar este repositorio a nuestro directorio personal para poder navegar por él, ya que este último está vacio.
 ```
 git clone https://github.com/Pale24/wiki-linux/
 ```

@@ -88,3 +88,28 @@ Acá podemos seleccionar si queremos instalar o no el servidor SSH. El protocolo
 
 El sistema nos ofrece la opción de instalar algunos de los paquetes más populares. Nosotros no vamos a instalar ninguno, así que salteamos esta ventana.
 
+Una vez finalizada la instalación, el equipo se reinicia y nos va a aparecer la vent$
+
+Una vez logueados, el sistema operativo nos devuelve el prompt, o línea de comandos,$
+
+- El nombre del usuario actual, seguido del símbolo @.
+- El nombre del equipo.
+
+
+Por defecto, al loguearnos el sistema nos lleva a la carpeta personal, que está ubic$
+
+Además de su directorio personal, cada usuario tiene asignado un interprete de coman$
+
+Antes de empezar con los comandos, vamos a quitar la función cloud-init que viene po$
+
+```
+sudo touch /etc/cloud/cloud-init.disabled
+sudo dpkg-reconfigure cloud-init
+```
+
+También vamos a agregar este repositorio a nuestro directorio personal para poder na$
+```
+git clone https://github.com/Pale24/wiki-linux/
+```
+Git es un software de control de versiones diseñado por Linus Torvalds.
+
