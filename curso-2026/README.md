@@ -1,4 +1,4 @@
-# Curso Introducción Linux 2021
+# Curso Administración Linux 2026
 
 ## Instalar VirtualBox
 
