@@ -98,16 +98,16 @@ Una vez logueados, el sistema operativo nos devuelve el prompt, o línea de coma
 
 Por defecto, al loguearnos el sistema nos lleva a la carpeta personal, que está ubic$
 
-Además de su directorio personal, cada usuario tiene asignado un interprete de coman$
+Además de su directorio personal, cada usuario tiene asignado un interprete de comandos 
 
-Antes de empezar con los comandos, vamos a quitar la función cloud-init que viene po$
+Antes de empezar con los comandos, vamos a quitar la función cloud-init que viene por defecto
 
 ```
 sudo touch /etc/cloud/cloud-init.disabled
 sudo dpkg-reconfigure cloud-init
 ```
 
-También vamos a agregar este repositorio a nuestro directorio personal para poder na$
+También vamos a agregar este repositorio a nuestro directorio personal para poder navegar por el contenido del curso
 ```
 git clone https://github.com/Pale24/wiki-linux/
 ```
